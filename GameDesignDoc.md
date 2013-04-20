@@ -1,89 +1,109 @@
-# Game Design Document
-This is a place holder for your game design document. You are advised to write your document in [Markdown](http://daringfireball.net/projects/markdown/) and the following section will show you how to write a document using Markdown markup.
+# Game Design Document : Sheep With A Turret
 
-Alternativley, you can write your document in plain text if you wish.
+S.W.A.T (Sheep With a Turret) is a side scrolling shooter game. The government has been secretly experimenting with sheep turrets.
+Mr. Fluffles has escaped from a secret military facility out in the Nevada desert. Your goal is to help Mr. Fluffles escape to
+freedom!
 
-----
+#Controls:
+1. W - Jump
+2. A - Move Left
+3. D - Move Right
+4. 1 - Change to weapon 1.
+5. 2 - Change to weapon 2 (if unlocked).
+6. Mouse Cursor - Determines where you shoot missiles.
+7. Mouse Click - Shoot Missiles.
 
-## Markdown
-Markdown is a human-readable structured plain text format that is used to convert text into HTML. GitHub automatically renders Markdown into HTML.
+#Gameplay:
+1. Shoot enemy aircrafts to gain score.
+2. At certain score milestones, newer turrets are unlocked.
+3. Newer turrets can be accessed by pressing the 1,2,3,4 hotkeys.
+4. A player can still use their old turrets.
+5. Eating people/tanks will also gain score and health.
 
-This is a crash course on how to use Markdown. The following section will show you the plain text used to generate the document shown in the rendering section.
+#Scoring:
+1. Players gain a fixed score when killing an enemy. Fixed score based on what type of enemy.
+2. Score cannot decrease.
 
-### Code
+## Objects:
+### Player
+1. Mr. Fluffles
+*  Controlled by player.
+*  W - Jump
+*  A - Left
+*  D - Right
+*  Mouse - Click to fire.
 
-```
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
+2. Reticle
+* Follows Mouse.
+* Location of where the bullets from the sheep are to be shot.
 
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
+3. Health Bar
+* Shows the health of Mr. Fluffles.
+* Increases or decreases based on Mr. Fluffle's health.
+* If health = 0 then Mr. Fluffles "dies"
 
->Blockquotes are done as such.
+4. Lives
+* When Mr. Fluffle's health depletes, his lives decrease by one.
 
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
+5. Weapons GUI
+* Little icon that shows what turret Mr. Fluffles has equiped.
+* Switch weapons using 1,2,3,4 commands.
 
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
+6. Mr. Fluffle's turret
+* Stationary turret on the back of Mr. Fluffles.
+* Weapons will shoot out of the turret's nozzle.
 
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
-
-
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
-```
-
-----
-
-### Rendering
-This section shows the rendering of the plain text above.
-
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
-
->Blockquotes are done as such.
-
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
-
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
-
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
+7. Mr. Fluffle's missiles/lasers
+* A missile that fires from Mr. Fluffle's turret nozzle to the mouse point (and reticle).
+* When a missile collides with an enemy, the missile will damage the enemy's health.
 
 
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
+### Enemies/Others
+1. Humans
+* Sheep food.
+* Sheep health bar regenerates based on eating humans.
+
+2. Missiles
+* Enemy aircrafts shoot missiles that move towards Mr. Fluffle's position.
+* Missiles will damage Mr. Fluffles and make him lose life using an damage equation.
+
+3. Enemy aircraft
+* Has health.
+* Shoots enemy missiles at Mr. Fluffles.
+* Damaged by Mr. Fluffle's missiles.
+* Destroyed if health reaches 0
+* Air unit.
+* Cannot be eaten by sheep.
+
+4. Enemy tank
+* Has health.
+* Ground unit
+* Also can shoot missiles.
+* Sheep can eat enemy tanks.
+
+#Screenshot
+[UI](pic.jpg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
