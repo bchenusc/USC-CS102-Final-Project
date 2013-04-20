@@ -82,7 +82,7 @@ freedom!
 * Sheep can eat enemy tanks.
 
 #Screenshot
-[UI](pic.jpg)
+[alt text](https://github.com/usc-csci102-spring2013/game_brianych/blob/master/pic.jpg "Screenshot")
 
 
 
