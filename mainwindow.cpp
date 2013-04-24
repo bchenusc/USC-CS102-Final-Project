@@ -2,7 +2,9 @@
 
 
 void MainWindow::handleTimer() {
-	
+	for (unsigned int i=0; i<gameObjects.size(); i++){
+		gameObjects[i]->Update();
+	}
 }
 
 MainWindow::MainWindow()  {
@@ -68,6 +70,13 @@ MainWindow::MainWindow()  {
     nameBar->clear();
     profileLO->addWidget(nameBar, 0,1,1,1);
     
+//CREATE SCROLLY BACKGROUND
+
+		QPixmap *bgImg = new QPixmap ("background.png");
+		Background* background = new Background(0,0,640,500, bgImg);
+		scene->addItem(background);
+		gameObjects.push_back(background);
+    
 
 //------------------------------------------------------------------------------------------    
 
@@ -81,6 +90,8 @@ MainWindow::MainWindow()  {
 //------------------------------------------------------------------------------------------
 		//Load All Images
 		pix.push_back(new QPixmap("temp.png"));
+		
+		mainTimer->start();
 }
 
 

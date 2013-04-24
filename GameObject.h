@@ -1,13 +1,18 @@
-#ifndef GameObject
-#define GameObject
+#ifndef GAMEOBJECT
+#define GAMEOBJECT
 #include <QGraphicsPixmapItem>
+#include <math.h>
+
+
+#include <iostream>
+using namespace std;
 
 class GameObject : public QObject, public QGraphicsPixmapItem {
 
 	Q_OBJECT
 	
 public:
-	GameObject(int nx, int ny, int w, int h, QPixmap* pixmap);
+	explicit GameObject(int nx, int ny, int w, int h, QPixmap* pixmap);
 	~GameObject();
 	int gX();
 	int gY();
@@ -15,22 +20,21 @@ public:
 	int gVY();
 	bool isFlipped();
 	void flipImg();
-	void MoveTowards(int x, int y, int speed);
-	void MoveDir(int x, int y, int speed);
+	void MoveTowards(double x, double y, double speed);
+	void MoveDir(double x, double y, double speed);
+	virtual void Update();
 	
 public slots:
-	void Update();
-	void OnCollisionEnter();
 	
-
-protected:
-		int x;
-		int y;
-		int vx;
-		int vy;
+protected :
+		double x;
+		double y;
+		double vx;
+		double vy;
 		int width;
 		int height;
 		bool flipHorizontal;
+		
 		
 		QPixmap* pixmap;
 		

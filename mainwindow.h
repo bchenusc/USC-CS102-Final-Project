@@ -16,9 +16,13 @@
 #include <QTextEdit>
 #include <QValidator>
 #include <QGroupBox>
-
 #include "GameObject.h"
-#include "Player.h"
+#include "Background.h"
+
+
+#include "iostream"
+using namespace std;
+
 
 #define WINDOW_MAX_X 640
 #define WINDOW_MAX_Y 500
@@ -46,8 +50,8 @@ private:
     
     QTimer *pregameTimer;
     QTimer *mainTimer;
-    vector<QPixmap*> pix;
-    vector<GameObject*> gameObjects;
+    std::vector<QPixmap*> pix;
+    std::vector<GameObject*> gameObjects;
     
 };
 
