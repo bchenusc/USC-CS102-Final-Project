@@ -1,15 +1,13 @@
 #include "GameObject.h"
 
-GameObject::GameObject(int nx, int ny, int w, int h, QPixmap* pixmap): QGraphicsPixmapItem(*pixmap){
+GameObject::GameObject(int nx, int ny,int nz, QPixmap* pixmap): QGraphicsPixmapItem(*pixmap){
 	  x = nx;
     y = ny;
     setPos(x,y);
-    width = w;
-    height = h;
+    setZValue(nz);
     vx=0;
     vy=0;
     this->pixmap = pixmap;
-    
 }
 GameObject::~GameObject(){
 	
@@ -35,6 +33,7 @@ void GameObject:: flipImg(){
 void GameObject:: MoveTowards(double x, double y, double speed){
 
 }
+
 void GameObject:: MoveDir(double x, double y, double speed){
 
 	//Find the Vector2 direction.

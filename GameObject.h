@@ -12,7 +12,7 @@ class GameObject : public QObject, public QGraphicsPixmapItem {
 	Q_OBJECT
 	
 public:
-	explicit GameObject(int nx, int ny, int w, int h, QPixmap* pixmap);
+	explicit GameObject(int nx, int ny, int nz, QPixmap* pixmap);
 	~GameObject();
 	int gX();
 	int gY();
@@ -24,6 +24,10 @@ public:
 	void MoveDir(double x, double y, double speed);
 	virtual void Update();
 	
+signals:
+	void Destroy(GameObject*);
+	void Spawn(GameObject*);
+	
 public slots:
 	
 protected :
@@ -34,7 +38,6 @@ protected :
 		int width;
 		int height;
 		bool flipHorizontal;
-		
 		
 		QPixmap* pixmap;
 		
