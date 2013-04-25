@@ -2,10 +2,34 @@
 
 
 void MainWindow::handleTimer() {
-	for (unsigned int i=0; i<gameObjects.size(); i++){
+
+	//Call the update function of each object
+	for (int i=0; i<gameObjects.size(); i++){
 		gameObjects[i]->Update();
+		
 	}
+	//Keep spawning backgrounds;
 }
+
+void MainWindow:: Destroy(GameObject* toDestroy){
+	gameObjects.remove(toDestroy);
+	scene->removeItem(toDestroy);
+	delete toDestroy;
+}
+
+void MainWindow::Spawn(int type, int x, int y, int z){
+	GameObject *object;
+	
+	switch	(type){
+		case bgType:
+				object = new Background(x, y, z, pix[0]);
+			break;
+	}
+	
+	gameObjects.push_back(object);
+	scene->addItem(object);
+}
+
 
 MainWindow::MainWindow()  {
 		//Set the main window size.
@@ -68,12 +92,12 @@ MainWindow::MainWindow()  {
     nameBar->setMaxLength(13);
     nameBar->setValidator(new QRegExpValidator( QRegExp("[A-Za-z0-9_]{0,255}")));
     nameBar->clear();
-    profileLO->addWidget(nameBar, 0,1,1,1);
     
 //CREATE SCROLLY BACKGROUND
 
 		QPixmap *bgImg = new QPixmap ("background.png");
-		Background* background = new Background(0,0,640,500, bgImg);
+		Background* background = new Background(0,0, -1, bgImg);
+		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background);
 		gameObjects.push_back(background);
     
@@ -89,7 +113,7 @@ MainWindow::MainWindow()  {
 
 //------------------------------------------------------------------------------------------
 		//Load All Images
-		pix.push_back(new QPixmap("temp.png"));
+		pix.push_back(bgImg);
 		
 		mainTimer->start();
 }

@@ -9,15 +9,17 @@
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
 #include <QPushButton>
-#include <vector>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QValidator>
 #include <QGroupBox>
+
+
 #include "GameObject.h"
 #include "Background.h"
+#include "mylist.h"
 
 
 #include "iostream"
@@ -27,6 +29,9 @@ using namespace std;
 #define WINDOW_MAX_X 640
 #define WINDOW_MAX_Y 500
 
+enum OBJECTTYPE{
+	bgType=0,
+};
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -39,6 +44,8 @@ public slots:
     void handleTimer();
     void toggleTimer();
     void startClicked();
+    void Destroy(GameObject *toDestroy);
+    void Spawn(int type, int x, int y, int z);
     
 private:
     QGraphicsScene *scene;
@@ -50,8 +57,8 @@ private:
     
     QTimer *pregameTimer;
     QTimer *mainTimer;
-    std::vector<QPixmap*> pix;
-    std::vector<GameObject*> gameObjects;
+    MyList<QPixmap*> pix;
+    MyList<GameObject*> gameObjects;
     
 };
 
