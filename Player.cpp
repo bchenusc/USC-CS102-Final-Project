@@ -1,6 +1,6 @@
 	#include "Player.h"
 	
-Player::Player(int nx, int ny, int w, int h, QPixmap* pixmap): GameObject( nx,  ny,  w,  h, pixmap){
+Player::Player(int nx, int ny, int nz, QPixmap* pixmap): GameObject( nx,  ny, nz, pixmap){
 	
 }
 	

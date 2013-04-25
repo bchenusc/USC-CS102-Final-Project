@@ -7,7 +7,7 @@
 class Player : public GameObject {
 	
 public:
-	Player(int nx, int ny, int w, int h, QPixmap* pixmap);
+	Player(int nx, int ny,int nz, QPixmap* pixmap);
 	~Player();
 	
 	int getHealth();
