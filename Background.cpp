@@ -8,7 +8,7 @@ Background::~Background(){
 }
 void Background:: Update(){
 	MoveDir(-1,0,0.5);
-	if (gX()<= -460 || gX()>=700 || gY()<= -1000 || gY()>=550){
+	if (gX()<= -1000 || gX()>=1500|| gY()<= -1000 || gY()>=1000){
 			emit Destroy(this);
 	}
 }

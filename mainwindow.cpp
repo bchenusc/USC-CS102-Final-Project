@@ -9,6 +9,16 @@ void MainWindow::handleTimer() {
 		
 	}
 	//Keep spawning backgrounds;
+	if (bgSpawnCounter<=0){
+		bgSpawnCounter=RbgSpawnCounter;
+		Background* background = new Background(1279,0, -1, pix[0]);
+		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		scene->addItem(background);
+		gameObjects.push_back(background);
+	}
+	
+	//Update all the timer counter variables
+	bgSpawnCounter--; 
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -31,7 +41,10 @@ void MainWindow::Spawn(int type, int x, int y, int z){
 }
 
 
-MainWindow::MainWindow()  {
+MainWindow::MainWindow() {
+		QFrame *frame = new QFrame();
+		setCentralWidget(frame);
+
 		//Set the main window size.
 		setFixedSize(1000,530);
 
@@ -45,7 +58,7 @@ MainWindow::MainWindow()  {
     view->setFixedSize( WINDOW_MAX_X+2, WINDOW_MAX_Y+2);
     view->setWindowTitle( "Sheep With A Turret");
     
-    setLayout(mainWin);
+    frame->setLayout(mainWin);
     
 //------------------------------------------------------------------------------------------
 
@@ -93,14 +106,35 @@ MainWindow::MainWindow()  {
     nameBar->setValidator(new QRegExpValidator( QRegExp("[A-Za-z0-9_]{0,255}")));
     nameBar->clear();
     
+//Load All Images
+		//0-bgImg
+		QPixmap *bgImg = new QPixmap ("sprites/background.png");
+		pix.push_back(bgImg);
+		//1-PlayerAnim1
+		QPixmap *playerImg1=new QPixmap("sprites/temp.png");
+		pix.push_back(playerImg1);
+    
 //CREATE SCROLLY BACKGROUND
 
-		QPixmap *bgImg = new QPixmap ("background.png");
+		
 		Background* background = new Background(0,0, -1, bgImg);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background);
 		gameObjects.push_back(background);
-    
+		
+		Background* background2 = new Background(640,0, -1, bgImg);
+		QObject::connect(background2, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		scene->addItem(background2);
+		gameObjects.push_back(background2);
+		
+		Player* player = new Player(20,0,0, playerImg1); 
+		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		scene->addItem(player);
+		gameObjects.push_back(player);
+		
+		RbgSpawnCounter = 1250;
+		bgSpawnCounter=0;
+		
 
 //------------------------------------------------------------------------------------------    
 
@@ -112,8 +146,7 @@ MainWindow::MainWindow()  {
     connect(mainTimer, SIGNAL(timeout()), this, SLOT(handleTimer()));
 
 //------------------------------------------------------------------------------------------
-		//Load All Images
-		pix.push_back(bgImg);
+
 		
 		mainTimer->start();
 }

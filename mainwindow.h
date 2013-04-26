@@ -15,11 +15,13 @@
 #include <QTextEdit>
 #include <QValidator>
 #include <QGroupBox>
+#include <QFrame>
 
 
 #include "GameObject.h"
 #include "Background.h"
 #include "mylist.h"
+#include "Player.h"
 
 
 #include "iostream"
@@ -33,11 +35,11 @@ enum OBJECTTYPE{
 	bgType=0,
 };
 
-class MainWindow : public QWidget {
+class MainWindow : public QMainWindow {
     Q_OBJECT
     
 public:
-    explicit MainWindow();
+     MainWindow();
     ~MainWindow();
     
 public slots:
@@ -59,6 +61,9 @@ private:
     QTimer *mainTimer;
     MyList<QPixmap*> pix;
     MyList<GameObject*> gameObjects;
+    
+    int bgSpawnCounter;
+    int RbgSpawnCounter;
     
 };
 
