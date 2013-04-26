@@ -37,10 +37,19 @@ void GameObject:: MoveTowards(double x, double y, double speed){
 	int deltaX = x-gX();
 	int deltaY = y-gY();
 	
-	double theta = atan(deltaX/(double)deltaY)+3.14/2;
+	double pi = 3.14159;
 	
-	double vX = sin(theta)*speed;
-	double vY = cos(theta)*speed;
+	double theta = atan(deltaX/(double)deltaY)*180/pi;
+	
+	double vX = sin(theta)*speed*pi/180;
+	double vY = cos(theta)*speed*pi/180;
+	
+	if (abs(deltaX)<3){
+		deltaX=0;
+	}
+	if (abs(deltaY)<3){
+		deltaY=0;
+	}
 	
 	if (deltaX==0 && deltaY!=0 && deltaY>0){
 		moveBy(0, speed);

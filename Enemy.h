@@ -1,5 +1,5 @@
-#ifndef PLAYER
-#define PLAYER
+#ifndef ENEMY
+#define ENEMY
 #include <QGraphicsPixmapItem>
 #include "GameObject.h"
 #include "mylist.h"
