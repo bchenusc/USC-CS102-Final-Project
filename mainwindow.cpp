@@ -20,7 +20,7 @@ void MainWindow::handleTimer() {
 	
 	//Update all the timer counter variables
 	if (bgSpawnCounter>0){
-		bgSpawnCounter--; 
+	bgSpawnCounter--; 
 	}
 }
 
@@ -114,12 +114,17 @@ MainWindow::MainWindow() {
 		gameSpeed = 1;
     
 //Load All Images
-		//0-bgImg
+		//0 : bgImg
 		QPixmap *bgImg = new QPixmap ("sprites/background.png");
 		pix.push_back(bgImg);
-		//1-PlayerAnim1
-		QPixmap *playerImg1=new QPixmap("sprites/player_01.png");
-		pix.push_back(playerImg1);
+		//1-3 : PlayerAnim1;
+		MyList<QPixmap*>* playerAnim = new MyList<QPixmap*>();
+			playerAnim->push_back(new QPixmap("sprites/player_01.png"));
+			playerAnim->push_back(new QPixmap("sprites/player_02.png"));
+			playerAnim->push_back(new QPixmap("sprites/player_03.png"));
+			for(int i=0; i<playerAnim->size(); i++){
+				pix.push_back(playerAnim->at(i));
+			}
     
 //CREATE SCROLLY BACKGROUND
 
@@ -137,7 +142,7 @@ MainWindow::MainWindow() {
 		gameObjects.push_back(background2);
 
 //Spawns the player
-		Player* player = new Player(100,350,0, pix[1]); 
+		Player* player = new Player(100,350,0, pix[1], playerAnim); 
 		mainPlayer = player;
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(player);
@@ -189,6 +194,7 @@ void MainWindow::startClicked(){
 MainWindow::~MainWindow()
 {
     mainTimer->stop();
+    //delete playerAnim;
     delete mainTimer;
     delete scene;
     delete view;

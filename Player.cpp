@@ -1,22 +1,31 @@
 	#include "Player.h"
 	
-Player::Player(int nx, int ny, int nz, QPixmap* pixmap): GameObject( nx,  ny, nz, pixmap){
+Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation): GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 	animationCounter=0;
-	RanimationCounter=10;
+	RanimationCounter=100;
+	anim = animation;
+	animationFrame=0;
 }
 	
 Player::~Player(){
-	
+	//delete [] anim;
 }
 
 void Player::Update(){
 	if (animationCounter<=0){
 		animationCounter=RanimationCounter;
-		
+		animationFrame++;
+		if (animationFrame<anim->size()){
+			setPixmap(*(anim->at(animationFrame)));
+		}
+		else{
+			animationFrame=0;
+		}	
 	}
 	if (animationCounter>0){
 		animationCounter--;
+
 	}
 }
 	

@@ -19,7 +19,7 @@ public slots:
 
 private:
 	int speed;
-
+	
 };
 
 #endif 
