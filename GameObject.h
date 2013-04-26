@@ -38,6 +38,8 @@ protected :
 		int width;
 		int height;
 		bool flipHorizontal;
+		double dirX;
+		double dirY;
 		
 		QPixmap* pixmap;
 		

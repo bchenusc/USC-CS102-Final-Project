@@ -7,7 +7,7 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	anim = animation;
 	animationFrame=0;
 	
-	moveSpeed=100;
+	moveSpeed=4;
 }
 	
 Player::~Player(){
@@ -17,10 +17,10 @@ Player::~Player(){
 void Player::keyPressed(QKeyEvent* key){
 	if (key->key() == Qt::Key_A){
 
-		MoveDir(-1,  gY(),  moveSpeed);
+		MoveDir(-20,  0,  moveSpeed/2);
 	}else
 	if (key->key() == Qt::Key_D){
-		MoveDir( 1,  gY(),  moveSpeed);
+		MoveDir( 20,  0,  moveSpeed);
 	}else
 	if (key->key() == Qt::Key_W){
 	

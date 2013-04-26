@@ -17,6 +17,9 @@
 #include <QGroupBox>
 #include <QFrame>
 
+#include <time.h>
+#include <stdlib.h>
+
 
 #include "GameObject.h"
 #include "Background.h"
@@ -70,6 +73,9 @@ private:
     
     int bgSpawnCounter;
     int RbgSpawnCounter;
+    
+    int RenemySpawnCounter;
+    int enemySpawnCounter;
     
 };
 

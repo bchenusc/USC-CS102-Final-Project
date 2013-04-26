@@ -18,9 +18,18 @@ void MainWindow::handleTimer() {
 		gameObjects.push_back(background);
 	}
 	
+	//Spawn enemies
+	if (enemySpawnCounter<=0){
+		enemySpawnCounter = RenemySpawnCounter;
+		Enemy* enemy = new Enemy(x, y, z, pixmap, anim, int moveToX, int moveToY, double speed)
+	}	
+	
 	//Update all the timer counter variables
 	if (bgSpawnCounter>0){
-	bgSpawnCounter--; 
+		bgSpawnCounter--; 
+	}
+	if (enemySpawnCounter>0){
+		enemySpawnCounter--;
 	}
 }
 
@@ -154,6 +163,9 @@ MainWindow::MainWindow() {
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
 		
+		RenemySpawnCounter=1000;
+		enemySpawnCounter=0;
+		
 
 //------------------------------------------------------------------------------------------    
 
@@ -167,6 +179,7 @@ MainWindow::MainWindow() {
 //------------------------------------------------------------------------------------------
 
 		setFocus();
+		srand(time(NULL));
 		mainTimer->start();
 }
 

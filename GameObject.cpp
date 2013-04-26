@@ -8,6 +8,8 @@ GameObject::GameObject(int nx, int ny,int nz, QPixmap* pixmap): QGraphicsPixmapI
     vx=0;
     vy=0;
     this->pixmap = pixmap;
+    dirX=0;
+    dirY=0;
 }
 GameObject::~GameObject(){
 	
@@ -31,53 +33,102 @@ void GameObject:: flipImg(){
 	
 }
 void GameObject:: MoveTowards(double x, double y, double speed){
-
-}
-
-void GameObject:: MoveDir(double x, double y, double speed){
-
 	//Find the Vector2 direction.
 	int deltaX = x-gX();
-	int deltaY = x-gY();
+	int deltaY = y-gY();
 	
-	double theta = atan(deltaX/(double)deltaY);
+	double theta = atan(deltaX/(double)deltaY)+3.14/2;
 	
-	vX = sin(theta)*speed;
-	vY = sin(theta)*speed;
+	double vX = sin(theta)*speed;
+	double vY = cos(theta)*speed;
 	
 	if (deltaX==0 && deltaY!=0 && deltaY>0){
 		moveBy(0, speed);
 		this->x = QGraphicsItem::x();
-		y = QGraphicsItem::y();
+		this->y = QGraphicsItem::y();
 		return;
 	}
 	if (deltaX==0 && deltaY!=0 && deltaY<0){
 		moveBy(0, -speed);
-		x = QGraphicsItem::x();
-		y = QGraphicsItem::y();
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
 		return;
 	}
 	if (deltaY==0 && deltaX!=0 && deltaX>0){
 		moveBy(speed, 0);
-		x = QGraphicsItem::x();
-		y = QGraphicsItem::y();
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
 		return;
 	}
 	if (deltaY==0 && deltaX!=0 && deltaX<0){
 		moveBy(-speed, 0);
 		this->x=QGraphicsItem::x();
-		y = QGraphicsItem::y();
+		this->y = QGraphicsItem::y();
 		return;
 	}
 	if (deltaY==0 && deltaX==0){
-		x = QGraphicsItem::x();
-		y = QGraphicsItem::y();
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
 		return;
 	}
 	
-	moveBy(speedX, speedY);
-	x = QGraphicsItem::x();
-	y = QGraphicsItem::y();
+	moveBy(vX, vY);
+	this->x = QGraphicsItem::x();
+	this->y = QGraphicsItem::y();
+
+}
+
+void GameObject:: MoveDir(double deltaX, double deltaY, double speed){
+
+	double pi = 3.14159;
+	double theta = atan(deltaX/(double)deltaY)*180/pi;
+	
+	 vx = sin(theta/180*pi)*speed;
+	 vy = cos(theta/180*pi)*speed;
+	
+	if (deltaX==0 && deltaY!=0 && deltaY>0){
+		vx=0;
+		vy=speed;
+		moveBy(0, speed);
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
+		return;
+	}
+	if (deltaX==0 && deltaY!=0 && deltaY<0){
+		vx=0;
+		vy=-speed;
+		moveBy(0, -speed);
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
+		return;
+	}
+	if (deltaY==0 && deltaX!=0 && deltaX>0){
+		vx = speed;
+		vy=0;
+		moveBy(speed, 0);
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
+		return;
+	}
+	if (deltaY==0 && deltaX!=0 && deltaX<0){
+		vx= -speed;
+		vy=0;
+		moveBy(-speed, 0);
+		this->x=QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
+		return;
+	}
+	if (deltaY==0 && deltaX==0){
+		vx=0;
+		vy=0;
+		this->x = QGraphicsItem::x();
+		this->y = QGraphicsItem::y();
+		return;
+	}
+	
+	moveBy(vx, vy);
+	this->x = QGraphicsItem::x();
+	this->y = QGraphicsItem::y();
 
 	
 }
