@@ -21,7 +21,20 @@ void MainWindow::handleTimer() {
 	//Spawn enemies
 	if (enemySpawnCounter<=0){
 		enemySpawnCounter = RenemySpawnCounter;
-		Enemy* enemy = new Enemy(x, y, z, pixmap, anim, int moveToX, int moveToY, double speed)
+		
+		int random = rand()%2+1;
+		if (random==1){
+			//Spawn on the right sie of the screen.
+			Enemy* enemy = new Enemy(740, rand()%400+100, 0, pix[1], rand()%500+100, rand()%300+100, rand()%5+1);
+			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			scene->addItem(enemy);
+		}
+		if (random==2){
+			//Spawn on the left side of the screen.
+			Enemy* enemy = new Enemy(-100, rand()%400+100, 0, pix[1], rand()%500+100, rand()%300+100, rand()%5+1);
+			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			scene->addItem(enemy); 
+		}
 	}	
 	
 	//Update all the timer counter variables

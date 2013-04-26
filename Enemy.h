@@ -9,6 +9,7 @@ class Enemy : public GameObject {
 	
 public:
 	Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation, int moveToX, int moveToY, double speed);
+	Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed);
 	~Enemy();
 	
 	int getHealth();

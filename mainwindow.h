@@ -25,6 +25,7 @@
 #include "Background.h"
 #include "mylist.h"
 #include "Player.h"
+#include "Enemy.h"
 
 
 #include "iostream"
