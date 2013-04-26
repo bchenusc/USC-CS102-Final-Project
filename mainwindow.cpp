@@ -120,8 +120,10 @@ MainWindow::MainWindow() {
 		//1-3 : PlayerAnim1;
 		MyList<QPixmap*>* playerAnim = new MyList<QPixmap*>();
 			playerAnim->push_back(new QPixmap("sprites/player_01.png"));
+			playerAnim->push_back(new QPixmap("sprites/player_03.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_02.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_03.png"));
+			playerAnim->push_back(new QPixmap("sprites/player_01.png"));
 			for(int i=0; i<playerAnim->size(); i++){
 				pix.push_back(playerAnim->at(i));
 			}
