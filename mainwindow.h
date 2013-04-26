@@ -62,6 +62,8 @@ private:
     MyList<QPixmap*> pix;
     MyList<GameObject*> gameObjects;
     
+    Player* mainPlayer;
+    
     double gameSpeed;
     
     int bgSpawnCounter;

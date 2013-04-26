@@ -19,7 +19,9 @@ void MainWindow::handleTimer() {
 	}
 	
 	//Update all the timer counter variables
-	bgSpawnCounter--; 
+	if (bgSpawnCounter>0){
+		bgSpawnCounter--; 
+	}
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -133,8 +135,10 @@ MainWindow::MainWindow() {
 		QObject::connect(background2, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
-		
+
+//Spawns the player
 		Player* player = new Player(100,350,0, pix[1]); 
+		mainPlayer = player;
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(player);
 		gameObjects.push_back(player);

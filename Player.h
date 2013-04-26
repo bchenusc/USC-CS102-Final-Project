@@ -18,7 +18,9 @@ public:
 	void setScore(int score); 
 	void Update();
 		
-	
+		QPixmap* anim1;
+		QPixmap* anim2;
+		QPixmap* anim3;
 	
 public slots:
 	
@@ -27,6 +29,10 @@ private:
 		int health;
 		int lives;
 		int score;
+		int animationSpeed;
+		
+		int animationCounter;
+		int RanimationCounter;
 };
 
 #endif 

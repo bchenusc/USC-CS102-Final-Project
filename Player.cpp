@@ -1,7 +1,9 @@
 	#include "Player.h"
 	
 Player::Player(int nx, int ny, int nz, QPixmap* pixmap): GameObject( nx,  ny, nz, pixmap){
-	cout<<"Hello"<<endl;
+	animationSpeed=1;
+	animationCounter=0;
+	RanimationCounter=10;
 }
 	
 Player::~Player(){
@@ -9,7 +11,13 @@ Player::~Player(){
 }
 
 void Player::Update(){
-
+	if (animationCounter<=0){
+		animationCounter=RanimationCounter;
+		
+	}
+	if (animationCounter>0){
+		animationCounter--;
+	}
 }
 	
 int Player::getHealth(){
