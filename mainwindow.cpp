@@ -12,6 +12,7 @@ void MainWindow::handleTimer() {
 	if (bgSpawnCounter<=0){
 		bgSpawnCounter=RbgSpawnCounter;
 		Background* background = new Background(1279,0, -1, pix[0]);
+		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background);
 		gameObjects.push_back(background);
@@ -115,7 +116,7 @@ MainWindow::MainWindow() {
 		QPixmap *bgImg = new QPixmap ("sprites/background.png");
 		pix.push_back(bgImg);
 		//1-PlayerAnim1
-		QPixmap *playerImg1=new QPixmap("sprites/temp.png");
+		QPixmap *playerImg1=new QPixmap("sprites/player_01.png");
 		pix.push_back(playerImg1);
     
 //CREATE SCROLLY BACKGROUND
@@ -128,15 +129,16 @@ MainWindow::MainWindow() {
 		gameObjects.push_back(background);
 		
 		Background* background2 = new Background(640,0, -1, bgImg);
-		background->setSpeed(gameSpeed);
+		background2->setSpeed(gameSpeed);
 		QObject::connect(background2, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
 		
-		Player* player = new Player(0,0,-2, pix[1]); 
+		Player* player = new Player(100,350,0, pix[1]); 
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(player);
 		gameObjects.push_back(player);
+		
 		
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
