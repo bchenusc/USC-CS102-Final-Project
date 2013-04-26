@@ -40,12 +40,10 @@ void GameObject:: MoveDir(double x, double y, double speed){
 	int deltaX = x-gX();
 	int deltaY = x-gY();
 	
-	//Ratio of deltaY/deltaX = speedY/speedX
-	//speed = sqrt(speedY^2 + speedX^2)
-	//speed^2 = speedY^2 + speedX^2
-	//speedY = deltY/deltX * speedX
-	//speed^2 = (deltY/deltX)^2 * (speedX)^2 + (speedX)^2
-	//speed^2/(deltY/deltX)^2 + 1) = (speedX)^2
+	double theta = atan(deltaX/(double)deltaY);
+	
+	vX = sin(theta)*speed;
+	vY = sin(theta)*speed;
 	
 	if (deltaX==0 && deltaY!=0 && deltaY>0){
 		moveBy(0, speed);
@@ -76,6 +74,10 @@ void GameObject:: MoveDir(double x, double y, double speed){
 		y = QGraphicsItem::y();
 		return;
 	}
+	
+	moveBy(speedX, speedY);
+	x = QGraphicsItem::x();
+	y = QGraphicsItem::y();
 
 	
 }
