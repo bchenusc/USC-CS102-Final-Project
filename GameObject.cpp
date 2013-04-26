@@ -47,31 +47,31 @@ void GameObject:: MoveDir(double x, double y, double speed){
 	//speed^2 = (deltY/deltX)^2 * (speedX)^2 + (speedX)^2
 	//speed^2/(deltY/deltX)^2 + 1) = (speedX)^2
 	
-	if (x==0 && y!=0 && y>0){
+	if (deltaX==0 && deltaY!=0 && deltaY>0){
 		moveBy(0, speed);
 		this->x = QGraphicsItem::x();
 		y = QGraphicsItem::y();
 		return;
 	}
-	if (x==0 && y!=0 && y<0){
+	if (deltaX==0 && deltaY!=0 && deltaY<0){
 		moveBy(0, -speed);
 		x = QGraphicsItem::x();
 		y = QGraphicsItem::y();
 		return;
 	}
-	if (y==0 && x!=0 && x>0){
+	if (deltaY==0 && deltaX!=0 && deltaX>0){
 		moveBy(speed, 0);
 		x = QGraphicsItem::x();
 		y = QGraphicsItem::y();
 		return;
 	}
-	if (y==0 && x!=0 && x<0){
+	if (deltaY==0 && deltaX!=0 && deltaX<0){
 		moveBy(-speed, 0);
 		this->x=QGraphicsItem::x();
 		y = QGraphicsItem::y();
 		return;
 	}
-	if (y==0 && x==0){
+	if (deltaY==0 && deltaX==0){
 		x = QGraphicsItem::x();
 		y = QGraphicsItem::y();
 		return;

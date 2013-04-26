@@ -3,6 +3,7 @@
 #include <QGraphicsPixmapItem>
 #include "GameObject.h"
 #include "mylist.h"
+#include <QKeyEvent>
 #define MAX_LIVES = 3;
 
 class Player : public GameObject {
@@ -17,10 +18,11 @@ public:
 	void setLives(int life);
 	void setHealth(int health);
 	void setScore(int score); 
-	void Update();
-		
-		
 	
+	void keyPressed(QKeyEvent* key);
+	
+	void Update();
+
 public slots:
 	
 
@@ -28,6 +30,7 @@ private:
 		int health;
 		int lives;
 		int score;
+		int moveSpeed;
 		
 		//Animation
 		int animationSpeed;

@@ -41,6 +41,7 @@ class MainWindow : public QMainWindow {
 public:
      MainWindow();
     ~MainWindow();
+    void keyPressEvent(QKeyEvent* key);
     
 public slots:
     void handleTimer();
@@ -63,6 +64,7 @@ private:
     MyList<GameObject*> gameObjects;
     
     Player* mainPlayer;
+    int score;
     
     double gameSpeed;
     

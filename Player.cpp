@@ -6,10 +6,25 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	RanimationCounter=32;
 	anim = animation;
 	animationFrame=0;
+	
+	moveSpeed=100;
 }
 	
 Player::~Player(){
-	//delete [] anim;
+
+}
+
+void Player::keyPressed(QKeyEvent* key){
+	if (key->key() == Qt::Key_A){
+
+		MoveDir(-1,  gY(),  moveSpeed);
+	}else
+	if (key->key() == Qt::Key_D){
+		MoveDir( 1,  gY(),  moveSpeed);
+	}else
+	if (key->key() == Qt::Key_W){
+	
+	}
 }
 
 void Player::Update(){

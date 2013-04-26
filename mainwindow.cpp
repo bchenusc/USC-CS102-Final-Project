@@ -166,10 +166,13 @@ MainWindow::MainWindow() {
 
 //------------------------------------------------------------------------------------------
 
-		
+		setFocus();
 		mainTimer->start();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent* key){
+	mainPlayer->keyPressed(key);
+}
 
 //-------------------SLOTS-------------------------------------------
 void MainWindow::toggleTimer(){
