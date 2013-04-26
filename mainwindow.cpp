@@ -104,7 +104,11 @@ MainWindow::MainWindow() {
     nameBar = new QLineEdit();
     nameBar->setMaxLength(13);
     nameBar->setValidator(new QRegExpValidator( QRegExp("[A-Za-z0-9_]{0,255}")));
+    profileLO->addWidget(nameBar,0,1,1,1);
     nameBar->clear();
+    
+//Game settings
+		gameSpeed = 1;
     
 //Load All Images
 		//0-bgImg
@@ -118,16 +122,18 @@ MainWindow::MainWindow() {
 
 		
 		Background* background = new Background(0,0, -1, bgImg);
+		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background);
 		gameObjects.push_back(background);
 		
 		Background* background2 = new Background(640,0, -1, bgImg);
+		background->setSpeed(gameSpeed);
 		QObject::connect(background2, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
 		
-		Player* player = new Player(20,0,0, playerImg1); 
+		Player* player = new Player(0,0,-2, pix[1]); 
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(player);
 		gameObjects.push_back(player);

@@ -13,10 +13,13 @@ public:
 	Background(int nx, int ny, int nz, QPixmap* pixmap);
 	~Background();
 	void Update();
+	void setSpeed(int i);
 	
 public slots:
 
 private:
+	int speed;
+
 };
 
 #endif 

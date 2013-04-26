@@ -1,7 +1,7 @@
 	#include "Player.h"
 	
 Player::Player(int nx, int ny, int nz, QPixmap* pixmap): GameObject( nx,  ny, nz, pixmap){
-	
+	cout<<"Hello"<<endl;
 }
 	
 Player::~Player(){

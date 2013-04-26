@@ -7,8 +7,12 @@ Background::~Background(){
 
 }
 void Background:: Update(){
-	MoveDir(-1,0,0.5);
+	MoveDir(-1,0,0.5*speed);
 	if (gX()<= -1000 || gX()>=1500|| gY()<= -1000 || gY()>=1000){
 			emit Destroy(this);
 	}
+}
+
+void Background::setSpeed(int i){
+	speed = i;
 }
