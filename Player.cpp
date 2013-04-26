@@ -3,7 +3,7 @@
 Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation): GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 	animationCounter=0;
-	RanimationCounter=30;
+	RanimationCounter=32;
 	anim = animation;
 	animationFrame=0;
 }
@@ -13,9 +13,9 @@ Player::~Player(){
 }
 
 void Player::Update(){
+//Animate the player
 	if (animationCounter<=0){
 		animationCounter=RanimationCounter;
-		//cout<<animationFrame<<endl;
 		if (animationFrame<anim->size()){
 			setPixmap(*(anim->at(animationFrame)));
 		}
