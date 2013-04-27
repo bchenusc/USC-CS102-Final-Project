@@ -57,10 +57,10 @@ void Missile::Update(){
 		}
 	}
 	//move missile towards target location most probably the player.
-	MoveDir(moveToPositionX,moveToPositionY,speed);
+	//MoveDir(moveToPositionX,moveToPositionY,speed);
 	
 	//Tweek this to set a different location where the missile explodes when hitting the ground.
-	if (gX()<=400){
+	if (gX()>=400){
 		explosion();
 	}
 	

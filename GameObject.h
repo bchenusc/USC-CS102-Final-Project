@@ -3,6 +3,7 @@
 #include <QGraphicsPixmapItem>
 #include <math.h>
 #include <string>
+#include "mylist.h"
 
 #include <iostream>
 using namespace std;
@@ -18,15 +19,18 @@ public:
 	int gY();
 	int gVX();
 	int gVY();
+	string getType();
 	bool isFlipped();
 	void flipImg();
 	void MoveTowards(double x, double y, double speed);
 	void MoveDir(double x, double y, double speed);
 	virtual void Update();
+	virtual void HandleCollision(string type);
+	//virtual void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	
 signals:
 	void Destroy(GameObject*);
-	void Spawn(GameObject*);
+	void Spawn(int type, int xPos, int yPos, double speed);
 	
 public slots:
 	

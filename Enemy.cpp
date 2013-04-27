@@ -14,8 +14,8 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	//Counters
 	animationCounter=0;
 		RanimationCounter=70;
-	spawnBulletCounter=0;
-		RspawnBulletCounter=500;
+	spawnBulletCounter=500;
+		RspawnBulletCounter=1000;
 }
 
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
@@ -34,8 +34,8 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 	//Counters
 	animationCounter=0;
 		RanimationCounter=70;
-	spawnBulletCounter=0;
-		RspawnBulletCounter=500;
+	spawnBulletCounter=1000;
+		RspawnBulletCounter=1000;
 }
 	
 Enemy::~Enemy(){
@@ -66,8 +66,7 @@ void Enemy::Update(){
 	if (spawnBulletCounter<=0){
 		spawnBulletCounter = RspawnBulletCounter;
 		//Make a new bullet.
-		Missile* missile = new Missile(gX(), gY(), 1, playerRef->gX(), playerRef->gY(), shootSpeed);
-		emit Spawn(missile);
+		emit Spawn(0, gX(), gY(), shootSpeed);
 	}
 
 	// Move in a set direction.

@@ -53,7 +53,7 @@ public slots:
     void toggleTimer();
     void startClicked();
     void Destroy(GameObject *toDestroy);
-    void Spawn(GameObject* object, int x, int y, int z);
+    void Spawn(int type, int x, int y, double newSpeed);
     
 private:
     QGraphicsScene *scene;

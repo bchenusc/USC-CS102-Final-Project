@@ -29,7 +29,7 @@ void MainWindow::handleTimer() {
 			enemy = new Enemy(700, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
 			enemy->setPlayerRef(mainPlayer);
 			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-			QObject::connect(enemy, SIGNAL(Spawn(GameObject*)), this, SLOT(Spawn(GameObject*)));
+			QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 			scene->addItem(enemy);
 			gameObjects.push_back(enemy);
 		}
@@ -39,7 +39,7 @@ void MainWindow::handleTimer() {
 			enemy->flipImg();
 			enemy->setPlayerRef(mainPlayer);
 			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-			QObject::connect(enemy, SIGNAL(Spawn(GameObject*)), this, SLOT(Spawn(GameObject*)));
+			QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 			scene->addItem(enemy); 
 			gameObjects.push_back(enemy);
 		}
@@ -60,11 +60,19 @@ void MainWindow:: Destroy(GameObject* toDestroy){
 	delete toDestroy;
 }
 
-void MainWindow::Spawn(string type, int xPos, int yPos, int speed){
+void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
+//0 - Missile
 	switch(type){
-		case "Missile": Missile* newMissle = new Missile(xPos, yPos, 1, pix[17], 
-			
+		case 0: 
+		{
+			cout<<"HELLO"<<endl;
+			Missile* newMissile = new Missile(300, 300, 1, pix[16], mainPlayer->gX(), mainPlayer->gY(), speed); 
+			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			scene->addItem(newMissile); 
+			gameObjects.push_back(newMissile);
 			break;
+		}
+
 		default: break;
 	}
 }
