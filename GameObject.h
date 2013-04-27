@@ -2,7 +2,7 @@
 #define GAMEOBJECT
 #include <QGraphicsPixmapItem>
 #include <math.h>
-
+#include <string>
 
 #include <iostream>
 using namespace std;
@@ -40,6 +40,7 @@ protected :
 		bool flipHorizontal;
 		double dirX;
 		double dirY;
+		string type;
 		
 		QPixmap* pixmap;
 		

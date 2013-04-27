@@ -3,23 +3,25 @@
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation, int moveToX, int moveToY, double speed): GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 	animationCounter=0;
-	RanimationCounter=50;
+	RanimationCounter=70;
 	anim = animation;
 	animationFrame=0;
 	moveToPositionX=moveToX;
 	moveToPositionY=moveToY;
 	this->speed = speed;
+	type = "Enemy";
 }
 
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 	animationCounter=0;
-	RanimationCounter=200;
+	RanimationCounter=70;
 	anim=NULL;
 	animationFrame=0;
 	moveToPositionX=moveToX;
 	moveToPositionY=moveToY;
 	this->speed=speed;
+	type = "Enemy";
 }
 	
 Enemy::~Enemy(){
@@ -49,10 +51,10 @@ void Enemy::Update(){
 }
 	
 int Enemy::getHealth(){
-	
+	return health;
 }
 
 void Enemy::setHealth(int health){
-	
+	this->health = health;
 }
 

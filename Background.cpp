@@ -2,6 +2,7 @@
 
 Background::Background(int nx, int ny, int nz, QPixmap* pixmap):GameObject( nx,  ny, nz, pixmap){
 	speed=1;
+	type="Background";
 }
 Background::~Background(){
 

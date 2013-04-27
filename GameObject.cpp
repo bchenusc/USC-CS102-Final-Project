@@ -51,20 +51,29 @@ void GameObject:: MoveTowards(double x, double y, double speed){
 	double theta=0;
 	
 	if (deltaY!=0)
-	theta = atan(deltaX/(double)deltaY)*180/pi;
+		theta = atan(deltaX/(double)deltaY)*180/pi;
+	
 
 	
 	double vX = sin(theta*pi/180)*speed;
 	double vY = cos(theta*pi/180)*speed;
 	
+	if (deltaY==0){
+		vY = 0;
+		vX = speed;
+	}
+	
 	if (abs(deltaX)<=1){
-		deltaX=0;
+		vX=0;
+		vY=speed;
 	}
 	if (abs(deltaY)<=1){
-		deltaY=0;
+		vX=speed;
+		vY=0;
 	}
 
-	moveBy(vX, vY);
+	setPos(gX+vX, gY+vY);
+//moveBy(vX, vY);
 	this->x = QGraphicsItem::x();
 	this->y = QGraphicsItem::y();
 

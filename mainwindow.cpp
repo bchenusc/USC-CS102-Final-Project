@@ -175,7 +175,7 @@ MainWindow::MainWindow() {
 		gameObjects.push_back(background2);
 
 //Spawns the player
-		Player* player = new Player(100,350,0, pix[1], playerAnim); 
+		Player* player = new Player(100,355,0, pix[1], playerAnim); 
 		mainPlayer = player;
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(player);
@@ -184,7 +184,7 @@ MainWindow::MainWindow() {
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
 		
-		RenemySpawnCounter=1500;
+		RenemySpawnCounter=2000;
 		enemySpawnCounter=0;
 		
 

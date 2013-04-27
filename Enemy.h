@@ -3,7 +3,7 @@
 #include <QGraphicsPixmapItem>
 #include "GameObject.h"
 #include "mylist.h"
-#define MAX_LIVES = 3;
+#include <string>
 
 class Enemy : public GameObject {
 	

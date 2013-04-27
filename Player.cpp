@@ -6,7 +6,7 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	RanimationCounter=32;
 	anim = animation;
 	animationFrame=0;
-	
+	type="Player";
 	moveSpeed=4;
 }
 	
