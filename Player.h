@@ -22,6 +22,7 @@ public:
 	void keyPressed(QKeyEvent* key);
 	
 	void Update();
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 
 public slots:
 	

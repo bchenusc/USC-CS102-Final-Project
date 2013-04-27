@@ -1,9 +1,12 @@
 #ifndef ENEMY
 #define ENEMY
 #include <QGraphicsPixmapItem>
+#include <string>
 #include "GameObject.h"
 #include "mylist.h"
-#include <string>
+#include "Player.h"
+#include "Missile.h"
+
 
 class Enemy : public GameObject {
 	
@@ -17,7 +20,7 @@ public:
 	void setScore(int score); 
 	void Update();
 		
-		
+	void setPlayerRef(Player* player);
 	
 public slots:
 	
@@ -26,6 +29,7 @@ private:
 		int health;
 		
 	  double speed;
+	  double shootSpeed;
 		
 		//Animation
 		int animationSpeed;
@@ -34,8 +38,13 @@ private:
 		int RanimationCounter;
 		MyList<QPixmap*>* anim;
 		
+		int spawnBulletCounter;
+		int RspawnBulletCounter;
+		
 		int moveToPositionX;
 		int moveToPositionY;
+		
+		Player* playerRef;
 		
 };
 

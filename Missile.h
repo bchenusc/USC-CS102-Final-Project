@@ -1,5 +1,5 @@
-#ifndef MISSILE_H
-#define MISSILE_H
+#ifndef MISSILE
+#define MISSILE
 #include <QGraphicsPixmapItem>
 #include "GameObject.h"
 #include "mylist.h"
@@ -13,12 +13,14 @@ public:
 	~Missile();
 
 	void Update();
-	void OnCollisionEnter();
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
+	void HandleCollision(string type);
 		
 	
 private:
-	  double speed;
+		void explosion(); //Makes the explosion animation for this class;
 		
+	  double speed;
 		//Animation
 		int animationSpeed;
 		int animationFrame;
@@ -30,3 +32,4 @@ private:
 		int moveToPositionY;
 		
 };
+#endif

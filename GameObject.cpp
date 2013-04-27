@@ -72,10 +72,18 @@ void GameObject:: MoveTowards(double x, double y, double speed){
 		vY=0;
 	}
 
-	setPos(gX+vX, gY+vY);
+	setPos(gX()+vX, gY()+vY);
 //moveBy(vX, vY);
 	this->x = QGraphicsItem::x();
 	this->y = QGraphicsItem::y();
+
+}
+
+string GameObject::getType(){
+	return type;
+}
+
+void GameObject::HandleCollision(string type){
 
 }
 

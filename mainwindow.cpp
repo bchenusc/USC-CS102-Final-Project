@@ -27,7 +27,9 @@ void MainWindow::handleTimer() {
 		if (random==1){
 			//Spawn planes on the right side of the screen.
 			enemy = new Enemy(700, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
+			enemy->setPlayerRef(mainPlayer);
 			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			QObject::connect(enemy, SIGNAL(Spawn(GameObject*)), this, SLOT(Spawn(GameObject*)));
 			scene->addItem(enemy);
 			gameObjects.push_back(enemy);
 		}
@@ -35,7 +37,9 @@ void MainWindow::handleTimer() {
 			//Spawn planes on the left side of the screen.
 			enemy = new Enemy(-50, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
 			enemy->flipImg();
+			enemy->setPlayerRef(mainPlayer);
 			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			QObject::connect(enemy, SIGNAL(Spawn(GameObject*)), this, SLOT(Spawn(GameObject*)));
 			scene->addItem(enemy); 
 			gameObjects.push_back(enemy);
 		}
@@ -56,9 +60,13 @@ void MainWindow:: Destroy(GameObject* toDestroy){
 	delete toDestroy;
 }
 
-void MainWindow::Spawn(GameObject* object, int x, int y, int z){
-	gameObjects.push_back(object);
-	scene->addItem(object);
+void MainWindow::Spawn(string type, int xPos, int yPos, int speed){
+	switch(type){
+		case "Missile": Missile* newMissle = new Missile(xPos, yPos, 1, pix[17], 
+			
+			break;
+		default: break;
+	}
 }
 
 
@@ -160,6 +168,8 @@ MainWindow::MainWindow() {
 			for(int i=0; i<10; i++){
 				pix.push_back(enemyAnim->at(i));
 			}
+			//17
+			pix.push_back(new QPixmap("sprites/missile_type1_01.png"));
     
 //CREATE SCROLLY BACKGROUND
 		Background* background = new Background(0,0, -1, bgImg);

@@ -28,6 +28,17 @@ Missile::~Missile(){
 
 }
 
+void Missile::HandleCollision(string type){
+	//Explosion here if needed.
+	if (type=="Player"){
+		explosion();
+	}
+}
+
+void Missile::explosion(){
+	emit Destroy(this);
+}
+
 void Missile::Update(){
 //Animate the player
 	if (anim!=NULL){
@@ -43,19 +54,19 @@ void Missile::Update(){
 		}
 		if (animationCounter>0){
 			animationCounter--;
-
 		}
 	}
-	MoveTowards(moveToPositionX,moveToPositionY,speed);
+	//move missile towards target location most probably the player.
+	MoveDir(moveToPositionX,moveToPositionY,speed);
+	
+	//Tweek this to set a different location where the missile explodes when hitting the ground.
+	if (gX()<=400){
+		explosion();
+	}
+	
 }
 
-void Missile::OnCollisionEnter(MyList<GameObject*>* gameObjects){
-	for (int i=0; i<gameObjects->size(); i++){
-		if (gameObjects->at(i)->type == "Player"){
-			
-		}
-	}
-}
+
 
 
 

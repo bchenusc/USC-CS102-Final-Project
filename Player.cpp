@@ -42,6 +42,17 @@ void Player::Update(){
 
 	}
 }
+
+void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
+	for (int i=0; i<gameObjects->size(); i++){
+		if (gameObjects->at(i)->getType() == "Missile"){
+			gameObjects->at(i)->HandleCollision(type);
+			//Implement dying here later.
+			
+			emit Destroy(this);
+		}
+	}
+}
 	
 int Player::getHealth(){
 	
