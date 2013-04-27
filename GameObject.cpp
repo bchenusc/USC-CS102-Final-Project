@@ -30,7 +30,9 @@ bool GameObject:: isFlipped(){
 	return flipHorizontal;
 }
 void GameObject:: flipImg(){
-	
+	flipHorizontal=true;
+	setScale(-1,1);
+	setRotation(0);
 }
 void GameObject:: MoveTowards(double x, double y, double speed){
 	//Find the Vector2 direction.
@@ -39,48 +41,22 @@ void GameObject:: MoveTowards(double x, double y, double speed){
 	
 	double pi = 3.14159;
 	
-	double theta = atan(deltaX/(double)deltaY)*180/pi;
+	double theta=0;
 	
-	double vX = sin(theta)*speed*pi/180;
-	double vY = cos(theta)*speed*pi/180;
+	if (deltaY!=0)
+	theta = atan(deltaX/(double)deltaY)*180/pi;
+
 	
-	if (abs(deltaX)<3){
+	double vX = sin(theta*pi/180)*speed;
+	double vY = cos(theta*pi/180)*speed;
+	
+	if (abs(deltaX)<=1){
 		deltaX=0;
 	}
-	if (abs(deltaY)<3){
+	if (abs(deltaY)<=1){
 		deltaY=0;
 	}
-	
-	if (deltaX==0 && deltaY!=0 && deltaY>0){
-		moveBy(0, speed);
-		this->x = QGraphicsItem::x();
-		this->y = QGraphicsItem::y();
-		return;
-	}
-	if (deltaX==0 && deltaY!=0 && deltaY<0){
-		moveBy(0, -speed);
-		this->x = QGraphicsItem::x();
-		this->y = QGraphicsItem::y();
-		return;
-	}
-	if (deltaY==0 && deltaX!=0 && deltaX>0){
-		moveBy(speed, 0);
-		this->x = QGraphicsItem::x();
-		this->y = QGraphicsItem::y();
-		return;
-	}
-	if (deltaY==0 && deltaX!=0 && deltaX<0){
-		moveBy(-speed, 0);
-		this->x=QGraphicsItem::x();
-		this->y = QGraphicsItem::y();
-		return;
-	}
-	if (deltaY==0 && deltaX==0){
-		this->x = QGraphicsItem::x();
-		this->y = QGraphicsItem::y();
-		return;
-	}
-	
+
 	moveBy(vX, vY);
 	this->x = QGraphicsItem::x();
 	this->y = QGraphicsItem::y();

@@ -62,14 +62,23 @@ private:
     QLineEdit *nameBar;
     QTextEdit *systemChat;
     
+    //Timers
     QTimer *pregameTimer;
     QTimer *mainTimer;
+    
+    //Pics and Objects
     MyList<QPixmap*> pix;
     MyList<GameObject*> gameObjects;
     
+    //Player
     Player* mainPlayer;
     int score;
     
+    //Animations
+    MyList<QPixmap*>* playerAnim;
+    MyList<QPixmap*>* enemyAnim;
+    
+    //Settings
     double gameSpeed;
     
     int bgSpawnCounter;

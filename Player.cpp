@@ -16,14 +16,12 @@ Player::~Player(){
 
 void Player::keyPressed(QKeyEvent* key){
 	if (key->key() == Qt::Key_A){
-
-		MoveDir(-20,  0,  moveSpeed/2);
+		if (gX()>5)
+				MoveDir(-20,  0,  moveSpeed*3/4);
 	}else
 	if (key->key() == Qt::Key_D){
-		MoveDir( 20,  0,  moveSpeed);
-	}else
-	if (key->key() == Qt::Key_W){
-	
+		if (gX()<600)
+			MoveDir( 20,  0,  moveSpeed);
 	}
 }
 

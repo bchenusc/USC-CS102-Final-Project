@@ -24,17 +24,17 @@ void MainWindow::handleTimer() {
 		Enemy* enemy;
 		
 		int random = rand()%2+1;
-		cout<<"HELLO"<<endl;
 		if (random==1){
-			//Spawn on the right sie of the screen.
-			enemy = new Enemy(300, rand()%300+100, 0, pix[1], rand()%500+100, rand()%300+100, rand()%4+2);
+			//Spawn planes on the right side of the screen.
+			enemy = new Enemy(700, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
 			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			scene->addItem(enemy);
 			gameObjects.push_back(enemy);
 		}
 		if (random==2){
-			//Spawn on the left side of the screen.
-			enemy = new Enemy(300, rand()%300+100, 0, pix[1], rand()%500+100, rand()%300+100, rand()%5+1);
+			//Spawn planes on the left side of the screen.
+			enemy = new Enemy(-50, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
+			enemy->flipImg();
 			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			scene->addItem(enemy); 
 			gameObjects.push_back(enemy);
@@ -141,22 +141,35 @@ MainWindow::MainWindow() {
     
 //Load All Images
 		//0 : bgImg
-		QPixmap *bgImg = new QPixmap ("sprites/background.png");
+		QPixmap *bgImg = new QPixmap ("sprites/background_1.png");
 		pix.push_back(bgImg);
-		//1-3 : PlayerAnim1;
-		MyList<QPixmap*>* playerAnim = new MyList<QPixmap*>();
+		//1-5 : PlayerAnim1;
+		playerAnim = new MyList<QPixmap*>();
 			playerAnim->push_back(new QPixmap("sprites/player_01.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_03.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_02.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_03.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_01.png"));
-			for(int i=0; i<playerAnim->size(); i++){
+			for(int i=0; i<5; i++){
 				pix.push_back(playerAnim->at(i));
+			}
+		//6-16
+		enemyAnim = new MyList<QPixmap*>();
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_01.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_02.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_03.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_04.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_05.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_05.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_04.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_03.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_02.png"));
+			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_01.png"));
+			for(int i=0; i<10; i++){
+				pix.push_back(enemyAnim->at(i));
 			}
     
 //CREATE SCROLLY BACKGROUND
-
-		
 		Background* background = new Background(0,0, -1, bgImg);
 		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -175,7 +188,6 @@ MainWindow::MainWindow() {
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(player);
 		gameObjects.push_back(player);
-		
 		
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
