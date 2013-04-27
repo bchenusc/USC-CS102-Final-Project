@@ -56,15 +56,7 @@ void MainWindow:: Destroy(GameObject* toDestroy){
 	delete toDestroy;
 }
 
-void MainWindow::Spawn(int type, int x, int y, int z){
-	GameObject *object;
-	
-	switch	(type){
-		case bgType:
-				object = new Background(x, y, z, pix[0]);
-			break;
-	}
-	
+void MainWindow::Spawn(GameObject* object, int x, int y, int z){
 	gameObjects.push_back(object);
 	scene->addItem(object);
 }
@@ -192,7 +184,7 @@ MainWindow::MainWindow() {
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
 		
-		RenemySpawnCounter=1000;
+		RenemySpawnCounter=1500;
 		enemySpawnCounter=0;
 		
 

@@ -14,8 +14,6 @@ public:
 	~Background();
 	void Update();
 	void setSpeed(int i);
-	
-public slots:
 
 private:
 	int speed;

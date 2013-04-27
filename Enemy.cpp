@@ -14,7 +14,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 	animationCounter=0;
-	RanimationCounter=64;
+	RanimationCounter=200;
 	anim=NULL;
 	animationFrame=0;
 	moveToPositionX=moveToX;

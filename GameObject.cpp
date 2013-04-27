@@ -31,9 +31,16 @@ bool GameObject:: isFlipped(){
 }
 void GameObject:: flipImg(){
 	flipHorizontal=true;
-	setScale(-1,1);
+	//Creating a transformation matrix. Yay linear algebra.
+	QTransform transform(this->transform());
+	
+	transform.setMatrix(-transform.m11(), transform.m12(),transform.m13(),transform.m21(),transform.m22(),transform.m23(),transform.m31(),transform.m32(),transform.m33());
+	setTransform(transform);
 	setRotation(0);
 }
+
+
+
 void GameObject:: MoveTowards(double x, double y, double speed){
 	//Find the Vector2 direction.
 	int deltaX = x-gX();
