@@ -48,8 +48,6 @@ public:
      MainWindow();
     ~MainWindow();
     void keyPressEvent(QKeyEvent* key);
-    //void mouseMoveEvent(QMouseEvent* mouseEvent);
-    
     
 signals:
 	void CollisionChecker(MyList<GameObject*>* gameObjects);
@@ -87,7 +85,6 @@ private:
     GameObject* introPic;
     
     //Timers
-    QTimer *pregameTimer;
     QTimer *mainTimer;
     
     //Pics and Objects
@@ -105,6 +102,7 @@ private:
     
     //Settings
     double gameSpeed;
+    int gameTime;
     
     int bgSpawnCounter;
     int RbgSpawnCounter;

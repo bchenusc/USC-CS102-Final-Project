@@ -83,9 +83,9 @@ if (gX()>680 || gX()<-100){
 		spawnBulletCounter = RspawnBulletCounter;
 		//Make a new bullet.
 		if (isFlipped()){
-			emit Spawn(0, gX()-40, gY()+40, shootSpeed);
+			emit Spawn(0, gX()-40, gY()+30, shootSpeed);
 		}
-		else {emit Spawn(0,gX()+20, gY()+40, shootSpeed);}
+		else {emit Spawn(0,gX()+20, gY()+30, shootSpeed);}
 	}
 	if(spawnBulletCounter>0){
 		spawnBulletCounter--;

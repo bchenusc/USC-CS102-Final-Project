@@ -2,6 +2,7 @@
 
 
 void MainWindow::handleTimer() {
+	
 	emit CollisionChecker(&gameObjects);
 	
 	//Keep spawning backgrounds;
@@ -50,6 +51,8 @@ void MainWindow::handleTimer() {
 				}
 			}
 		}
+		
+	//increaseSpeed of enemies, bullets, and 
 	
 	//Update all the timer counter variables
 	if (bgSpawnCounter>0){
@@ -59,6 +62,7 @@ void MainWindow::handleTimer() {
 		enemySpawnCounter--;
 	}
 	
+	gameTime++;
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -70,9 +74,9 @@ void MainWindow:: Destroy(GameObject* toDestroy){
 	delete toDestroy;
 }
 
-void MainWindow:: Lose(){
+void MainWindow::Lose(){
 	playerIsDead=true;
-	//startIsClicked=false;
+	gameTime=0;
 	
 	int atPosition=0;
 	int objectsLeftToCheck = gameObjects.size();
@@ -114,6 +118,8 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 		{
 			Turret* myTurret = new Turret(xPos, yPos, -1, pix[22], mainPlayer);
 			mainTurret = myTurret;
+			mainTurret->setLockX(xPos);
+			mainTurret->setLockY(yPos);
 			QObject::connect(myTurret, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			connect(mainTimer, SIGNAL(timeout()), myTurret, SLOT(Update()));
 			scene->addItem(myTurret); 
@@ -204,6 +210,7 @@ MainWindow::MainWindow() {
     
 //Game settings
 		gameSpeed = 1;
+		gameTime = 0;
 		startIsClicked = false;
 		playerIsDead = false;
     
@@ -336,14 +343,6 @@ void MainWindow::keyPressEvent(QKeyEvent* key){
 	mainPlayer->keyPressed(key);
 }
 
-/*void MainWindow::mouseMoveEvent(QMouseEvent* mouseEvent){
-	mainTurret->mouseFollow(mouseEvent);
-	if (gameIsPaused) return;
-	if (!playerIsSpawned) return;
-	if (!startIsClicked) return;
-	
-}
-*/
 //-------------------SLOTS-------------------------------------------
 void MainWindow::toggleTimer(){
 	if (mainTimer->isActive()){
@@ -357,13 +356,16 @@ void MainWindow::toggleTimer(){
 }
 
 void MainWindow::handleMouse(int mx, int my){
+	if (gameIsPaused) return;
+	if (!playerIsSpawned) return;
+	if (!startIsClicked) return;
 	mainTurret->mouseFollow(mx,my);
 }
 
 void MainWindow::startClicked(){
-	healthLabel->setText(nameBar->text());
 	if (!startIsClicked){
 		startIsClicked = true;
+		
 		//---------------------------------------------------
 		//Check if nameBar was edited.
 		if (nameBar->text()<=0){
@@ -371,6 +373,7 @@ void MainWindow::startClicked(){
 			systemChat->append("Please Input an Alphanumeric Name.");
 			return;
 		}
+		healthLabel->setText(nameBar->text());
 		nameBar->setReadOnly(true);
 		systemChat->append("Welcome "+nameBar->text()+" to S.W.A.T.");
 		systemChat->append("Your goal is to help Mr. Fluffles escape the government.");

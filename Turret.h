@@ -13,7 +13,8 @@ class Turret :  public GameObject {
 public:
 	explicit Turret(int nx, int ny,int nz, QPixmap* pixmap, Player* player);
 	~Turret();
-
+	void setLockX(int nx);
+	void setLockY(int ny);
 	void mouseFollow(int mx, int my);
 	
 	
@@ -23,6 +24,8 @@ public slots:
 	
 private:
 	Player* player;
+	int lockX;
+	int lockY;
 };
 
 #endif 
