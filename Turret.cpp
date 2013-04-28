@@ -3,7 +3,7 @@
 Turret::Turret(int nx, int ny, int nz, QPixmap* pixmap, Player* player): GameObject( nx,  ny, nz, pixmap){
 	type="Turret";
 	this->player = player;
-	setTransformOriginPoint(40,80);
+	setTransformOriginPoint(20,78);
 }
 	
 Turret::~Turret(){
@@ -15,7 +15,7 @@ void Turret::mouseFollow(int mx, int my){
 	int mouseY = my;
 	double pi = 3.14159;
 	double theta = atan((mouseX-gX())/(double)(mouseY-gY()));
-	if (my<gY()-10)
+	if (my<gY()-80)
 	setRotation(-theta*180/pi);
 	
 }
