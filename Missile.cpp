@@ -10,6 +10,7 @@ Missile::Missile(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* anim
 	moveToPositionY=moveToY;
 	this->speed = speed;
 	type = "Missile";
+	setRotation(-90);
 }
 
 Missile::Missile(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
@@ -22,6 +23,7 @@ Missile::Missile(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveT
 	moveToPositionY=moveToY;
 	this->speed=speed;
 	type="Missile";
+	setRotation(-90);
 }
 	
 Missile::~Missile(){
@@ -39,7 +41,19 @@ void Missile::explosion(){
 	emit Destroy(this);
 }
 
+void Missile::OnCollisionEnter(MyList<GameObject*>* gameObjects){
+
+}
+
 void Missile::Update(){
+
+	//Tweek this to set a different location where the missile explodes when hitting the ground.
+	if (gY()>=385){
+		emit Destroy(this);
+		return;
+	}
+	else{
+	
 //Animate the player
 	if (anim!=NULL){
 		if (animationCounter<=0){
@@ -56,14 +70,10 @@ void Missile::Update(){
 			animationCounter--;
 		}
 	}
-	//move missile towards target location most probably the player.
-	//MoveDir(moveToPositionX,moveToPositionY,speed);
-	
-	//Tweek this to set a different location where the missile explodes when hitting the ground.
-	if (gX()>=400){
-		explosion();
 	}
-	
+	//move missile towards target location most probably the player.
+	MoveDir(moveToPositionX,moveToPositionY,speed);
+
 }
 
 

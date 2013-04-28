@@ -2,11 +2,10 @@
 
 
 void MainWindow::handleTimer() {
-
 	//Call the update function of each object
 	for (int i=0; i<gameObjects.size(); i++){
 		gameObjects[i]->Update();
-		
+		gameObjects[i]->OnCollisionEnter(&gameObjects);
 	}
 	//Keep spawning backgrounds;
 	if (bgSpawnCounter<=0){
@@ -19,31 +18,33 @@ void MainWindow::handleTimer() {
 	}
 	
 	//Spawn enemies
-	if (enemySpawnCounter<=0){
-		enemySpawnCounter = RenemySpawnCounter;
-		Enemy* enemy;
+	if (startIsClicked && !playerIsDead){
+			if (enemySpawnCounter<=0){
+				enemySpawnCounter = RenemySpawnCounter;
+				Enemy* enemy;
 		
-		int random = rand()%2+1;
-		if (random==1){
-			//Spawn planes on the right side of the screen.
-			enemy = new Enemy(700, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
-			enemy->setPlayerRef(mainPlayer);
-			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-			QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
-			scene->addItem(enemy);
-			gameObjects.push_back(enemy);
+				int random = rand()%2+1;
+				if (random==1){
+					//Spawn planes on the right side of the screen.
+					enemy = new Enemy(700, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
+					enemy->setPlayerRef(mainPlayer);
+					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
+					scene->addItem(enemy);
+					gameObjects.push_back(enemy);
+				}
+				if (random==2){
+					//Spawn planes on the left side of the screen.
+					enemy = new Enemy(-50, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
+					enemy->flipImg();
+					enemy->setPlayerRef(mainPlayer);
+					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
+					scene->addItem(enemy); 
+					gameObjects.push_back(enemy);
+				}
+			}
 		}
-		if (random==2){
-			//Spawn planes on the left side of the screen.
-			enemy = new Enemy(-50, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
-			enemy->flipImg();
-			enemy->setPlayerRef(mainPlayer);
-			QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-			QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
-			scene->addItem(enemy); 
-			gameObjects.push_back(enemy);
-		}
-	}	
 	
 	//Update all the timer counter variables
 	if (bgSpawnCounter>0){
@@ -60,13 +61,34 @@ void MainWindow:: Destroy(GameObject* toDestroy){
 	delete toDestroy;
 }
 
+void MainWindow:: Lose(){
+	playerIsDead=true;
+	startIsClicked=false;
+	
+	int atPosition=0;
+	int objectsLeftToCheck = gameObjects.size();
+	
+	while(objectsLeftToCheck>0){
+			if (gameObjects.at(atPosition)->getType()!="Player" && gameObjects.at(atPosition)->getType()!="Background"){
+				Destroy (gameObjects.pop(atPosition));
+				objectsLeftToCheck--;
+			}
+			else {
+				objectsLeftToCheck--;
+				atPosition++;
+			}
+	}
+
+	Destroy(mainPlayer);
+}
+
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 //0 - Missile
 	switch(type){
 		case 0: 
 		{
-			cout<<"HELLO"<<endl;
-			Missile* newMissile = new Missile(300, 300, 1, pix[16], mainPlayer->gX(), mainPlayer->gY(), speed); 
+			
+			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], mainPlayer->gX()-xPos, mainPlayer->gY()-yPos, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			scene->addItem(newMissile); 
 			gameObjects.push_back(newMissile);
@@ -76,6 +98,8 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 		default: break;
 	}
 }
+
+
 
 
 MainWindow::MainWindow() {
@@ -120,7 +144,7 @@ MainWindow::MainWindow() {
 			mainWin->addWidget(sysGB, 3,1,1,2);
 
     //Create a Start button.
-    QPushButton *start = new QPushButton("Start"); 
+    start = new QPushButton("Start"); 
     QObject::connect(start, SIGNAL(clicked()), this, SLOT(startClicked()));
     gameLO->addWidget(start, 1,0,1,1);
     
@@ -132,6 +156,7 @@ MainWindow::MainWindow() {
     //Create a message box.
     systemChat = new QTextEdit();
     sysLO->addWidget(systemChat,0,0,2,1);
+    systemChat->setReadOnly(true);
     
     //Labels the namebar
     QLabel *nameLabel = new QLabel("Name:");
@@ -146,6 +171,8 @@ MainWindow::MainWindow() {
     
 //Game settings
 		gameSpeed = 1;
+		startIsClicked = false;
+		playerIsDead = false;
     
 //Load All Images
 		//0 : bgImg
@@ -161,7 +188,7 @@ MainWindow::MainWindow() {
 			for(int i=0; i<5; i++){
 				pix.push_back(playerAnim->at(i));
 			}
-		//6-16
+		//6-15
 		enemyAnim = new MyList<QPixmap*>();
 			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_01.png"));
 			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_02.png"));
@@ -176,8 +203,8 @@ MainWindow::MainWindow() {
 			for(int i=0; i<10; i++){
 				pix.push_back(enemyAnim->at(i));
 			}
-			//17
-			pix.push_back(new QPixmap("sprites/missile_type1_01.png"));
+			//16
+			pix.push_back(new QPixmap("sprites/missile_type01_01.png"));
     
 //CREATE SCROLLY BACKGROUND
 		Background* background = new Background(0,0, -1, bgImg);
@@ -196,13 +223,14 @@ MainWindow::MainWindow() {
 		Player* player = new Player(100,355,0, pix[1], playerAnim); 
 		mainPlayer = player;
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		QObject::connect(player, SIGNAL(Lose()), this, SLOT(Lose()));
 		scene->addItem(player);
 		gameObjects.push_back(player);
 		
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
 		
-		RenemySpawnCounter=2000;
+		RenemySpawnCounter=10000;
 		enemySpawnCounter=0;
 		
 
@@ -235,17 +263,21 @@ void MainWindow::toggleTimer(){
 }
 
 void MainWindow::startClicked(){
-	//---------------------------------------------------
-	//Check if nameBar was edited.
-	if (nameBar->text()<=0){
-		systemChat->append("Please Input an Alphanumeric Name.");
-		return;
+	if (!startIsClicked){
+		startIsClicked = true;
+		//---------------------------------------------------
+		//Check if nameBar was edited.
+		if (nameBar->text()<=0){
+			systemChat->append("Please Input an Alphanumeric Name.");
+			return;
+		}
+		nameBar->setReadOnly(true);
+		systemChat->append("Welcome "+nameBar->text()+" to S.W.A.T.");
+		systemChat->append("Your goal is to help Mr. Fluffles escape the government.");
+		systemChat->append("W, A, D to move Mr. Fluffles.");
+		systemChat->append("Click to shoot.");
+		
 	}
-	nameBar->setReadOnly(true);
-	systemChat->append("Welcome "+nameBar->text()+" to S.W.A.T.");
-	systemChat->append("Your goal is to help Mr. Fluffles escape the government.");
-	systemChat->append("W, A, D to move Mr. Fluffles.");
-	systemChat->append("Click to shoot.");
 }
 
 MainWindow::~MainWindow()

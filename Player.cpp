@@ -8,6 +8,7 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	animationFrame=0;
 	type="Player";
 	moveSpeed=4;
+	health=3;
 }
 	
 Player::~Player(){
@@ -39,36 +40,41 @@ void Player::Update(){
 	}
 	if (animationCounter>0){
 		animationCounter--;
-
 	}
+	
 }
 
 void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 	for (int i=0; i<gameObjects->size(); i++){
 		if (gameObjects->at(i)->getType() == "Missile"){
-			gameObjects->at(i)->HandleCollision(type);
-			//Implement dying here later.
-			
-			emit Destroy(this);
+			if (collidesWithItem(gameObjects->at(i))){
+				gameObjects->at(i)->HandleCollision(type);
+				setHealth(getHealth()-1);
+				if (health<=0){
+				//Implement dying here later.
+					emit Lose();
+				}
+				return;
+			}
 		}
 	}
 }
 	
 int Player::getHealth(){
-	
+	return health;
 }
 int Player::getLives(){
-	
+	return lives;
 }
 int Player::getScore(){
-	
+	return score;
 }
 void Player::setLives(int life){
-	
+	lives = life;
 }
 void Player::setHealth(int health){
-	
+	this->health = health;
 }
 void Player::setScore(int score){
-	
+	this->score = score;
 }

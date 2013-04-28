@@ -13,6 +13,7 @@ public:
 	Background(int nx, int ny, int nz, QPixmap* pixmap);
 	~Background();
 	void Update();
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	void setSpeed(int i);
 
 private:

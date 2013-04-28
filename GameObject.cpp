@@ -29,6 +29,10 @@ int GameObject:: gVY(){
 bool GameObject:: isFlipped(){
 	return flipHorizontal;
 }
+
+void GameObject::OnCollisionEnter(MyList<GameObject*>* gameObjects){
+
+}
 void GameObject:: flipImg(){
 	flipHorizontal=true;
 	//Creating a transformation matrix. Yay linear algebra.
@@ -36,7 +40,7 @@ void GameObject:: flipImg(){
 	
 	transform.setMatrix(-transform.m11(), transform.m12(),transform.m13(),transform.m21(),transform.m22(),transform.m23(),transform.m31(),transform.m32(),transform.m33());
 	setTransform(transform);
-	setRotation(0);
+	setTransformOriginPoint(-80,0);
 }
 
 

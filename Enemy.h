@@ -19,7 +19,7 @@ public:
 	void setHealth(int health);
 	void setScore(int score); 
 	void Update();
-		
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	void setPlayerRef(Player* player);
 	
 public slots:

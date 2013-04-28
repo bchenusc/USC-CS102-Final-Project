@@ -9,13 +9,13 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=1;
+	shootSpeed=0.3;
 	
 	//Counters
 	animationCounter=0;
 		RanimationCounter=70;
 	spawnBulletCounter=500;
-		RspawnBulletCounter=1000;
+		RspawnBulletCounter=500;
 }
 
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
@@ -28,7 +28,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=1;
+	shootSpeed=0.1;
 	
 	
 	//Counters
@@ -40,6 +40,10 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 	
 Enemy::~Enemy(){
 
+}
+
+void Enemy::OnCollisionEnter(MyList<GameObject*>* gameObjects){
+	
 }
 
 void Enemy::Update(){
@@ -57,16 +61,22 @@ void Enemy::Update(){
 		}
 		if (animationCounter>0){
 			animationCounter--;
-
 		}
 	}
 //------------------------
 	
 	//Shoot bullets
 	if (spawnBulletCounter<=0){
+		
 		spawnBulletCounter = RspawnBulletCounter;
 		//Make a new bullet.
-		emit Spawn(0, gX(), gY(), shootSpeed);
+		if (isFlipped()){
+			emit Spawn(0, gX()-40, gY()+20, shootSpeed);
+		}
+		else emit Spawn(0,gX()+40, gY()+20, shootSpeed);
+	}
+	if(spawnBulletCounter>0){
+		spawnBulletCounter--;
 	}
 
 	// Move in a set direction.

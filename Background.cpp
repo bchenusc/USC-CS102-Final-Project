@@ -17,3 +17,7 @@ void Background:: Update(){
 void Background::setSpeed(int i){
 	speed = i;
 }
+
+void Background::OnCollisionEnter(MyList<GameObject*>* gameObjects){
+
+}

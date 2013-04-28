@@ -6,10 +6,11 @@
 #include <QKeyEvent>
 #define MAX_LIVES = 3;
 
-class Player : public GameObject {
-	
+class Player :  public GameObject {
+	Q_OBJECT
+		
 public:
-	Player(int nx, int ny,int nz, QPixmap* pixmap, MyList<QPixmap*>* animation);
+	explicit Player(int nx, int ny,int nz, QPixmap* pixmap, MyList<QPixmap*>* animation);
 	~Player();
 	
 	int getHealth();
@@ -24,7 +25,8 @@ public:
 	void Update();
 	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 
-public slots:
+signals:
+	void Lose();
 	
 
 private:
@@ -32,7 +34,7 @@ private:
 		int lives;
 		int score;
 		int moveSpeed;
-		
+
 		//Animation
 		int animationSpeed;
 		int animationFrame;

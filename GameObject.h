@@ -26,7 +26,7 @@ public:
 	void MoveDir(double x, double y, double speed);
 	virtual void Update();
 	virtual void HandleCollision(string type);
-	//virtual void OnCollisionEnter(MyList<GameObject*>* gameObjects);
+	virtual void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	
 signals:
 	void Destroy(GameObject*);

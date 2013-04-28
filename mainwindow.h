@@ -34,7 +34,7 @@ using namespace std;
 
 
 #define WINDOW_MAX_X 640
-#define WINDOW_MAX_Y 500
+#define WINDOW_MAX_Y 480
 
 enum OBJECTTYPE{
 	bgType=0,
@@ -54,14 +54,22 @@ public slots:
     void startClicked();
     void Destroy(GameObject *toDestroy);
     void Spawn(int type, int x, int y, double newSpeed);
+    void Lose();
     
 private:
+
+		bool playerIsDead;
+		bool startIsClicked;
+		
     QGraphicsScene *scene;
     QGraphicsView *view;
     QGridLayout *mainWin;
     
     QLineEdit *nameBar;
     QTextEdit *systemChat;
+    
+    //Buttons
+    QPushButton *start;
     
     //Timers
     QTimer *pregameTimer;
