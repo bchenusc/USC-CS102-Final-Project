@@ -9,7 +9,7 @@ void MainWindow::handleTimer() {
 	if (bgSpawnCounter<=0){
 		bgSpawnCounter=RbgSpawnCounter;
 		Background* background = new Background(1279,0, -10, pix[0]);
-		background->setSpeed(gameSpeed);
+		background->setSpeed(1);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		connect(mainTimer, SIGNAL(timeout()), background, SLOT(Update()));
 		connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), background, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
@@ -26,8 +26,7 @@ void MainWindow::handleTimer() {
 				int random = rand()%2+1;
 				if (random==1){
 					//Spawn planes on the right side of the screen.
-					cout<<gameSpeed+0.05<<endl;
-					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10, gameSpeed+0.05);
+					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, 1*(rand()%2+1)/10, gameSpeed/10.05);
 					enemy->flipImg(false);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -39,9 +38,8 @@ void MainWindow::handleTimer() {
 					gameObjects.push_back(enemy);
 				}else
 				if (random==2){
-				cout<<gameSpeed+0.05<<endl;
 					//Spawn planes on the left side of the screen.
-					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10,gameSpeed+0.05);
+					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,1*(rand()%2+1)/10,gameSpeed/10+0.05);
 					enemy->flipImg(true);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -56,8 +54,9 @@ void MainWindow::handleTimer() {
 		
 	//increaseSpeed of spawn, bullets
 	if (gameTime%(1000*10)==0 && gameTime>(1000*10)){
-		cout<<gameSpeed<<endl;
+		
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
+		cout<<"NEEW SPEED"<<gameSpeed<<endl;
 	}
 	
 	//Update all the timer counter variables
@@ -111,7 +110,6 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 //0 - Missile
 		case 0: 
 		{
-			
 			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], rand()%500-xPos, 400, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));

@@ -9,7 +9,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=shootSpeed;
+	this->shootSpeed=shootSpeed;
 	
 	
 	
@@ -22,7 +22,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 		setTransformOriginPoint(0,0);
 }
 
-Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
+Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed, double shootSpeed):GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 
 	anim=NULL;
@@ -32,7 +32,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=shootSpeed;
+	this->shootSpeed=shootSpeed;
 	
 	
 	//Counters
