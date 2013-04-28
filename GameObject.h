@@ -21,7 +21,7 @@ public:
 	int gVY();
 	string getType();
 	bool isFlipped();
-	void flipImg();
+	void flipImg(bool flip);
 	void MoveTowards(double x, double y, double speed);
 	void MoveDir(double x, double y, double speed);
 	

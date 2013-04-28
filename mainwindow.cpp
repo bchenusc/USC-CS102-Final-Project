@@ -26,6 +26,7 @@ void MainWindow::handleTimer() {
 				if (random==1){
 					//Spawn planes on the right side of the screen.
 					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
+					enemy->flipImg(false);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
@@ -34,11 +35,11 @@ void MainWindow::handleTimer() {
 					
 					scene->addItem(enemy);
 					gameObjects.push_back(enemy);
-				}
+				}else
 				if (random==2){
 					//Spawn planes on the left side of the screen.
 					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
-					enemy->flipImg();
+					enemy->flipImg(true);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
@@ -256,7 +257,7 @@ MainWindow::MainWindow() {
 
 		spawnNewUI();
 		
-		RbgSpawnCounter = 1250;
+		RbgSpawnCounter = 1275;
 		bgSpawnCounter=0;
 		
 		RenemySpawnCounter=5000;
@@ -310,6 +311,7 @@ void MainWindow::changeHealthBar(int newHealth){
 void MainWindow::keyPressEvent(QKeyEvent* key){
 	if (gameIsPaused) return;
 	if (!playerIsSpawned) return;
+	if (!startIsClicked) return;
 	mainPlayer->keyPressed(key);
 }
 

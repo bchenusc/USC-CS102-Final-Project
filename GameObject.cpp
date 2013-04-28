@@ -33,14 +33,24 @@ bool GameObject:: isFlipped(){
 void GameObject::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 
 }
-void GameObject:: flipImg(){
-	flipHorizontal=true;
-	//Creating a transformation matrix. Yay linear algebra.
-	QTransform transform(this->transform());
+void GameObject:: flipImg(bool flip){
+	if (flip==true){
+		flipHorizontal=true;
+		//Creating a transformation matrix. Yay linear algebra.
+		QTransform transform(this->transform());
 	
-	transform.setMatrix(-transform.m11(), transform.m12(),transform.m13(),transform.m21(),transform.m22(),transform.m23(),transform.m31(),transform.m32(),transform.m33());
-	setTransform(transform);
-	setTransformOriginPoint(-80,0);
+		transform.setMatrix(-transform.m11(), transform.m12(),transform.m13(),transform.m21(),transform.m22(),transform.m23(),transform.m31(),transform.m32(),transform.m33());
+		setTransform(transform);
+		setTransformOriginPoint(-80,0);
+	}
+	else
+		flipHorizontal=false;
+		//Creating a transformation matrix. Yay linear algebra.
+		QTransform transform(this->transform());
+	
+		transform.setMatrix(transform.m11(), transform.m12(),transform.m13(),transform.m21(),transform.m22(),transform.m23(),transform.m31(),transform.m32(),transform.m33());
+		setTransform(transform);
+		setTransformOriginPoint(0,0);
 }
 
 
