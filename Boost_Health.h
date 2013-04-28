@@ -25,7 +25,7 @@ public slots:
 private:
 		Player* playerRef;
 		double speed;
-		bool movingUp;
+		bool isMovingLeft;
 		
 		int initialX;
 		int initialY;

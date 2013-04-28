@@ -5,7 +5,7 @@ Boost_Health::Boost_Health(int nx, int ny, int nz, QPixmap* pixmap, double speed
 	initialY = ny;
 	type = "Boost_Health";
 	
-	movingUp = true;
+	isMovingLeft = true;
 		
 	setTransformOriginPoint(0,0);
 	
@@ -43,14 +43,24 @@ if (gX()>680 || gX()<-100){
 //------------------------
 //Health oscillates horizontally moving between + or - 50 from its original location.
 //disappears if the health touches the ground.
-	if (gX()<initialX-50){
+	
+	if (isMovingLeft && gX()<initialX-50){
+	cout<<isMovingLeft<<1<<endl;
 	//Too Far left
-		MoveDir(1,-1, speed);
-	}
-	if (gX()>initialX+50){
+		isMovingLeft = false;
+		MoveDir(1,-1, speed*1.5);
+	}else
+	if (!isMovingLeft && gX()>initialX+50){
 	//Too far right
-		MoveDir(-1,-1,speed);
-	}
+		isMovingLeft = true;
+		MoveDir(-1,-1,speed*1.5);
+	}else
+	if (isMovingLeft && gX()>initialX-50){
+		MoveDir(1,-1, speed*1.5);
+	}else
+	if (!isMovingLeft && gX()<initialX+50){
+		MoveDir(-1,-1,speed*1.5);
+	}else
 	//If hit the ground then destroy.
 	if (gX()>=430)
 	{

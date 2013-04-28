@@ -69,7 +69,7 @@ void MainWindow::handleTimer() {
 		
 		//Spawn a health boost every 15 seconds.
 		cout<<"Spawned health"<<endl;
-					Boost_Health* healthboost = new Boost_Health(679, rand()%250+2, 0, pix[23], -1, 0, gameSpeed/6*(rand()%2+1)/10);
+					Boost_Health* healthboost = new Boost_Health(679, rand()%250+2, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
 						//Change boost settings if needed.
 						healthboost->setPlayerRef(mainPlayer);
 					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
