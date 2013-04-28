@@ -54,23 +54,24 @@ void Missile::Update(){
 	}
 	else{
 	
-//Animate the player
+//Animate the misssile if ther is an animation given.
 	if (anim!=NULL){
 		if (animationCounter<=0){
-			animationCounter=RanimationCounter;
-			if (animationFrame<anim->size()){
-				setPixmap(*(anim->at(animationFrame)));
+				animationCounter=RanimationCounter;
+				if (animationFrame<anim->size()){
+					setPixmap(*(anim->at(animationFrame)));
+				}
+				else{
+					animationFrame=-1;
+				}	
+				animationFrame++;
 			}
-			else{
-				animationFrame=-1;
-			}	
-			animationFrame++;
-		}
-		if (animationCounter>0){
-			animationCounter--;
+			if (animationCounter>0){
+				animationCounter--;
+			}
 		}
 	}
-	}
+
 	//move missile towards target location most probably the player.
 	MoveDir(moveToPositionX,moveToPositionY,speed);
 

@@ -61,6 +61,7 @@ public slots:
     void Lose();
     void changeHealthBar(int change);
     void handleMouse(int mx, int my);
+   	void mousePressed(int x, int y);
     
 private:
 
@@ -103,6 +104,7 @@ private:
     //Settings
     double gameSpeed;
     int gameTime;
+    int numberOfBulletsSpawnedByEnemies;
     
     int bgSpawnCounter;
     int RbgSpawnCounter;

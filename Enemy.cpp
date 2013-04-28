@@ -11,7 +11,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	this->speed = speed;
 	this->shootSpeed=shootSpeed;
 	
-	
+	numberOfBullets=1;
 	
 	//Counters
 	animationCounter=0;
@@ -76,21 +76,25 @@ if (gX()>680 || gX()<-100){
 		}
 	}
 //------------------------
-	
+
 	//Shoot bullets
 	if (spawnBulletCounter<=0){
-		
 		spawnBulletCounter = RspawnBulletCounter;
 		//Make a new bullet.
 		if (isFlipped()){
-			emit Spawn(0, gX()-40, gY()+30, shootSpeed);
+			//cout<<numberOfBullets<<endl;
+			for (int i=0; i<numberOfBullets; i++){
+				emit Spawn(0, gX()-40, gY()+30, shootSpeed);
+			}
 		}
 		else {
-			emit Spawn(0,gX()+20, gY()+30, shootSpeed);
-			}
+			for (int i=0; i<numberOfBullets; i++){
+				emit Spawn(0,gX()+20, gY()+30, shootSpeed);
+				}
+		}
 	}
 	if(spawnBulletCounter>0){
-		spawnBulletCounter--;
+		//spawnBulletCounter--;
 	}
 
 	// Move in a set direction.
@@ -108,4 +112,23 @@ int Enemy::getHealth(){
 void Enemy::setHealth(int health){
 	this->health = health;
 }
+
+int Enemy::setNumOfBullets(int num){
+	numberOfBullets=num;
+}
+
+int Enemy::setRSpawnBulletCounter(int num){
+	RspawnBulletCounter = num;
+}
+
+
+
+
+
+
+
+
+
+
+
 

@@ -17,7 +17,10 @@ public:
 	
 	int getHealth();
 	void setHealth(int health);
-	void setScore(int score); 
+	
+	int setNumOfBullets(int num);
+	int setRSpawnBulletCounter(int num);
+
 	void Update();
 	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	void setPlayerRef(Player* player);
@@ -30,6 +33,7 @@ private:
 		
 	  double speed;
 	  double shootSpeed;
+	  int numberOfBullets;
 		
 		//Animation
 		int animationSpeed;

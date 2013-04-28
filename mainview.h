@@ -16,9 +16,11 @@ public:
      MainView(QGraphicsScene* scene);
     ~MainView();
     void mouseMoveEvent(QMouseEvent* mouseEvent);
+   	void mousePressEvent(QMouseEvent* mouseEvent);
     
 signals:
 	void mouse(int, int);
+	void mousePressed(int, int);
 
 };
 

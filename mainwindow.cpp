@@ -22,42 +22,52 @@ void MainWindow::handleTimer() {
 			if (enemySpawnCounter<=0){
 				enemySpawnCounter = RenemySpawnCounter;
 				Enemy* enemy;
-		
+				//Randomize between spawning left or right. Right=1, Left=2
 				int random = rand()%2+1;
 				if (random==1){
+				cout<<gameSpeed<<endl;
 					//Spawn planes on the right side of the screen.
-					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, 1*(rand()%2+1)/10, gameSpeed/10.05);
-					enemy->flipImg(false);
-					enemy->setPlayerRef(mainPlayer);
+					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed/6*(rand()%2+1)/10, gameSpeed/10+0.05);
+						//Change Enemy Settings if needed.
+						enemy->flipImg(false);
+						enemy->setPlayerRef(mainPlayer);
+						enemy->setNumOfBullets(numberOfBulletsSpawnedByEnemies);
+						enemy->setRSpawnBulletCounter(1000 - gameSpeed*100);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
 					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), enemy, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
-					
+						//Add Enemy to the Scene
 					scene->addItem(enemy);
 					gameObjects.push_back(enemy);
 				}else
 				if (random==2){
 					//Spawn planes on the left side of the screen.
-					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,1*(rand()%2+1)/10,gameSpeed/10+0.05);
-					enemy->flipImg(true);
-					enemy->setPlayerRef(mainPlayer);
+					cout<<gameSpeed<<endl;
+					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0, gameSpeed/6*(rand()%2+1)/10,gameSpeed/10+0.05);
+						//Change Enemy Settings if need be.
+						enemy->flipImg(true);
+						enemy->setPlayerRef(mainPlayer);
+						enemy->setNumOfBullets(numberOfBulletsSpawnedByEnemies);
+						enemy->setRSpawnBulletCounter(1000 - gameSpeed*100);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
 					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), enemy, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+						//Add enemy to the scene
 					scene->addItem(enemy); 
 					gameObjects.push_back(enemy);
 				}
 			}
 		}
 		
-	//increaseSpeed of spawn, bullets
-	if (gameTime%(1000*10)==0 && gameTime>(1000*10)){
-		
+	//increaseSpeed of spawn, bullets every 10 seconds
+	if (gameTime%(1000*15)==0 && gameTime>(1000*15)){
+		numberOfBulletsSpawnedByEnemies++;
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
-		cout<<"NEEW SPEED"<<gameSpeed<<endl;
+		
 	}
+	
 	
 	//Update all the timer counter variables
 	if (bgSpawnCounter>0){
@@ -126,9 +136,21 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			mainTurret->setLockX(xPos);
 			mainTurret->setLockY(yPos);
 			QObject::connect(myTurret, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			QObject::connect(myTurret, SIGNAL(Spawn(int, int , int , double)), this, SLOT(Spawn(int, int ,int ,double)));
 			connect(mainTimer, SIGNAL(timeout()), myTurret, SLOT(Update()));
 			scene->addItem(myTurret); 
 			gameObjects.push_back(myTurret);
+			break;
+		}
+//Spawn Player Bullets	
+		case 2:
+		{
+			Missile* newMissile = new Missile(mainPlayer->gX()+2, mainPlayer->gY(), -2, pix[16], xPos-mainPlayer->gX()+2, yPos-mainPlayer->gY(), speed); 
+			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));
+			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+			scene->addItem(newMissile); 
+			gameObjects.push_back(newMissile);
 			break;
 		}
 
@@ -157,6 +179,7 @@ MainWindow::MainWindow() {
     scene = new QGraphicsScene(0,0,WINDOW_MAX_X, WINDOW_MAX_Y);
     view = new MainView( scene );
     QObject::connect(view, SIGNAL(mouse(int,int)), this, SLOT(handleMouse(int, int)));
+    QObject::connect(view, SIGNAL(mousePressed(int,int)), this, SLOT(mousePressed(int, int)));
     mainWin->addWidget(view, 0, 0, 10, 1);
     
     //This sets the size of the window and gives it a title.
@@ -218,12 +241,13 @@ MainWindow::MainWindow() {
 		gameTime = 0;
 		startIsClicked = false;
 		playerIsDead = false;
+		numberOfBulletsSpawnedByEnemies = 1;
     
 //Load All Images
-		//0 : bgImg
+		//0 : Background img.
 		QPixmap *bgImg = new QPixmap ("sprites/background_1.png");
 		pix.push_back(bgImg);
-		//1-5 : PlayerAnim1;
+		//1-5 : Player Run Animation.
 		playerAnim = new MyList<QPixmap*>();
 			playerAnim->push_back(new QPixmap("sprites/player_01.png"));
 			playerAnim->push_back(new QPixmap("sprites/player_03.png"));
@@ -233,7 +257,7 @@ MainWindow::MainWindow() {
 			for(int i=0; i<5; i++){
 				pix.push_back(playerAnim->at(i));
 			}
-		//6-15
+		//6-15 : Enemy Animation
 		enemyAnim = new MyList<QPixmap*>();
 			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_01.png"));
 			enemyAnim->push_back(new QPixmap("sprites/enemy_plane_02.png"));
@@ -248,16 +272,16 @@ MainWindow::MainWindow() {
 			for(int i=0; i<10; i++){
 				pix.push_back(enemyAnim->at(i));
 			}
-			//16
+			//16 : Missile
 			pix.push_back(new QPixmap("sprites/missile_type01_01.png"));
-			//17-20
+			//17-20 : Health Bars
 			pix.push_back(new QPixmap("sprites/HealthBar_01.png"));
 			pix.push_back(new QPixmap("sprites/HealthBar_02.png"));
 			pix.push_back(new QPixmap("sprites/HealthBar_03.png"));
 			pix.push_back(new QPixmap("sprites/HealthBar_04.png"));
-			//21
+			//21 : Intro Picture / wooden board.
 			pix.push_back(new QPixmap("sprites/introPic.png"));
-			//22 turretPic
+			//22 : Cannon / turret pic.
 			pix.push_back(new QPixmap("sprites/turret_01.png"));
     
 //CREATE SCROLLY BACKGROUND
@@ -341,6 +365,13 @@ void MainWindow::changeHealthBar(int newHealth){
 	}
 }
 
+void MainWindow::mousePressed(int x, int y){
+	if (gameIsPaused) return;
+	if (!playerIsSpawned) return;
+	if (!startIsClicked) return;
+	mainTurret->mousePressed(x,y);
+}
+
 void MainWindow::keyPressEvent(QKeyEvent* key){
 	if (gameIsPaused) return;
 	if (!playerIsSpawned) return;
@@ -396,6 +427,9 @@ void MainWindow::startClicked(){
 		if (playerIsDead){
 			//Spawn player and health
 			spawnNewUI();
+			gameSpeed=1;
+     	gameTime=1;
+    	 numberOfBulletsSpawnedByEnemies=1;
 			playerIsDead=false;
 			startIsClicked=true;
 			enemySpawnCounter=0;

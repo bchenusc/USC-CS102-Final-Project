@@ -17,6 +17,8 @@ public:
 	void setLockY(int ny);
 	void mouseFollow(int mx, int my);
 	
+	void mousePressed(int x, int y);
+	
 	
 public slots:
 	void Update();
@@ -24,8 +26,13 @@ public slots:
 	
 private:
 	Player* player;
+	double shootSpeed;
 	int lockX;
 	int lockY;
+	
+	//Cooldown timers
+	int shootCounter;
+	int RshootCounter;
 };
 
 #endif 
