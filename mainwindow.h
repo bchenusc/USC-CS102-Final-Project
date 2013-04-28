@@ -63,6 +63,10 @@ private:
 
 		bool playerIsDead;
 		bool startIsClicked;
+		bool playerIsSpawned;
+		bool gameIsPaused;
+		
+		void spawnNewUI();
 		
     QGraphicsScene *scene;
     QGraphicsView *view;
@@ -71,8 +75,9 @@ private:
     QLineEdit *nameBar;
     QTextEdit *systemChat;
     
-    //Buttons
+    //Buttons / UI
     QPushButton *start;
+    GameObject* healthBar;
     
     //Timers
     QTimer *pregameTimer;

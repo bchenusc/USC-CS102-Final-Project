@@ -76,14 +76,17 @@ void MainWindow::handleTimer() {
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
+
 	gameObjects.remove(toDestroy);
+	
 	scene->removeItem(toDestroy);
+	
 	delete toDestroy;
 }
 
 void MainWindow:: Lose(){
 	playerIsDead=true;
-	startIsClicked=false;
+	//startIsClicked=false;
 	
 	int atPosition=0;
 	int objectsLeftToCheck = gameObjects.size();
@@ -98,8 +101,10 @@ void MainWindow:: Lose(){
 				atPosition++;
 			}
 	}
-	cout<<"SEG"<<endl;
-	Destroy(mainPlayer);
+	if (playerIsSpawned){
+		Destroy(mainPlayer);
+		playerIsSpawned=false;
+	}
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
@@ -108,7 +113,7 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 		case 0: 
 		{
 			
-			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], mainPlayer->gX()+10-xPos, mainPlayer->gY()+10-yPos, speed); 
+			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], rand()%500-xPos, 400, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));
 			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
@@ -233,6 +238,11 @@ MainWindow::MainWindow() {
 			}
 			//16
 			pix.push_back(new QPixmap("sprites/missile_type01_01.png"));
+			//17-20
+			pix.push_back(new QPixmap("sprites/HealthBar_01.png"));
+			pix.push_back(new QPixmap("sprites/HealthBar_02.png"));
+			pix.push_back(new QPixmap("sprites/HealthBar_03.png"));
+			pix.push_back(new QPixmap("sprites/HealthBar_04.png"));
     
 //CREATE SCROLLY BACKGROUND
 
@@ -253,6 +263,24 @@ MainWindow::MainWindow() {
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
 
+		spawnNewUI();
+		
+		RbgSpawnCounter = 1250;
+		bgSpawnCounter=0;
+		
+		RenemySpawnCounter=5000;
+		enemySpawnCounter=0;
+		
+//------------------------------------------------------------------------------------------
+
+		setFocus();
+		srand(time(NULL));
+		mainTimer->start();
+		gameIsPaused=false;
+}
+
+void MainWindow::spawnNewUI(){
+
 //Spawns the player
 		Player* player = new Player(100,355,0, pix[1], playerAnim); 
 		mainPlayer = player;
@@ -262,25 +290,21 @@ MainWindow::MainWindow() {
 		QObject::connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), player, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 		scene->addItem(player);
 		gameObjects.push_back(player);
-		
-		RbgSpawnCounter = 1250;
-		bgSpawnCounter=0;
-		
-		RenemySpawnCounter=10000000;
-		enemySpawnCounter=0;
-		
+		playerIsSpawned=true;
 
+//Create Health Bars:
+		healthBar = new GameObject(200,420, -1, pix[17]);
+		QObject::connect(healthBar, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		QObject::connect(mainPlayer, SIGNAL(changeHealth(int)), this, SLOT(changeHealthBar(int)));
+}
 
-
-//------------------------------------------------------------------------------------------
-
-		setFocus();
-		srand(time(NULL));
-		mainTimer->start();
-		
+void MainWindow::changeHealthBar(int newHealth){
+	switch
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* key){
+	if (gameIsPaused) return;
+	if (!playerIsSpawned) return;
 	mainPlayer->keyPressed(key);
 }
 
@@ -288,8 +312,12 @@ void MainWindow::keyPressEvent(QKeyEvent* key){
 void MainWindow::toggleTimer(){
 	if (mainTimer->isActive()){
 	  mainTimer->stop();
+	  gameIsPaused=true;
 	}
-	else mainTimer->start();
+	else {
+		mainTimer->start();
+		gameIsPaused=false;
+	}
 }
 
 void MainWindow::startClicked(){
@@ -312,6 +340,7 @@ void MainWindow::startClicked(){
 	}else
 	{ 
 		Lose();
+		
 		if (playerIsDead){
 			//Spawns the player
 			Player* player = new Player(100,355,0, pix[1], playerAnim); 
@@ -325,6 +354,7 @@ void MainWindow::startClicked(){
 			playerIsDead=false;
 			startIsClicked=true;
 			enemySpawnCounter=0;
+			playerIsSpawned=true;
 		}
 	}
 }

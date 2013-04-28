@@ -9,15 +9,17 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=0.3;
+	shootSpeed=0.2;
 	
-	setTransformOriginPoint(0,0);
+	
 	
 	//Counters
 	animationCounter=0;
 		RanimationCounter=70;
-	spawnBulletCounter=500;
-		RspawnBulletCounter=500;
+	spawnBulletCounter=800;
+		RspawnBulletCounter=800;
+		
+		setTransformOriginPoint(0,0);
 }
 
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
@@ -30,14 +32,16 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=0.1;
+	shootSpeed=0.2;
 	
 	
 	//Counters
 	animationCounter=0;
 		RanimationCounter=70;
-	spawnBulletCounter=1000;
-		RspawnBulletCounter=1000;
+	spawnBulletCounter=800;
+		RspawnBulletCounter=800;
+		
+		setTransformOriginPoint(0,0);
 }
 	
 Enemy::~Enemy(){
@@ -50,8 +54,9 @@ void Enemy::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 
 void Enemy::Update(){
 
-if (gX()>680 || gX()<-35){
+if (gX()>680 || gX()<-100){
 	Destroy(this);
+	return;
 }
 
 //Animate the enemy
