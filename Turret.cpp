@@ -1,42 +1,27 @@
 	#include "Turret.h"
 	
-Turret::Turret(int nx, int ny, int nz, QPixmap* pixmap): GameObject( nx,  ny, nz, pixmap){
-	animationSpeed=1;
-	animationCounter=0;
-	RanimationCounter=32;
-	animationFrame=0;
+Turret::Turret(int nx, int ny, int nz, QPixmap* pixmap, Player* player): GameObject( nx,  ny, nz, pixmap){
 	type="Turret";
+	this->player = player;
+	setTransformOriginPoint(40,80);
 }
 	
 Turret::~Turret(){
 
 }
 
-void Turret::mouseFollow(QGraphicsSceneMouseEvent* event){
-	int mouseX = event->scenePos().x();
-	int mouseY = event->scenePos().y();
+void Turret::mouseFollow(int mx, int my){
+	int mouseX = mx;
+	int mouseY = my;
 	double pi = 3.14159;
-	double theta = atan((mouseX-gX())/(double)(mouseY-gY()))*180/pi;
-	setRotation(theta);
+	double theta = atan((mouseX-gX())/(double)(mouseY-gY()));
+	if (my<gY()-10)
+	setRotation(-theta*180/pi);
 	
 }
 
 void Turret::Update(){
-//Animate the player
-	if (animationCounter<=0){
-		animationCounter=RanimationCounter;
-		if (animationFrame<anim->size()){
-			setPixmap(*(anim->at(animationFrame)));
-		}
-		else{
-			animationFrame=-1;
-		}	
-		animationFrame++;
-	}
-	if (animationCounter>0){
-		animationCounter--;
-	}
-	
+	setPos(player->gX(), player->gY());
 }
 
 void Turret::OnCollisionEnter(MyList<GameObject*>* gameObjects){

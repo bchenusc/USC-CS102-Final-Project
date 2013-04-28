@@ -10,13 +10,16 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	moveSpeed=4;
 	health=3;
 	setTransformOriginPoint(pixmap->width()/2, pixmap->height()/2);
-	
-	//Spawn a turret on the player.
-	emit Spawn(1, gX()+20, gY()-10, 0);
 }
 	
 Player::~Player(){
 
+}
+
+void Player::spawnTurret(){
+	//Spawn a turret on the player.
+	emit Spawn(1, gX()-40, gY()-130, 0);
+	return;
 }
 
 void Player::keyPressed(QKeyEvent* key){

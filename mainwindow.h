@@ -17,7 +17,7 @@
 #include <QGroupBox>
 #include <QFrame>
 #include <QGraphicsSimpleTextItem>
-#include <QGraphicsSceneMouseEvent>
+#include <QMouseEvent>
 
 
 #include <time.h>
@@ -31,6 +31,7 @@
 #include "Enemy.h"
 #include "Missile.h"
 #include "Turret.h"
+#include "mainview.h"
 
 
 #include "iostream"
@@ -40,10 +41,6 @@ using namespace std;
 #define WINDOW_MAX_X 640
 #define WINDOW_MAX_Y 480
 
-enum OBJECTTYPE{
-	bgType=0,
-};
-
 class MainWindow : public QMainWindow {
     Q_OBJECT
     
@@ -51,7 +48,8 @@ public:
      MainWindow();
     ~MainWindow();
     void keyPressEvent(QKeyEvent* key);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    //void mouseMoveEvent(QMouseEvent* mouseEvent);
+    
     
 signals:
 	void CollisionChecker(MyList<GameObject*>* gameObjects);
@@ -64,6 +62,7 @@ public slots:
     void Spawn(int type, int x, int y, double newSpeed);
     void Lose();
     void changeHealthBar(int change);
+    void handleMouse(int mx, int my);
     
 private:
 
@@ -75,7 +74,7 @@ private:
 		void spawnNewUI();
 		
     QGraphicsScene *scene;
-    QGraphicsView *view;
+    MainView *view;
     QGridLayout *mainWin;
     
     QLineEdit *nameBar;

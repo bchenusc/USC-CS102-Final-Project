@@ -58,6 +58,7 @@ void MainWindow::handleTimer() {
 	if (enemySpawnCounter>0){
 		enemySpawnCounter--;
 	}
+	
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -89,12 +90,14 @@ void MainWindow:: Lose(){
 	if (playerIsSpawned){
 		Destroy(mainPlayer);
 		playerIsSpawned=false;
+		delete healthLabel;
 	}
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
-//0 - Missile
+
 	switch(type){
+//0 - Missile
 		case 0: 
 		{
 			
@@ -106,9 +109,10 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			gameObjects.push_back(newMissile);
 			break;
 		}
+//Turret		
 		case 1:
 		{
-			Turret* myTurret = new Turret(xPos, yPos, -1, pix[22]);
+			Turret* myTurret = new Turret(xPos, yPos, -1, pix[22], mainPlayer);
 			mainTurret = myTurret;
 			QObject::connect(myTurret, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			connect(mainTimer, SIGNAL(timeout()), myTurret, SLOT(Update()));
@@ -140,7 +144,8 @@ MainWindow::MainWindow() {
     //We need a scene and a view to do graphics in QT
     mainWin = new QGridLayout();	//This is your main layout bg window.
     scene = new QGraphicsScene(0,0,WINDOW_MAX_X, WINDOW_MAX_Y);
-    view = new QGraphicsView( scene );
+    view = new MainView( scene );
+    QObject::connect(view, SIGNAL(mouse(int,int)), this, SLOT(handleMouse(int, int)));
     mainWin->addWidget(view, 0, 0, 10, 1);
     
     //This sets the size of the window and gives it a title.
@@ -277,7 +282,9 @@ MainWindow::MainWindow() {
 		
 //------------------------------------------------------------------------------------------
 
-		setFocus();
+	//FOCUS IS SET HERE_???????????????????????????????????????????????????????????/////////////////SFGHFDS
+		view->setFocus();
+		view->setMouseTracking(true);
 		srand(time(NULL));
 		mainTimer->start();
 		gameIsPaused=false;
@@ -286,12 +293,14 @@ MainWindow::MainWindow() {
 void MainWindow::spawnNewUI(){
 
 //Spawns the player
-		Player* player = new Player(100,355,0, pix[1], playerAnim); 
+		Player* player = new Player(100,350,0, pix[1], playerAnim); 
 		mainPlayer = player;
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		QObject::connect(player, SIGNAL(Spawn(int, int,int,double)), this, SLOT(Spawn(int, int, int, double)));
 		QObject::connect(player, SIGNAL(Lose()), this, SLOT(Lose()));
-		QObject::connect(mainTimer, SIGNAL(timeout()), player, SLOT(Update()));
+		QObject::connect(mainTimer, SIGNAL(timeout()), player, SLOT(Update()));	
 		QObject::connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), player, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+		player->spawnTurret();
 		scene->addItem(player);
 		gameObjects.push_back(player);
 		playerIsSpawned=true;
@@ -327,13 +336,14 @@ void MainWindow::keyPressEvent(QKeyEvent* key){
 	mainPlayer->keyPressed(key);
 }
 
-void MainWindow::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent){
+/*void MainWindow::mouseMoveEvent(QMouseEvent* mouseEvent){
+	mainTurret->mouseFollow(mouseEvent);
 	if (gameIsPaused) return;
 	if (!playerIsSpawned) return;
 	if (!startIsClicked) return;
-	mainTurret->mouseFollow(mouseEvent);
+	
 }
-
+*/
 //-------------------SLOTS-------------------------------------------
 void MainWindow::toggleTimer(){
 	if (mainTimer->isActive()){
@@ -344,6 +354,10 @@ void MainWindow::toggleTimer(){
 		mainTimer->start();
 		gameIsPaused=false;
 	}
+}
+
+void MainWindow::handleMouse(int mx, int my){
+	mainTurret->mouseFollow(mx,my);
 }
 
 void MainWindow::startClicked(){
