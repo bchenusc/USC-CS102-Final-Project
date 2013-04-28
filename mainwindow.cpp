@@ -3,7 +3,7 @@
 
 void MainWindow::handleTimer() {
 	//Call the update function of each object
-	
+	/*
 	GameObject* previousCheck;
 	int thingLocation = 0;
 	
@@ -11,18 +11,23 @@ void MainWindow::handleTimer() {
 		previousCheck = gameObjects[thingLocation];
 		gameObjects[thingLocation]->Update();
 		gameObjects[thingLocation]->OnCollisionEnter(&gameObjects);
-		if (previousCheck==gameObjects){
+		if (){
 			thingsToHandle-= previousSize-gameObjects.size();
 			previousSize = gameObjects.size();
 		}
 		thingsToHandle--;
 	}
+	*/
+	emit CollisionChecker(&gameObjects);
+	
 	//Keep spawning backgrounds;
 	if (bgSpawnCounter<=0){
 		bgSpawnCounter=RbgSpawnCounter;
 		Background* background = new Background(1279,0, -1, pix[0]);
 		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		connect(mainTimer, SIGNAL(timeout()), background, SLOT(Update()));
+		connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), background, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 		scene->addItem(background);
 		gameObjects.push_back(background);
 	}
@@ -40,6 +45,9 @@ void MainWindow::handleTimer() {
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
+					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
+					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), enemy, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+					
 					scene->addItem(enemy);
 					gameObjects.push_back(enemy);
 				}
@@ -50,6 +58,8 @@ void MainWindow::handleTimer() {
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
+					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
+					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), enemy, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 					scene->addItem(enemy); 
 					gameObjects.push_back(enemy);
 				}
@@ -88,7 +98,7 @@ void MainWindow:: Lose(){
 				atPosition++;
 			}
 	}
-
+	cout<<"SEG"<<endl;
 	Destroy(mainPlayer);
 }
 
@@ -100,6 +110,8 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			
 			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], mainPlayer->gX()+10-xPos, mainPlayer->gY()+10-yPos, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));
+			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 			scene->addItem(newMissile); 
 			gameObjects.push_back(newMissile);
 			break;
@@ -109,12 +121,18 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 	}
 }
 
-
-
-
 MainWindow::MainWindow() {
 		QFrame *frame = new QFrame();
 		setCentralWidget(frame);
+		
+		//------------------------------------------------------------------------------------------    
+
+    //This is how we do animation. We use a timer with an interval of 5 milliseconds
+    //We connect the signal from the timer - the timeout() function to a function
+    //of our own - called handleTimer - which is in this same MainWindow class
+    mainTimer = new QTimer(this);
+    mainTimer->setInterval(1);
+    connect(mainTimer, SIGNAL(timeout()), this, SLOT(handleTimer()));
 
 		//Set the main window size.
 		setFixedSize(1000,530);
@@ -217,15 +235,21 @@ MainWindow::MainWindow() {
 			pix.push_back(new QPixmap("sprites/missile_type01_01.png"));
     
 //CREATE SCROLLY BACKGROUND
+
 		Background* background = new Background(0,0, -1, bgImg);
 		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		QObject::connect(mainTimer, SIGNAL(timeout()), background, SLOT(Update()));
+		
+		QObject::connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), background, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 		scene->addItem(background);
 		gameObjects.push_back(background);
 		
 		Background* background2 = new Background(640,0, -1, bgImg);
 		background2->setSpeed(gameSpeed);
 		QObject::connect(background2, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		QObject::connect(mainTimer, SIGNAL(timeout()), background2, SLOT(Update()));
+		QObject::connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), background2, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
 
@@ -234,6 +258,8 @@ MainWindow::MainWindow() {
 		mainPlayer = player;
 		QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		QObject::connect(player, SIGNAL(Lose()), this, SLOT(Lose()));
+		QObject::connect(mainTimer, SIGNAL(timeout()), player, SLOT(Update()));
+		QObject::connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), player, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 		scene->addItem(player);
 		gameObjects.push_back(player);
 		
@@ -244,20 +270,14 @@ MainWindow::MainWindow() {
 		enemySpawnCounter=0;
 		
 
-//------------------------------------------------------------------------------------------    
 
-    //This is how we do animation. We use a timer with an interval of 5 milliseconds
-    //We connect the signal from the timer - the timeout() function to a function
-    //of our own - called handleTimer - which is in this same MainWindow class
-    mainTimer = new QTimer(this);
-    mainTimer->setInterval(1);
-    connect(mainTimer, SIGNAL(timeout()), this, SLOT(handleTimer()));
 
 //------------------------------------------------------------------------------------------
 
 		setFocus();
 		srand(time(NULL));
 		mainTimer->start();
+		
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* key){
@@ -298,6 +318,8 @@ void MainWindow::startClicked(){
 			mainPlayer = player;
 			QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			QObject::connect(player, SIGNAL(Lose()), this, SLOT(Lose()));
+			connect(mainTimer, SIGNAL(timeout()), player, SLOT(Update()));
+			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), player, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 			scene->addItem(player);
 			gameObjects.push_back(player);
 			playerIsDead=false;

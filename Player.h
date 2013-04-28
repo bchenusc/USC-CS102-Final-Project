@@ -21,12 +21,13 @@ public:
 	void setScore(int score); 
 	
 	void keyPressed(QKeyEvent* key);
-	
-	void Update();
-	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 
 signals:
 	void Lose();
+	
+public slots:
+	void Update();
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	
 
 private:

@@ -48,6 +48,9 @@ public:
     ~MainWindow();
     void keyPressEvent(QKeyEvent* key);
     
+signals:
+	void CollisionChecker(MyList<GameObject*>* gameObjects);
+    
 public slots:
     void handleTimer();
     void toggleTimer();

@@ -24,16 +24,17 @@ public:
 	void flipImg();
 	void MoveTowards(double x, double y, double speed);
 	void MoveDir(double x, double y, double speed);
-	virtual void Update();
+	
 	virtual void HandleCollision(string type);
-	virtual void OnCollisionEnter(MyList<GameObject*>* gameObjects);
+	
 	
 signals:
 	void Destroy(GameObject*);
 	void Spawn(int type, int xPos, int yPos, double speed);
 	
 public slots:
-	
+	virtual void Update();
+	virtual void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 protected :
 		double x;
 		double y;
