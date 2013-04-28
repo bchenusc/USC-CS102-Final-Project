@@ -17,6 +17,8 @@
 #include <QGroupBox>
 #include <QFrame>
 #include <QGraphicsSimpleTextItem>
+#include <QGraphicsSceneMouseEvent>
+
 
 #include <time.h>
 #include <stdlib.h>
@@ -28,6 +30,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Missile.h"
+#include "Turret.h"
 
 
 #include "iostream"
@@ -48,6 +51,7 @@ public:
      MainWindow();
     ~MainWindow();
     void keyPressEvent(QKeyEvent* key);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
     
 signals:
 	void CollisionChecker(MyList<GameObject*>* gameObjects);
@@ -91,8 +95,9 @@ private:
     MyList<QPixmap*> pix;
     MyList<GameObject*> gameObjects;
     
-    //Player
+    //Player && Turret
     Player* mainPlayer;
+    Turret* mainTurret;
     int score;
     
     //Animations

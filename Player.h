@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "mylist.h"
 #include <QKeyEvent>
+#include "Turret.h"
 #define MAX_LIVES = 3;
 
 class Player :  public GameObject {
@@ -36,6 +37,10 @@ private:
 		int lives;
 		int score;
 		int moveSpeed;
+		
+			
+		//Create a turret behind the player.
+		Turret *myTurret;
 
 		//Animation
 		int animationSpeed;

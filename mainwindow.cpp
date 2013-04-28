@@ -7,7 +7,7 @@ void MainWindow::handleTimer() {
 	//Keep spawning backgrounds;
 	if (bgSpawnCounter<=0){
 		bgSpawnCounter=RbgSpawnCounter;
-		Background* background = new Background(1279,0, -1, pix[0]);
+		Background* background = new Background(1279,0, -10, pix[0]);
 		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		connect(mainTimer, SIGNAL(timeout()), background, SLOT(Update()));
@@ -104,6 +104,16 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 			scene->addItem(newMissile); 
 			gameObjects.push_back(newMissile);
+			break;
+		}
+		case 1:
+		{
+			Turret* myTurret = new Turret(xPos, yPos, -1, pix[22]);
+			mainTurret = myTurret;
+			QObject::connect(myTurret, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			connect(mainTimer, SIGNAL(timeout()), myTurret, SLOT(Update()));
+			scene->addItem(myTurret); 
+			gameObjects.push_back(myTurret);
 			break;
 		}
 
@@ -230,10 +240,12 @@ MainWindow::MainWindow() {
 			pix.push_back(new QPixmap("sprites/HealthBar_04.png"));
 			//21
 			pix.push_back(new QPixmap("sprites/introPic.png"));
+			//22 turretPic
+			pix.push_back(new QPixmap("sprites/turret_01.png"));
     
 //CREATE SCROLLY BACKGROUND
 
-		Background* background = new Background(0,0, -1, bgImg);
+		Background* background = new Background(0,0, 10, bgImg);
 		background->setSpeed(gameSpeed);
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		QObject::connect(mainTimer, SIGNAL(timeout()), background, SLOT(Update()));
@@ -242,7 +254,7 @@ MainWindow::MainWindow() {
 		scene->addItem(background);
 		gameObjects.push_back(background);
 		
-		Background* background2 = new Background(640,0, -1, bgImg);
+		Background* background2 = new Background(640,0, -10, bgImg);
 		background2->setSpeed(gameSpeed);
 		QObject::connect(background2, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		QObject::connect(mainTimer, SIGNAL(timeout()), background2, SLOT(Update()));
@@ -313,6 +325,13 @@ void MainWindow::keyPressEvent(QKeyEvent* key){
 	if (!playerIsSpawned) return;
 	if (!startIsClicked) return;
 	mainPlayer->keyPressed(key);
+}
+
+void MainWindow::mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent){
+	if (gameIsPaused) return;
+	if (!playerIsSpawned) return;
+	if (!startIsClicked) return;
+	mainTurret->mouseFollow(mouseEvent);
 }
 
 //-------------------SLOTS-------------------------------------------
