@@ -1,13 +1,15 @@
 	#include "Boost_Health.h"
 
-Boost_Health::Boost_Health(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed):GameObject( nx,  ny, nz, pixmap){
-	moveToPositionX=moveToX;
-	moveToPositionY=moveToY;
+Boost_Health::Boost_Health(int nx, int ny, int nz, QPixmap* pixmap, double speed):GameObject( nx,  ny, nz, pixmap){
+	initialX = nx;
+	initialY = ny;
 	type = "Boost_Health";
 	
 	movingUp = true;
 		
 	setTransformOriginPoint(0,0);
+	
+	this->speed = speed;
 }
 	
 Boost_Health::~Boost_Health(){
@@ -19,13 +21,15 @@ void Boost_Health::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 }
 
 void Boost_Health::setPlayerRef(Player *player){
-
+	playerRef = player;
 }
 
-void Missile::HandleCollision(string type){
+void Boost_Health::HandleCollision(string type){
 	//Explosion here if needed.
 	if (type=="PlayerMissile"){
+		playerRef->setHealth(playerRef->getHealth()+1);
 		emit Destroy(this);
+		return;
 	}
 }
 
@@ -37,22 +41,22 @@ if (gX()>680 || gX()<-100){
 }
 
 //------------------------
-//The health boost oscillates in the air.
-
-	if (gY()<moveToPositionY-50){
-		movingUp = false;
+//Health oscillates horizontally moving between + or - 50 from its original location.
+//disappears if the health touches the ground.
+	if (gX()<initialX-50){
+	//Too Far left
+		MoveDir(1,-1, speed);
 	}
-	else movingUp = true;
-
-	int moveHereY=0;
-	if (movingUp){
-		moveHereY = moveToPositionY-50; //Powerup move up.
+	if (gX()>initialX+50){
+	//Too far right
+		MoveDir(-1,-1,speed);
 	}
-	else
-		moveHereY = moveToPositionY+50; //Powerup move down.
-	
-	// Move in a set direction.
-	MoveDir(moveToPositionX,moveHereY,speed);
+	//If hit the ground then destroy.
+	if (gX()>=430)
+	{
+		Destroy(this);
+		return;
+	}
 }
 
 

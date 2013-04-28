@@ -68,7 +68,8 @@ void MainWindow::handleTimer() {
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
 		
 		//Spawn a health boost every 15 seconds.
-					Boost_Health healthboost = new Boost_Health(679, rand()%250+2, 0, pix[23] 0, 0, gameSpeed/6*(rand()%2+1)/10);
+		cout<<"Spawned health"<<endl;
+					Boost_Health* healthboost = new Boost_Health(679, rand()%250+2, 0, pix[23], -1, 0, gameSpeed/6*(rand()%2+1)/10);
 						//Change boost settings if needed.
 						healthboost->setPlayerRef(mainPlayer);
 					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -156,7 +157,7 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 //Spawn Player Bullets	
 		case 2:
 		{
-			Missile* playerMissile = new Missile(mainPlayer->gX()+2, mainPlayer->gY(), -2, pix[16], xPos-mainPlayer->gX()+2, yPos-mainPlayer->gY(), speed);
+			Missile* playerMissile = new Missile(mainPlayer->gX()+10, mainPlayer->gY()+13, -2, pix[24], xPos-mainPlayer->gX()-1, yPos-mainPlayer->gY()+13, speed);
 			playerMissile->setType("PlayerMissile"); 
 			QObject::connect(playerMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			connect(mainTimer, SIGNAL(timeout()), playerMissile, SLOT(Update()));
@@ -295,6 +296,10 @@ MainWindow::MainWindow() {
 			pix.push_back(new QPixmap("sprites/introPic.png"));
 			//22 : Cannon / turret pic.
 			pix.push_back(new QPixmap("sprites/turret_01.png"));
+			//23 : health boost icon
+			pix.push_back(new QPixmap("sprites/healthboost.png"));
+			//24 : player bullet
+			pix.push_back(new QPixmap("sprites/playerbullet.png"));
     
 //CREATE SCROLLY BACKGROUND
 
@@ -327,6 +332,15 @@ MainWindow::MainWindow() {
 		
 		RenemySpawnCounter=5000;
 		enemySpawnCounter=0;
+		
+		Boost_Health* healthboost = new Boost_Health(200, 0, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
+						//Change boost settings if needed.
+						healthboost->setPlayerRef(mainPlayer);
+					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					connect(mainTimer, SIGNAL(timeout()), healthboost, SLOT(Update()));
+						//Add boost to the Scene
+					scene->addItem(healthboost);
+					gameObjects.push_back(healthboost);
 		
 //------------------------------------------------------------------------------------------
 

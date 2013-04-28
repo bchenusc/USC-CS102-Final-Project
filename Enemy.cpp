@@ -20,6 +20,8 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 		RspawnBulletCounter=800;
 		
 		setTransformOriginPoint(0,0);
+		
+	health = 3;
 }
 
 Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed, double shootSpeed):GameObject( nx,  ny, nz, pixmap){
@@ -42,6 +44,8 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 		RspawnBulletCounter=800;
 		
 		setTransformOriginPoint(0,0);
+		
+	health = 3;
 }
 	
 Enemy::~Enemy(){
@@ -49,13 +53,26 @@ Enemy::~Enemy(){
 }
 
 void Enemy::OnCollisionEnter(MyList<GameObject*>* gameObjects){
-	
+	for (int i=0; i<gameObjects->size(); i++){
+		if (gameObjects->at(i)->getType() == "PlayerMissile"){
+			if (collidesWithItem(gameObjects->at(i))){
+				gameObjects->at(i)->HandleCollision(type);
+				setHealth(getHealth()-1);
+				if (health<=0){
+				//Implement dying here later.
+					emit Destroy(this);
+					return;
+				}
+				return;
+			}
+		}
+	}
 }
 
 void Enemy::Update(){
 
 if (gX()>680 || gX()<-100){
-	Destroy(this);
+	emit Destroy(this);
 	return;
 }
 
@@ -82,7 +99,6 @@ if (gX()>680 || gX()<-100){
 		spawnBulletCounter = RspawnBulletCounter;
 		//Make a new bullet.
 		if (isFlipped()){
-			//cout<<numberOfBullets<<endl;
 			for (int i=0; i<numberOfBullets; i++){
 				emit Spawn(0, gX()-40, gY()+30, shootSpeed);
 			}
@@ -94,7 +110,7 @@ if (gX()>680 || gX()<-100){
 		}
 	}
 	if(spawnBulletCounter>0){
-		//spawnBulletCounter--;
+		spawnBulletCounter--;
 	}
 
 	// Move in a set direction.
@@ -113,11 +129,11 @@ void Enemy::setHealth(int health){
 	this->health = health;
 }
 
-int Enemy::setNumOfBullets(int num){
+void Enemy::setNumOfBullets(int num){
 	numberOfBullets=num;
 }
 
-int Enemy::setRSpawnBulletCounter(int num){
+void Enemy::setRSpawnBulletCounter(int num){
 	RspawnBulletCounter = num;
 }
 

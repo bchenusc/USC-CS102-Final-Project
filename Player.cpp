@@ -18,7 +18,7 @@ Player::~Player(){
 
 void Player::spawnTurret(){
 	//Spawn a turret on the player.
-	emit Spawn(1, gX()-79, gY()-60, 0);
+	emit Spawn(1, gX()-60, gY()-50, 0);
 	return;
 }
 

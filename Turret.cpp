@@ -4,7 +4,7 @@ Turret::Turret(int nx, int ny, int nz, QPixmap* pixmap, Player* player): GameObj
 	type="Turret";
 	this->player = player;
 	flipImg(true);
-	setTransformOriginPoint(20,65);
+	setTransformOriginPoint(18,59);
 	shootSpeed=0.5;
 	
 	//Cooldown timers
@@ -27,8 +27,14 @@ void Turret::setLockY(int ny){
 void Turret::mousePressed(int mx, int my){
 	if (shootCounter==0){
 		shootCounter=RshootCounter;
-		cout<<mx<<" "<<my<<endl;
+		if ((mx>player->gX() && my >player->gY()) || (mx<player->gX() && my>player->gY())){
+			emit Spawn(2, mx, my, shootSpeed*2);
+			return;
+			}
+		else{
 		emit Spawn(2,mx, my, -shootSpeed*2);
+		return;
+		}
 	}
 }
 

@@ -18,16 +18,14 @@ public:
 	int getHealth();
 	void setHealth(int health);
 	
-	int setNumOfBullets(int num);
-	int setRSpawnBulletCounter(int num);
+	void setNumOfBullets(int num);
+	void setRSpawnBulletCounter(int num);
 
-	void Update();
-	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	void setPlayerRef(Player* player);
 	
 public slots:
-	
-
+	void Update();
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 private:
 		int health;
 		
