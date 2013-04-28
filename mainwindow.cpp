@@ -145,7 +145,7 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 //Spawn Player Bullets	
 		case 2:
 		{
-			Missile* newMissile = new Missile(mainPlayer->gX()+2, mainPlayer->gY(), -2, pix[16], xPos-mainPlayer->gX()+2, yPos-mainPlayer->gY(), speed); 
+			GravityMissile* newMissile = new GravityMissile(mainPlayer->gX()+2, mainPlayer->gY(), -2, pix[16], xPos-mainPlayer->gX()+2, yPos-mainPlayer->gY(), speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));
 			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
@@ -318,7 +318,7 @@ MainWindow::MainWindow() {
 		
 //------------------------------------------------------------------------------------------
 
-	//FOCUS IS SET HERE_???????????????????????????????????????????????????????????/////////////////SFGHFDS
+	//!!!!!!!!!!!!!!!!!!!!!!!!!FOCUS IS SET HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		view->setFocus();
 		view->setMouseTracking(true);
 		srand(time(NULL));

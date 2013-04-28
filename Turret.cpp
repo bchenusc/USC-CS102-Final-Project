@@ -28,7 +28,7 @@ void Turret::mousePressed(int mx, int my){
 	if (shootCounter==0){
 		shootCounter=RshootCounter;
 		cout<<mx<<" "<<my<<endl;
-		emit Spawn(2,mx, my, -shootSpeed);
+		emit Spawn(2,mx, my, -shootSpeed*2);
 	}
 }
 

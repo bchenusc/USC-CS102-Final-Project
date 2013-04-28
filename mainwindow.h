@@ -32,6 +32,7 @@
 #include "Missile.h"
 #include "Turret.h"
 #include "mainview.h"
+#include "GravityMissle.h"
 
 
 #include "iostream"

@@ -17,7 +17,7 @@ public:
 	void HandleCollision(string type);
 	
 public slots:
-	void Update();
+	virtual void Update();
 	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	
 private:

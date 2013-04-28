@@ -47,6 +47,11 @@ void Missile::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 
 void Missile::Update(){
 
+//If out of bounds of the screen then destroy the missile.
+	if (gX()<= -1000 || gX()>=1500|| gY()<= -1000 || gY()>=1000){
+			emit Destroy(this);
+	}
+
 	//Tweek this to set a different location where the missile explodes when hitting the ground.
 	if (gY()>=385){
 		emit Destroy(this);
