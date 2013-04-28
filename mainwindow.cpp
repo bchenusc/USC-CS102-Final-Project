@@ -69,7 +69,7 @@ void MainWindow::handleTimer() {
 		
 		//Spawn a health boost every 15 seconds.
 		cout<<"Spawned health"<<endl;
-					Boost_Health* healthboost = new Boost_Health(679, rand()%250+2, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
+					Boost_Health* healthboost = new Boost_Health(rand()%449+2, -40, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
 						//Change boost settings if needed.
 						healthboost->setPlayerRef(mainPlayer);
 					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -332,15 +332,6 @@ MainWindow::MainWindow() {
 		
 		RenemySpawnCounter=5000;
 		enemySpawnCounter=0;
-		
-		Boost_Health* healthboost = new Boost_Health(200, 0, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
-						//Change boost settings if needed.
-						healthboost->setPlayerRef(mainPlayer);
-					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-					connect(mainTimer, SIGNAL(timeout()), healthboost, SLOT(Update()));
-						//Add boost to the Scene
-					scene->addItem(healthboost);
-					gameObjects.push_back(healthboost);
 		
 //------------------------------------------------------------------------------------------
 

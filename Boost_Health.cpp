@@ -44,25 +44,25 @@ if (gX()>680 || gX()<-100){
 //Health oscillates horizontally moving between + or - 50 from its original location.
 //disappears if the health touches the ground.
 	
-	if (isMovingLeft && gX()<initialX-50){
-	cout<<isMovingLeft<<1<<endl;
+	if ((isMovingLeft && gX()<=initialX-150) ||(gX()<=5)){
 	//Too Far left
 		isMovingLeft = false;
-		MoveDir(1,-1, speed*1.5);
+		MoveDir(1,-1, speed);
 	}else
-	if (!isMovingLeft && gX()>initialX+50){
+	if ((!isMovingLeft && gX()>=initialX+150) || gX()>=450){
 	//Too far right
 		isMovingLeft = true;
-		MoveDir(-1,-1,speed*1.5);
+		MoveDir(-1,-1,speed);
 	}else
-	if (isMovingLeft && gX()>initialX-50){
-		MoveDir(1,-1, speed*1.5);
+	if (isMovingLeft && gX()>initialX-150){
+	//Moving Left
+		MoveDir(1,-1, speed);
 	}else
-	if (!isMovingLeft && gX()<initialX+50){
-		MoveDir(-1,-1,speed*1.5);
-	}else
+	if (!isMovingLeft && gX()<initialX+150){
+		MoveDir(-1,-1,speed);
+	}
 	//If hit the ground then destroy.
-	if (gX()>=430)
+	if (gY()>=400)
 	{
 		Destroy(this);
 		return;
