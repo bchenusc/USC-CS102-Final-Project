@@ -16,6 +16,7 @@
 #include <QValidator>
 #include <QGroupBox>
 #include <QFrame>
+#include <QGraphicsSimpleTextItem>
 
 #include <time.h>
 #include <stdlib.h>
@@ -58,6 +59,7 @@ public slots:
     void Destroy(GameObject *toDestroy);
     void Spawn(int type, int x, int y, double newSpeed);
     void Lose();
+    void changeHealthBar(int change);
     
 private:
 
@@ -78,6 +80,8 @@ private:
     //Buttons / UI
     QPushButton *start;
     GameObject* healthBar;
+    QGraphicsSimpleTextItem* healthLabel;
+    GameObject* introPic;
     
     //Timers
     QTimer *pregameTimer;

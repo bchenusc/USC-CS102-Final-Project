@@ -51,6 +51,7 @@ void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 			if (collidesWithItem(gameObjects->at(i))){
 				gameObjects->at(i)->HandleCollision(type);
 				setHealth(getHealth()-1);
+				emit changeHealth(getHealth());
 				if (health<=0){
 				//Implement dying here later.
 					emit Lose();

@@ -2,22 +2,6 @@
 
 
 void MainWindow::handleTimer() {
-	//Call the update function of each object
-	/*
-	GameObject* previousCheck;
-	int thingLocation = 0;
-	
-	while(thingsToHandle>=0){
-		previousCheck = gameObjects[thingLocation];
-		gameObjects[thingLocation]->Update();
-		gameObjects[thingLocation]->OnCollisionEnter(&gameObjects);
-		if (){
-			thingsToHandle-= previousSize-gameObjects.size();
-			previousSize = gameObjects.size();
-		}
-		thingsToHandle--;
-	}
-	*/
 	emit CollisionChecker(&gameObjects);
 	
 	//Keep spawning backgrounds;
@@ -243,6 +227,8 @@ MainWindow::MainWindow() {
 			pix.push_back(new QPixmap("sprites/HealthBar_02.png"));
 			pix.push_back(new QPixmap("sprites/HealthBar_03.png"));
 			pix.push_back(new QPixmap("sprites/HealthBar_04.png"));
+			//21
+			pix.push_back(new QPixmap("sprites/introPic.png"));
     
 //CREATE SCROLLY BACKGROUND
 
@@ -262,6 +248,11 @@ MainWindow::MainWindow() {
 		QObject::connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), background2, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
+		
+		introPic = new GameObject(100,20, 0, pix[21]);
+		QObject::connect(introPic, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+		scene->addItem(introPic);
+		gameObjects.push_back(introPic);
 
 		spawnNewUI();
 		
@@ -293,13 +284,27 @@ void MainWindow::spawnNewUI(){
 		playerIsSpawned=true;
 
 //Create Health Bars:
-		healthBar = new GameObject(200,420, -1, pix[17]);
+		healthBar = new GameObject(200,420, 2, pix[17]);
 		QObject::connect(healthBar, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		QObject::connect(mainPlayer, SIGNAL(changeHealth(int)), this, SLOT(changeHealthBar(int)));
+		scene->addItem(healthBar);
+		gameObjects.push_back(healthBar);
+//Create a QLabel to label the health bar.
+		healthLabel= new QGraphicsSimpleTextItem(nameBar->text());
+		healthLabel->setPos(235,430);
+		healthLabel->setZValue(2);
+		scene->addItem(healthLabel);
+
 }
 
 void MainWindow::changeHealthBar(int newHealth){
-	switch
+	switch(newHealth){
+		case 0: {healthBar->setPixmap(*pix[20]); break;}
+		case 1: {healthBar->setPixmap(*pix[19]); break;}
+		case 2: {healthBar->setPixmap(*pix[18]); break;}
+		case 3: {healthBar->setPixmap(*pix[17]); break;}
+		default: break;
+	}
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* key){
@@ -321,6 +326,7 @@ void MainWindow::toggleTimer(){
 }
 
 void MainWindow::startClicked(){
+	healthLabel->setText(nameBar->text());
 	if (!startIsClicked){
 		startIsClicked = true;
 		//---------------------------------------------------
@@ -337,20 +343,16 @@ void MainWindow::startClicked(){
 		systemChat->append("Click to shoot.");
 		//Change the start button to a restart button
 		start->setText("Restart");
+		if (introPic!=NULL){
+			Destroy(introPic);
+		}
 	}else
 	{ 
+		//Restart
 		Lose();
-		
 		if (playerIsDead){
-			//Spawns the player
-			Player* player = new Player(100,355,0, pix[1], playerAnim); 
-			mainPlayer = player;
-			QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-			QObject::connect(player, SIGNAL(Lose()), this, SLOT(Lose()));
-			connect(mainTimer, SIGNAL(timeout()), player, SLOT(Update()));
-			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), player, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
-			scene->addItem(player);
-			gameObjects.push_back(player);
+			//Spawn player and health
+			spawnNewUI();
 			playerIsDead=false;
 			startIsClicked=true;
 			enemySpawnCounter=0;

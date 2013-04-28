@@ -24,6 +24,7 @@ public:
 
 signals:
 	void Lose();
+	void changeHealth(int);
 	
 public slots:
 	void Update();
