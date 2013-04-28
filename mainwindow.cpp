@@ -25,7 +25,6 @@ void MainWindow::handleTimer() {
 				//Randomize between spawning left or right. Right=1, Left=2
 				int random = rand()%2+1;
 				if (random==1){
-				cout<<gameSpeed<<endl;
 					//Spawn planes on the right side of the screen.
 					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed/6*(rand()%2+1)/10, gameSpeed/10+0.05);
 						//Change Enemy Settings if needed.
@@ -43,7 +42,6 @@ void MainWindow::handleTimer() {
 				}else
 				if (random==2){
 					//Spawn planes on the left side of the screen.
-					cout<<gameSpeed<<endl;
 					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0, gameSpeed/6*(rand()%2+1)/10,gameSpeed/10+0.05);
 						//Change Enemy Settings if need be.
 						enemy->flipImg(true);
@@ -61,11 +59,23 @@ void MainWindow::handleTimer() {
 			}
 		}
 		
+
+		
 	//increaseSpeed of spawn, bullets every 10 seconds
+	//also spawn a health boost.
 	if (gameTime%(1000*15)==0 && gameTime>(1000*15)){
 		numberOfBulletsSpawnedByEnemies++;
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
 		
+		//Spawn a health boost every 15 seconds.
+					Boost_Health healthboost = new Boost_Health(679, rand()%250+2, 0, pix[23] 0, 0, gameSpeed/6*(rand()%2+1)/10);
+						//Change boost settings if needed.
+						healthboost->setPlayerRef(mainPlayer);
+					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					connect(mainTimer, SIGNAL(timeout()), healthboost, SLOT(Update()));
+						//Add boost to the Scene
+					scene->addItem(healthboost);
+					gameObjects.push_back(healthboost);
 	}
 	
 	
@@ -122,6 +132,7 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 		{
 			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], rand()%500-xPos, 400, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			newMissile->setType("EnemyMissile");
 			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));
 			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 			scene->addItem(newMissile); 
@@ -145,12 +156,13 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 //Spawn Player Bullets	
 		case 2:
 		{
-			GravityMissile* newMissile = new GravityMissile(mainPlayer->gX()+2, mainPlayer->gY(), -2, pix[16], xPos-mainPlayer->gX()+2, yPos-mainPlayer->gY(), speed); 
-			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
-			connect(mainTimer, SIGNAL(timeout()), newMissile, SLOT(Update()));
-			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), newMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
-			scene->addItem(newMissile); 
-			gameObjects.push_back(newMissile);
+			Missile* playerMissile = new Missile(mainPlayer->gX()+2, mainPlayer->gY(), -2, pix[16], xPos-mainPlayer->gX()+2, yPos-mainPlayer->gY(), speed);
+			playerMissile->setType("PlayerMissile"); 
+			QObject::connect(playerMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			connect(mainTimer, SIGNAL(timeout()), playerMissile, SLOT(Update()));
+			connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), playerMissile, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+			scene->addItem(playerMissile); 
+			gameObjects.push_back(playerMissile);
 			break;
 		}
 

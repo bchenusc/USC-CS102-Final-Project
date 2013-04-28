@@ -101,6 +101,10 @@ void GameObject::HandleCollision(string type){
 
 }
 
+void GameObject::setType(string nType){
+	type = nType;
+}
+
 void GameObject:: MoveDir(double deltaX, double deltaY, double speed){
 
 	double pi = 3.14159;

@@ -19,6 +19,7 @@ public:
 	int gY();
 	int gVX();
 	int gVY();
+	void setType(string type);
 	string getType();
 	bool isFlipped();
 	void flipImg(bool flip);
