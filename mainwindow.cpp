@@ -26,7 +26,8 @@ void MainWindow::handleTimer() {
 				int random = rand()%2+1;
 				if (random==1){
 					//Spawn planes on the right side of the screen.
-					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
+					cout<<gameSpeed+0.05<<endl;
+					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10, gameSpeed+0.05);
 					enemy->flipImg(false);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -38,8 +39,9 @@ void MainWindow::handleTimer() {
 					gameObjects.push_back(enemy);
 				}else
 				if (random==2){
+				cout<<gameSpeed+0.05<<endl;
 					//Spawn planes on the left side of the screen.
-					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
+					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10,gameSpeed+0.05);
 					enemy->flipImg(true);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -52,7 +54,11 @@ void MainWindow::handleTimer() {
 			}
 		}
 		
-	//increaseSpeed of enemies, bullets, and 
+	//increaseSpeed of spawn, bullets
+	if (gameTime%(1000*10)==0 && gameTime>(1000*10)){
+		cout<<gameSpeed<<endl;
+		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
+	}
 	
 	//Update all the timer counter variables
 	if (bgSpawnCounter>0){
@@ -62,7 +68,8 @@ void MainWindow::handleTimer() {
 		enemySpawnCounter--;
 	}
 	
-	gameTime++;
+	if (startIsClicked)
+		gameTime++;
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -76,7 +83,7 @@ void MainWindow:: Destroy(GameObject* toDestroy){
 
 void MainWindow::Lose(){
 	playerIsDead=true;
-	gameTime=0;
+	gameTime=1;
 	
 	int atPosition=0;
 	int objectsLeftToCheck = gameObjects.size();

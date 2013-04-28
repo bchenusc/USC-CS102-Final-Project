@@ -1,6 +1,6 @@
 	#include "Enemy.h"
 	
-Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation, int moveToX, int moveToY, double speed): GameObject( nx,  ny, nz, pixmap){
+Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation, int moveToX, int moveToY, double speed, double shootSpeed): GameObject( nx,  ny, nz, pixmap){
 	animationSpeed=1;
 	anim = animation;
 	animationFrame=0;
@@ -9,7 +9,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=0.2;
+	shootSpeed=shootSpeed;
 	
 	
 	
@@ -32,7 +32,7 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, 
 	type = "Enemy";
 	
 	this->speed = speed;
-	shootSpeed=0.2;
+	shootSpeed=shootSpeed;
 	
 	
 	//Counters
@@ -85,7 +85,9 @@ if (gX()>680 || gX()<-100){
 		if (isFlipped()){
 			emit Spawn(0, gX()-40, gY()+30, shootSpeed);
 		}
-		else {emit Spawn(0,gX()+20, gY()+30, shootSpeed);}
+		else {
+			emit Spawn(0,gX()+20, gY()+30, shootSpeed);
+			}
 	}
 	if(spawnBulletCounter>0){
 		spawnBulletCounter--;
