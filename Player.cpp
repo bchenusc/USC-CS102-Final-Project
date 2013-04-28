@@ -9,6 +9,7 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	type="Player";
 	moveSpeed=4;
 	health=3;
+	setTransformOriginPoint(pixmap->width()/2, pixmap->height()/2);
 }
 	
 Player::~Player(){

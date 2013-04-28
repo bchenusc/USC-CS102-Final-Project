@@ -3,9 +3,19 @@
 
 void MainWindow::handleTimer() {
 	//Call the update function of each object
-	for (int i=0; i<gameObjects.size(); i++){
-		gameObjects[i]->Update();
-		gameObjects[i]->OnCollisionEnter(&gameObjects);
+	
+	GameObject* previousCheck;
+	int thingLocation = 0;
+	
+	while(thingsToHandle>=0){
+		previousCheck = gameObjects[thingLocation];
+		gameObjects[thingLocation]->Update();
+		gameObjects[thingLocation]->OnCollisionEnter(&gameObjects);
+		if (previousCheck==gameObjects){
+			thingsToHandle-= previousSize-gameObjects.size();
+			previousSize = gameObjects.size();
+		}
+		thingsToHandle--;
 	}
 	//Keep spawning backgrounds;
 	if (bgSpawnCounter<=0){
@@ -26,7 +36,7 @@ void MainWindow::handleTimer() {
 				int random = rand()%2+1;
 				if (random==1){
 					//Spawn planes on the right side of the screen.
-					enemy = new Enemy(700, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
+					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed*(rand()%2+1)/10);
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
@@ -35,7 +45,7 @@ void MainWindow::handleTimer() {
 				}
 				if (random==2){
 					//Spawn planes on the left side of the screen.
-					enemy = new Enemy(-50, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
+					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0,gameSpeed*(rand()%2+1)/10);
 					enemy->flipImg();
 					enemy->setPlayerRef(mainPlayer);
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -88,7 +98,7 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 		case 0: 
 		{
 			
-			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], mainPlayer->gX()-xPos, mainPlayer->gY()-yPos, speed); 
+			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], mainPlayer->gX()+10-xPos, mainPlayer->gY()+10-yPos, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			scene->addItem(newMissile); 
 			gameObjects.push_back(newMissile);
@@ -230,7 +240,7 @@ MainWindow::MainWindow() {
 		RbgSpawnCounter = 1250;
 		bgSpawnCounter=0;
 		
-		RenemySpawnCounter=10000;
+		RenemySpawnCounter=10000000;
 		enemySpawnCounter=0;
 		
 
@@ -268,6 +278,7 @@ void MainWindow::startClicked(){
 		//---------------------------------------------------
 		//Check if nameBar was edited.
 		if (nameBar->text()<=0){
+		startIsClicked=false;
 			systemChat->append("Please Input an Alphanumeric Name.");
 			return;
 		}
@@ -276,7 +287,23 @@ void MainWindow::startClicked(){
 		systemChat->append("Your goal is to help Mr. Fluffles escape the government.");
 		systemChat->append("W, A, D to move Mr. Fluffles.");
 		systemChat->append("Click to shoot.");
-		
+		//Change the start button to a restart button
+		start->setText("Restart");
+	}else
+	{ 
+		Lose();
+		if (playerIsDead){
+			//Spawns the player
+			Player* player = new Player(100,355,0, pix[1], playerAnim); 
+			mainPlayer = player;
+			QObject::connect(player, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+			QObject::connect(player, SIGNAL(Lose()), this, SLOT(Lose()));
+			scene->addItem(player);
+			gameObjects.push_back(player);
+			playerIsDead=false;
+			startIsClicked=true;
+			enemySpawnCounter=0;
+		}
 	}
 }
 

@@ -11,6 +11,8 @@ Enemy::Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animatio
 	this->speed = speed;
 	shootSpeed=0.3;
 	
+	setTransformOriginPoint(0,0);
+	
 	//Counters
 	animationCounter=0;
 		RanimationCounter=70;
@@ -47,6 +49,11 @@ void Enemy::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 }
 
 void Enemy::Update(){
+
+if (gX()>680 || gX()<-35){
+	Destroy(this);
+}
+
 //Animate the enemy
 	if (anim!=NULL){
 		if (animationCounter<=0){
