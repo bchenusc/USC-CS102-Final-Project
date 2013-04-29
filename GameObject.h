@@ -13,12 +13,11 @@ class GameObject : public QObject, public QGraphicsPixmapItem {
 	Q_OBJECT
 	
 public:
+ 
 	explicit GameObject(int nx, int ny, int nz, QPixmap* pixmap);
 	~GameObject();
 	int gX();
 	int gY();
-	int gVX();
-	int gVY();
 	void setType(string type);
 	string getType();
 	bool isFlipped();
@@ -30,7 +29,9 @@ public:
 	
 	
 signals:
+/**Destroy signal that links to the MainWindow. Calls the Main window's destroy function to destroy any object in the scene.*/
 	void Destroy(GameObject*);
+/**Spawns an object using the MainWindow function Spawn(int, int, int, double).*/
 	void Spawn(int type, int xPos, int yPos, double speed);
 	
 public slots:
@@ -47,7 +48,6 @@ protected :
 		double dirX;
 		double dirY;
 		string type;
-		
 		QPixmap* pixmap;
 		
 		

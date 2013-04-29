@@ -8,7 +8,6 @@
 class Missile : public GameObject {
 	
 public:
-	Missile(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation, int moveToX, int moveToY, double speed);
 	Missile(int nx, int ny, int nz, QPixmap* pixmap, int moveToX, int moveToY, double speed);
 	~Missile();
 
