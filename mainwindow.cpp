@@ -63,7 +63,7 @@ void MainWindow::handleTimer() {
 		
 	//increaseSpeed of spawn, bullets every 15 seconds
 	//also spawn a health boost.
-	if (gameTime%(1000*15)==0 && gameTime>(1000*15) && !playerIsDead){
+	if (gameTime%(1000*10)==0 && gameTime>(1000*10) && !playerIsDead){
 		numberOfBulletsSpawnedByEnemies++;
 		RenemySpawnCounter= RenemySpawnCounter - RenemySpawnCounter/15;
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
@@ -235,7 +235,7 @@ MainWindow::MainWindow() {
     
     //This sets the size of the window and gives it a title.
     view->setFixedSize( WINDOW_MAX_X+2, WINDOW_MAX_Y+2);
-    view->setWindowTitle( "Sheep With A Turret");
+    setWindowTitle( "Sheep With A Turret");
     
     frame->setLayout(mainWin);
     
@@ -386,7 +386,7 @@ MainWindow::MainWindow() {
 		RbgSpawnCounter = 1275;
 		bgSpawnCounter=0;
 		
-		RenemySpawnCounter=5000;
+		RenemySpawnCounter=3000;
 		enemySpawnCounter=0;
 		
 		

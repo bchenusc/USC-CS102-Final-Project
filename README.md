@@ -1,12 +1,12 @@
 # Game - Programming Assignments Private Repository
 ### Student Information
-  + Name: Tommy Trojan
-  + USC Email: ttrojan@usc.edu
-  + USC ID: 0123456789
+  + Name: Brian Chen
+  + USC Email: brianych@usc.edu
+  + USC ID: 8964066866
 
 ### Game Information
-  + Game Name: myAwsomeGame
-  + Game Description: One sentence game description
+  + Game Name: Sheep With A Turret
+  + Game Description: Help Mr. Fluffles shoot down government agents with his giant cannon.
   + [Game Design Doc](GameDesignDoc.md)
 
 
@@ -14,12 +14,16 @@
 The grader should use the following procedure to compile and run the code:
 ```shell
 #Compile Instructions
-echo "Write command here"
+echo qmake -project
 #Doxygen Instructions
-echo "Write command here"
+echo qmake
 #Command to run
-echo "Write command here"
+echo make
+#Command to run
+echo ./game_brianych
 ```
 
 ### Screenshots -- [Optional]
 You can either remove this section or add screenshots if you wish.
+![alt text](/screenshot.jpg "Screenshot")
+
