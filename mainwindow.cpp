@@ -3,6 +3,7 @@
 
 void MainWindow::handleTimer() {
 	
+	//Check collisions (calls everyone's oncollisionenter)
 	emit CollisionChecker(&gameObjects);
 	
 	//Keep spawning backgrounds;
@@ -107,9 +108,10 @@ void MainWindow::handleTimer() {
 					gameObjects.push_back(ham);
 	}
 	
-		//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
+	//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
 	if (gameTime%1000==0 && gameTime>=1000 && !playerIsDead){
 		score++;
+		//Update label
 		scoreNumLabel->setText(QString::number(score));
 	}
 	
@@ -173,11 +175,15 @@ void MainWindow::Lose(){
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
-
+	//0-EnemyMissile
+	//1-Turret
+	//2-PlayerMissile
+	
 	switch(type){
 //0 - Missile
 		case 0: 
 		{
+			//Spawns a new EnemyMissile and places it in to the scene.
 			Missile* newMissile = new Missile(xPos, yPos, 1, pix[16], rand()%500-xPos, 400, speed); 
 			QObject::connect(newMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			newMissile->setType("EnemyMissile");
@@ -187,9 +193,10 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			gameObjects.push_back(newMissile);
 			break;
 		}
-//Turret		
+//1- Turret		
 		case 1:
 		{
+			//Spawns a new Turret and places it in to the scene.
 			Turret* myTurret = new Turret(xPos, yPos, -1, pix[22], mainPlayer);
 			mainTurret = myTurret;
 			mainTurret->setLockX(xPos);
@@ -202,9 +209,10 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			gameObjects.push_back(myTurret);
 			break;
 		}
-//Spawn Player Bullets	
+//2- Spawn Player Bullets	
 		case 2:
 		{
+			//Spawns a new PlayerMissile and places it in to the scene.
 			Missile* playerMissile = new Missile(mainPlayer->gX()+10, mainPlayer->gY()+13, -2, pix[24], xPos-mainPlayer->gX()-1, yPos-mainPlayer->gY()+13, speed);
 			playerMissile->setType("PlayerMissile"); 
 			QObject::connect(playerMissile, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
