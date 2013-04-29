@@ -4,6 +4,7 @@
 void MainWindow::handleTimer() {
 	
 	//Check collisions (calls everyone's oncollisionenter)
+	if (!playerIsDead)
 	emit CollisionChecker(&gameObjects);
 	
 	//Keep spawning backgrounds;
@@ -465,6 +466,7 @@ void MainWindow::mousePressed(int x, int y){
 	if (gameIsPaused) return;
 	if (!playerIsSpawned) return;
 	if (!startIsClicked) return;
+	if (playerIsDead) return;
 	mainTurret->mousePressed(x,y);
 }
 
@@ -472,6 +474,7 @@ void MainWindow::keyPressEvent(QKeyEvent* key){
 	if (gameIsPaused) return;
 	if (!playerIsSpawned) return;
 	if (!startIsClicked) return;
+	if (playerIsDead) return;
 	mainPlayer->keyPressed(key);
 }
 
@@ -491,6 +494,7 @@ void MainWindow::handleMouse(int mx, int my){
 	if (gameIsPaused) return;
 	if (!playerIsSpawned) return;
 	if (!startIsClicked) return;
+	if (playerIsDead)return;
 	mainTurret->mouseFollow(mx,my);
 }
 
@@ -509,7 +513,7 @@ void MainWindow::startClicked(){
 		nameBar->setReadOnly(true);
 		systemChat->append("*Welcome "+nameBar->text()+" to S.W.A.T.");
 		systemChat->append("*Your goal is to help Mr. Fluffles escape the government.");
-		systemChat->append("*W, A, D to move Mr. Fluffles.");
+		systemChat->append("*A, D to move Mr. Fluffles.");
 		systemChat->append("*Click to shoot.");
 		systemChat->append("*+25 points when you kill airplanes (3 hits).");
 		systemChat->append("*+10 points when you kill hamsters (1 hit).");
@@ -549,7 +553,6 @@ void MainWindow::startClicked(){
 MainWindow::~MainWindow()
 {
     mainTimer->stop();
-    //delete playerAnim;
     delete mainTimer;
     delete scene;
     delete view;

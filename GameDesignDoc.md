@@ -5,7 +5,6 @@ Mr. Fluffles has escaped from a secret military facility out in the Hidden Omari
 freedom!
 
 #Controls:
-+ W - Jump
 + A - Move Left
 + D - Move Right
 + Mouse Cursor - Rotate Turret.
