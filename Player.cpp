@@ -61,8 +61,8 @@ void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 				if (health<=0){
 				//Implement dying here later.
 					emit Lose();
+					return;
 				}
-				return;
 			}
 		}
 	}
@@ -74,15 +74,13 @@ int Player::getHealth(){
 int Player::getLives(){
 	return lives;
 }
-int Player::getScore(){
-	return score;
-}
+
 void Player::setLives(int life){
 	lives = life;
 }
 void Player::setHealth(int health){
-	this->health = health;
-}
-void Player::setScore(int score){
-	this->score = score;
+	if (health<=3)
+		this->health = health;
+	else 
+	this->health = 3;
 }

@@ -19,6 +19,9 @@ public:
 	
 	void mousePressed(int x, int y);
 	
+signals:
+	void addScore(int);
+	
 	
 public slots:
 	void Update();

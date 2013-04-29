@@ -9,6 +9,8 @@
 
 
 class Enemy : public GameObject {
+
+	Q_OBJECT
 	
 public:
 	Enemy(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animation, int moveToX, int moveToY, double speed, double shootSpeed);
@@ -22,6 +24,9 @@ public:
 	void setRSpawnBulletCounter(int num);
 
 	void setPlayerRef(Player* player);
+	
+signals:
+	void addScore(int);
 	
 public slots:
 	void Update();

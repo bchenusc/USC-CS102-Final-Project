@@ -15,10 +15,8 @@ public:
 	
 	int getHealth();
 	int getLives();
-	int getScore();
 	void setLives(int life);
 	void setHealth(int health);
-	void setScore(int score); 
 	void spawnTurret();
 	
 	void keyPressed(QKeyEvent* key);
@@ -35,7 +33,6 @@ public slots:
 private:
 		int health;
 		int lives;
-		int score;
 		int moveSpeed;
 
 		//Animation

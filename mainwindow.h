@@ -63,6 +63,7 @@ public slots:
     void changeHealthBar(int change);
     void handleMouse(int mx, int my);
    	void mousePressed(int x, int y);
+   	void AddToScore(int nScore);
     
 private:
 

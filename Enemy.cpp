@@ -60,10 +60,10 @@ void Enemy::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 				setHealth(getHealth()-1);
 				if (health<=0){
 				//Implement dying here later.
+					emit addScore(25);
 					emit Destroy(this);
 					return;
 				}
-				return;
 			}
 		}
 	}

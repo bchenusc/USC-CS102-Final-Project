@@ -28,11 +28,13 @@ void Turret::mousePressed(int mx, int my){
 	if (shootCounter==0){
 		shootCounter=RshootCounter;
 		if ((mx>player->gX() && my >player->gY()) || (mx<player->gX() && my>player->gY())){
+			emit addScore(-5);
 			emit Spawn(2, mx, my, shootSpeed*2);
 			return;
 			}
 		else{
-		emit Spawn(2,mx, my, -shootSpeed*2);
+			emit addScore(-5);
+			emit Spawn(2,mx, my, -shootSpeed*2);
 		return;
 		}
 	}

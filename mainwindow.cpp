@@ -26,7 +26,7 @@ void MainWindow::handleTimer() {
 				int random = rand()%2+1;
 				if (random==1){
 					//Spawn planes on the right side of the screen.
-					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed/6*(rand()%2+1)/10, gameSpeed/10+0.05);
+					enemy = new Enemy(679, rand()%250+2, 0, pix[4], enemyAnim, -1, 0, gameSpeed/3*(rand()%2+1)/10, gameSpeed/10+0.05);
 						//Change Enemy Settings if needed.
 						enemy->flipImg(false);
 						enemy->setPlayerRef(mainPlayer);
@@ -36,13 +36,14 @@ void MainWindow::handleTimer() {
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
 					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), enemy, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+					QObject::connect(enemy, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));	
 						//Add Enemy to the Scene
 					scene->addItem(enemy);
 					gameObjects.push_back(enemy);
 				}else
 				if (random==2){
 					//Spawn planes on the left side of the screen.
-					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0, gameSpeed/6*(rand()%2+1)/10,gameSpeed/10+0.05);
+					enemy = new Enemy(-30, rand()%250+2, 0, pix[4], enemyAnim, 1, 0, gameSpeed/3*(rand()%2+1)/10,gameSpeed/10+0.05);
 						//Change Enemy Settings if need be.
 						enemy->flipImg(true);
 						enemy->setPlayerRef(mainPlayer);
@@ -52,14 +53,13 @@ void MainWindow::handleTimer() {
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
 					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), enemy, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+					QObject::connect(enemy, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));
 						//Add enemy to the scene
 					scene->addItem(enemy); 
 					gameObjects.push_back(enemy);
 				}
 			}
 		}
-		
-
 		
 	//increaseSpeed of spawn, bullets every 10 seconds
 	//also spawn a health boost.
@@ -68,15 +68,21 @@ void MainWindow::handleTimer() {
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
 		
 		//Spawn a health boost every 15 seconds.
-		cout<<"Spawned health"<<endl;
 					Boost_Health* healthboost = new Boost_Health(rand()%449+2, -40, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
 						//Change boost settings if needed.
 						healthboost->setPlayerRef(mainPlayer);
 					QObject::connect(healthboost, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), healthboost, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
 					connect(mainTimer, SIGNAL(timeout()), healthboost, SLOT(Update()));
+					QObject::connect(healthboost, SIGNAL(changeHealth(int)), this, SLOT(changeHealthBar(int)));
 						//Add boost to the Scene
 					scene->addItem(healthboost);
 					gameObjects.push_back(healthboost);
+	}
+	
+		//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
+	if (gameTime%1000==0){
+		score++;
 	}
 	
 	
@@ -90,6 +96,10 @@ void MainWindow::handleTimer() {
 	
 	if (startIsClicked)
 		gameTime++;
+}
+
+void MainWindow::AddToScore(int nScore){
+	score += nScore;
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -149,6 +159,7 @@ void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
 			mainTurret->setLockY(yPos);
 			QObject::connect(myTurret, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 			QObject::connect(myTurret, SIGNAL(Spawn(int, int , int , double)), this, SLOT(Spawn(int, int ,int ,double)));
+			QObject::connect(myTurret, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));
 			connect(mainTimer, SIGNAL(timeout()), myTurret, SLOT(Update()));
 			scene->addItem(myTurret); 
 			gameObjects.push_back(myTurret);
@@ -207,6 +218,7 @@ MainWindow::MainWindow() {
 		QGroupBox* profileGB = new QGroupBox(tr("Profile"));
 		QGroupBox* gameGB = new QGroupBox(tr("Options"));
 		QGroupBox* sysGB = new QGroupBox(tr("System"));
+		//QGroupBox*
 		
 		//Create Layouts for Group Boxes
 		QGridLayout *profileLO = new QGridLayout();
@@ -369,7 +381,6 @@ void MainWindow::spawnNewUI(){
 		healthLabel->setPos(235,430);
 		healthLabel->setZValue(2);
 		scene->addItem(healthLabel);
-
 }
 
 void MainWindow::changeHealthBar(int newHealth){

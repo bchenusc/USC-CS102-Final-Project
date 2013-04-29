@@ -8,19 +8,21 @@
 
 
 class Boost_Health : public GameObject {
+
+	Q_OBJECT
 	
 public:
 	Boost_Health(int nx, int ny, int nz, QPixmap* pixmap, double speed);
 	~Boost_Health();
-
-	void Update();
-	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
+	
 	void setPlayerRef(Player* player);
 	
-	void HandleCollision(string type);
+signals:
+	void changeHealth(int);
 	
 public slots:
-	
+	void Update();
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects);	
 
 private:
 		Player* playerRef;

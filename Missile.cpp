@@ -40,6 +40,10 @@ void Missile::HandleCollision(string type){
 		explosion();
 		return;
 	}
+	else if (this->type == "PlayerMissile" && type == "HealthBoost"){
+		explosion();
+		return;
+	}
 }
 
 void Missile::explosion(){
