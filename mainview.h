@@ -15,7 +15,10 @@ public:
    	void mousePressEvent(QMouseEvent* mouseEvent);
     
 signals:
+/**A signal that is emitted when the mouse is moving inside the main view.
+*/
 	void mouse(int, int);
+/**A signal that is emitted when the mouse is pressed inside the main view.*/
 	void mousePressed(int, int);
 
 };

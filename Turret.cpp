@@ -24,13 +24,13 @@ Turret::Turret(int nx, int ny, int nz, QPixmap* pixmap, Player* player): GameObj
 Turret::~Turret(){
 
 }
-/*Sets an offset for the Turret's position relative to the player's position
+/**Sets an offset for the Turret's position relative to the player's position
 *	@param nx The x offset.
 */
 void Turret::setLockX(int nx){
 	lockX=nx;
 }
-/*Sets an offset for the Turret's position relative to the player's position
+/**Sets an offset for the Turret's position relative to the player's position
 *	@param ny The y offset.
 */
 void Turret::setLockY(int ny){

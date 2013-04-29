@@ -21,7 +21,7 @@ public:
 	void HandleCollision(string type);
 	
 signals:
-	/*A signal that tells the main game to increment the player's score by a certain amount. */
+	/**A signal that tells the main game to increment the player's score by a certain amount. */
 	void addScore(int);
 	
 public slots:

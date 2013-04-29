@@ -21,6 +21,7 @@ public:
 	void mousePressed(int x, int y);
 	
 signals:
+/**Adds a score (int) to the player's score*/
 	void addScore(int);
 	
 	

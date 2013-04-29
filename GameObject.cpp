@@ -178,6 +178,7 @@ void GameObject:: MoveDir(double deltaX, double deltaY, double speed){
 }
 
 //SLOTS
+/** Empty update class. If a subclass does not have an update class, it will inherit it from GameObject and simply do nothing in the update.*/
 void GameObject:: Update(){
 
 }

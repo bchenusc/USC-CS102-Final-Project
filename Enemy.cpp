@@ -103,7 +103,7 @@ void Enemy::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 	}
 }
 
-/*Update function is called every millisecond. Handles the animation of the enemy if there is one and the movement from left to right
+/**Update function is called every millisecond. Handles the animation of the enemy if there is one and the movement from left to right
 * or right to left depending on where the enemy spawns. Also destroys the enemy if the enemy goes offscreen.
 */
 void Enemy::Update(){
@@ -180,7 +180,7 @@ void Enemy::setHealth(int health){
 void Enemy::setNumOfBullets(int num){
 	numberOfBullets=num;
 }
-	/*Sets the rate at which the enemy can fire his bullets.
+	/**Sets the rate at which the enemy can fire his bullets.
 	* @param num Rate of fire in milliseconds.
 	*/
 void Enemy::setRSpawnBulletCounter(int num){
