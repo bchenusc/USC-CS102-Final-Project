@@ -68,7 +68,7 @@ void Missile::Update(){
 	}
 
 	//Tweek this to set a different location where the missile explodes when hitting the ground.
-	if (gY()>=385){
+	if (gY()>=400){
 		emit Destroy(this);
 		return;
 	}
