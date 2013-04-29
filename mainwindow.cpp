@@ -275,6 +275,11 @@ MainWindow::MainWindow() {
     QObject::connect(pause, SIGNAL(clicked()), this, SLOT(toggleTimer()));
     gameLO->addWidget(pause, 2,0,1,1);
     
+    //Create a Quit button
+     QPushButton *quit = new QPushButton("Quit"); 
+    QObject::connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+    gameLO->addWidget(quit, 3,0,1,1);
+    
     //Create a message box.
     systemChat = new QTextEdit();
     sysLO->addWidget(systemChat,0,0,2,1);

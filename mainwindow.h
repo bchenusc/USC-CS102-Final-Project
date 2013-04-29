@@ -18,6 +18,7 @@
 #include <QFrame>
 #include <QGraphicsSimpleTextItem>
 #include <QMouseEvent>
+#include <QtGui/QApplication>
 
 
 #include <time.h>
