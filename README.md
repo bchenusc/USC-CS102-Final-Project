@@ -24,6 +24,5 @@ echo ./game_brianych
 ```
 
 ### Screenshots -- [Optional]
-You can either remove this section or add screenshots if you wish.
-![alt text](/screenshot_01.png "Screenshot")
+![alt text](Concept/screenshot_01.png "Screenshot")
 
