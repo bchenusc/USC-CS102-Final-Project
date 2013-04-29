@@ -20,7 +20,7 @@ echo "qmake"
 #Command to run
 echo "make"
 #Command to run
-echo "./game_brianych"
+echo "./game_brianych
 ```
 
 ### Screenshots -- [Optional]

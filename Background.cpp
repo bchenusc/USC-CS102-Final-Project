@@ -19,5 +19,5 @@ void Background::setSpeed(int i){
 }
 
 void Background::OnCollisionEnter(MyList<GameObject*>* gameObjects){
-
+	
 }
