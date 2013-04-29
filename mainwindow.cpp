@@ -84,6 +84,19 @@ void MainWindow::handleTimer() {
 		mainTurret->setRShootCounter(mainTurret->getRShootCounter()-gameSpeed/10*100);				
 	}
 	
+	//Spawn HAMSTERS
+	if (gameTime%(1000*10)==0 && gameTime>=(1000*10)){
+		//Spawn planes on the right side of the screen.
+					DeadlyHamster *ham = new DeadlyHamster(679, 200, 0, pix[26], gameSpeed/2*(rand()%2+1)/5);
+					QObject::connect(ham, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					connect(mainTimer, SIGNAL(timeout()), ham, SLOT(Update()));
+					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), ham, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+					QObject::connect(ham, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));	
+						//Add Hamster to the Scene
+					scene->addItem(ham);
+					gameObjects.push_back(ham);
+	}
+	
 		//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
 	if (gameTime%1000==0 && gameTime>=1000){
 		score++;

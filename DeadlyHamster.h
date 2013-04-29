@@ -16,7 +16,7 @@ public:
 	DeadlyHamster(int nx, int ny, int nz, QPixmap* pixmap, double speed);
 	~DeadlyHamster();
 	
-	void setPlayerRef(Player* player);
+	void HandleCollision(string type);
 	
 signals:
 	void addScore(int);
@@ -26,7 +26,6 @@ public slots:
 	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 private:
 	  double speed;
-		Player* playerRef;
 		
 };
 

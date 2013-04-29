@@ -53,7 +53,7 @@ void Player::Update(){
 
 void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 	for (int i=0; i<gameObjects->size(); i++){
-		if (gameObjects->at(i)->getType() == "EnemyMissile"){
+		if (gameObjects->at(i)->getType() == "EnemyMissile" || gameObjects->at(i)->getType() == "EnemyHamster"){
 			if (collidesWithItem(gameObjects->at(i))){
 				gameObjects->at(i)->HandleCollision(type);
 				setHealth(getHealth()-1);

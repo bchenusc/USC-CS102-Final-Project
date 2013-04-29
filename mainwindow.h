@@ -33,6 +33,7 @@
 #include "Turret.h"
 #include "mainview.h"
 #include "Boost_Health.h"
+#include "DeadlyHamster.h"
 
 
 #include "iostream"
