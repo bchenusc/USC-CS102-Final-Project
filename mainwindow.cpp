@@ -81,7 +81,7 @@ void MainWindow::handleTimer() {
 					gameObjects.push_back(healthboost);
 					
 	//Boost the players shoot speed
-		mainTurret->setRShootCounter(mainTurret->getRShootCounter()-gameSpeed/10*100);				
+		mainTurret->setRShootCounter(mainTurret->getRShootCounter()-mainTurret->getRShootCounter()*gameSpeed/10);				
 	}
 	
 	//Spawn HAMSTERS

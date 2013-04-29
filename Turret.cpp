@@ -9,7 +9,7 @@ Turret::Turret(int nx, int ny, int nz, QPixmap* pixmap, Player* player): GameObj
 	
 	//Cooldown timers
 	shootCounter =0;
-	RshootCounter = 800;
+	RshootCounter = 100;
 }
 	
 Turret::~Turret(){
@@ -35,7 +35,7 @@ int Turret::getRShootCounter(){
 void Turret::mousePressed(int mx, int my){
 	if (shootCounter==0){
 		shootCounter=RshootCounter;
-		if ((mx>player->gX() && my >player->gY()) || (mx<player->gX() && my>player->gY())){
+		if ((mx>player->gX() && my >=player->gY()-10) || (mx<player->gX() && my>=player->gY()-10)){
 			emit addScore(-5);
 			emit Spawn(2, mx, my, shootSpeed*2);
 			return;
