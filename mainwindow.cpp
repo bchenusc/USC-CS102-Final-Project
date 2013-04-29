@@ -10,10 +10,13 @@ void MainWindow::handleTimer() {
 		bgSpawnCounter=RbgSpawnCounter;
 		Background* background = new Background(1279,0, -10, pix[0]);
 		background->setSpeed(1);
+		//Run connections:
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		connect(mainTimer, SIGNAL(timeout()), background, SLOT(Update()));
 		connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), background, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+		//add item to scene.
 		scene->addItem(background);
+		//add item to gO array.
 		gameObjects.push_back(background);
 	}
 	
@@ -31,7 +34,9 @@ void MainWindow::handleTimer() {
 						enemy->flipImg(false);
 						enemy->setPlayerRef(mainPlayer);
 						enemy->setNumOfBullets(numberOfBulletsSpawnedByEnemies);
+						//enemy->setNumOfBullets(10);
 						enemy->setRSpawnBulletCounter(1000 - gameSpeed*100);
+						//Conncections
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
@@ -39,6 +44,7 @@ void MainWindow::handleTimer() {
 					QObject::connect(enemy, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));	
 						//Add Enemy to the Scene
 					scene->addItem(enemy);
+					//add gameobjects to array.
 					gameObjects.push_back(enemy);
 				}else
 				if (random==2){
@@ -48,7 +54,9 @@ void MainWindow::handleTimer() {
 						enemy->flipImg(true);
 						enemy->setPlayerRef(mainPlayer);
 						enemy->setNumOfBullets(numberOfBulletsSpawnedByEnemies);
+						//enemy->setNumOfBullets(10);
 						enemy->setRSpawnBulletCounter(1000 - gameSpeed*100);
+					//connections
 					QObject::connect(enemy, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					QObject::connect(enemy, SIGNAL(Spawn(int, int, int, double)), this, SLOT(Spawn(int, int, int, double)));
 					connect(mainTimer, SIGNAL(timeout()), enemy, SLOT(Update()));
@@ -56,6 +64,7 @@ void MainWindow::handleTimer() {
 					QObject::connect(enemy, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));
 						//Add enemy to the scene
 					scene->addItem(enemy); 
+					//add enemy to game objects
 					gameObjects.push_back(enemy);
 				}
 			}
@@ -118,26 +127,28 @@ void MainWindow::handleTimer() {
 }
 
 void MainWindow::AddToScore(int nScore){
+	//Adds nscore to score. Then updates the main window's score.
 	score += nScore;
 	scoreNumLabel->setText(QString::number(score));
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
-
+	//Delete a game object by first removing it from the gO array.
 	gameObjects.remove(toDestroy);
-	
+	//Then remove it from the scene
 	scene->removeItem(toDestroy);
-	
+	///Then delete the memory allocation.
 	delete toDestroy;
 }
 
 void MainWindow::Lose(){
+	if (playerIsDead){return;}
 	playerIsDead=true;
 	gameTime=1;
 	
-	int atPosition=0;
-	int objectsLeftToCheck = gameObjects.size();
-	
+	int atPosition=0; //The position in the game object's array when deleting the objects.
+	int objectsLeftToCheck = gameObjects.size(); // How many things we need to iterate through
+	//delete all the objects in the array.
 	while(objectsLeftToCheck>0){
 			if (gameObjects.at(atPosition)->getType()!="Player" && gameObjects.at(atPosition)->getType()!="Background"){
 				Destroy (gameObjects.pop(atPosition));
@@ -159,7 +170,6 @@ void MainWindow::Lose(){
 		losePic = new GameObject(100,20,0, pix[25]);
 		scene->addItem(losePic);
 	}
-	
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
@@ -391,7 +401,7 @@ MainWindow::MainWindow() {
 		RbgSpawnCounter = 1275;
 		bgSpawnCounter=0;
 		
-		RenemySpawnCounter=3000;
+		RenemySpawnCounter=2000;
 		enemySpawnCounter=0;
 		
 		
@@ -489,10 +499,14 @@ void MainWindow::startClicked(){
 		}
 		healthLabel->setText(nameBar->text());
 		nameBar->setReadOnly(true);
-		systemChat->append("Welcome "+nameBar->text()+" to S.W.A.T.");
-		systemChat->append("Your goal is to help Mr. Fluffles escape the government.");
-		systemChat->append("W, A, D to move Mr. Fluffles.");
-		systemChat->append("Click to shoot.");
+		systemChat->append("*Welcome "+nameBar->text()+" to S.W.A.T.");
+		systemChat->append("*Your goal is to help Mr. Fluffles escape the government.");
+		systemChat->append("*W, A, D to move Mr. Fluffles.");
+		systemChat->append("*Click to shoot.");
+		systemChat->append("*+25 points when you kill airplanes (3 hits).");
+		systemChat->append("*+10 points when you kill hamsters (1 hit).");
+		systemChat->append("*-5 points when you shoot.");
+		systemChat->append("*3 Hits to kill Airplanes");
 		//Change the start button to a restart button
 		start->setText("Restart");
 		if (introPic!=NULL){
@@ -513,6 +527,7 @@ void MainWindow::startClicked(){
 			//Spawn player and health
 			spawnNewUI();
 			gameSpeed=1;
+			RenemySpawnCounter=2000;
      	gameTime=1;
     	 numberOfBulletsSpawnedByEnemies=1;
 			playerIsDead=false;

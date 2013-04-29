@@ -21,6 +21,10 @@ echo "qmake"
 echo "make"
 #Command to run
 echo "./game_brianych
+
+###Doxygen Instructions
+echo "doxygen -g config.txt"
+echo "doxygen config.txt"
 ```
 
 ### Screenshots -- [Optional]

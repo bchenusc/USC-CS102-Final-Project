@@ -38,9 +38,3 @@ void Background::setSpeed(int i){
 	speed = i;
 }
 
-/** Collision Detection for the Background. Handles any collision detection if needed for the Background.
-* @param gameObjects A pointer to the MyList of game objects that exist on the screen.
-*/
-void Background::OnCollisionEnter(MyList<GameObject*>* gameObjects){
-	
-}

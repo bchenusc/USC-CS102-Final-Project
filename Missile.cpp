@@ -60,13 +60,10 @@ void Missile::explosion(){
 	emit Destroy(this);
 	return;
 }
-/**Not implemented. Needed because virtual slots must be sent to all classes with the way I implemented them.
-	@param
+/**Update function called every millisecond.
+* If missile outside of screen then destroy itself.
+* Moves the missile towards its target location given by moveToTargetX, moveToTargetY.
 */
-void Missile::OnCollisionEnter(MyList<GameObject*>* gameObjects){
-
-}
-/**
 void Missile::Update(){
 
 //If out of bounds of the screen then destroy the missile.

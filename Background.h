@@ -19,8 +19,6 @@ public:
 public slots:
 	/*Update function called every millisecond to handle movement.*/
 	void Update();
-	/*Collision function called every millisecond to handle collisions.*/
-	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 
 private:
 	int speed;	//speed of the background.

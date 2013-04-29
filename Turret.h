@@ -26,7 +26,6 @@ signals:
 	
 public slots:
 	void Update();
-	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 	
 private:
 	Player* player;

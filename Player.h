@@ -12,10 +12,7 @@ class Player :  public GameObject {
 public:
 	explicit Player(int nx, int ny,int nz, QPixmap* pixmap, MyList<QPixmap*>* animation);
 	~Player();
-	
 	int getHealth();
-	int getLives();
-	void setLives(int life);
 	void setHealth(int health);
 	void spawnTurret();
 	void setMoveSpeed(int speed);

@@ -36,8 +36,9 @@ bool GameObject:: isFlipped(){
 }
 /**Collision detection must be implemented in each subclass. Called every millisecond. No implementation for GameObjects class.*/
 void GameObject::OnCollisionEnter(MyList<GameObject*>* gameObjects){
-
+	objects=gameObjects;
 }
+
 /**Flips the image based on whether the parameter is true or false. Uses a transformation matrix to flip the image.*/
 void GameObject:: flipImg(bool flip){
 	if (flip==true){
@@ -108,7 +109,7 @@ string GameObject::getType(){
 * @param type The tag of the object that collided with this game object.
 */
 void GameObject::HandleCollision(string type){
-
+	this->type = type;
 }
 /**sets the tag of the game object
 * @param nType The new tag for the object.

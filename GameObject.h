@@ -38,6 +38,7 @@ public slots:
 	virtual void Update();
 	virtual void OnCollisionEnter(MyList<GameObject*>* gameObjects);
 protected :
+		MyList<GameObject*>* objects;
 		double x;
 		double y;
 		double vx;

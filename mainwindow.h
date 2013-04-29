@@ -48,7 +48,9 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
     
 public:
-		/**Default Constructor of MainWindow. Creates all the buttons, scene, view, window, and initial graphics that appear on the screen.*/
+		/**Default Constructor of MainWindow. Creates all the buttons, scene, view, window, and initial graphics that appear on the screen.
+		* Storess all the images that wil be used in the game in a MyList.
+		*/
      MainWindow();
     /**Default destructor of MainWindow. Deletes dynamically allocated things*/
     ~MainWindow();
