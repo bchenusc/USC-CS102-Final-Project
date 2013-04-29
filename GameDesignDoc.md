@@ -80,6 +80,16 @@ freedom!
  + Game object that provides a seemless transition for horizontally scrollable backgrounds.
  + Scrolls to the right only at a set speed.
 
+### Buttons / User Interface
++ Start Button: Starts the game.
+ + Changes to a Restart button if the player loses.
++ Pause Button: Pauses the game
++ Quit Button: Quits the game
++ Text Line: A place for users to put their name.
+ + User's names will show up on the screen on the health bar located on the bottom of the game view.
+ + Acceptable names include alpha-numeric characters excluding spaces up to 13 characters long.
+ + Cannot be edited until the user quits the game once the game starts.
++ Text Box: Outputs any system messages from the game.
 
 #Concept Art / ScreenShot
 ![alt text](Concept/pic.jpg "Concept Art")
