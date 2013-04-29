@@ -67,6 +67,13 @@ void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 		}
 	}
 }
+
+void Player::setMoveSpeed(int speed){
+	moveSpeed=  speed;
+}
+int Player::getMoveSpeed(){
+	return moveSpeed;
+}
 	
 int Player::getHealth(){
 	return health;

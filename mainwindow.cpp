@@ -63,10 +63,11 @@ void MainWindow::handleTimer() {
 		
 	//increaseSpeed of spawn, bullets every 15 seconds
 	//also spawn a health boost.
-	if (gameTime%(1000*15)==0 && gameTime>(1000*15)){
+	if (gameTime%(1000*15)==0 && gameTime>(1000*15) && !playerIsDead){
 		numberOfBulletsSpawnedByEnemies++;
-		RenemySpawnCounter-=(1+(gameTime/pow((1000*10),2)/10)*90);
+		RenemySpawnCounter= RenemySpawnCounter - RenemySpawnCounter/15;
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
+		mainPlayer->setMoveSpeed(mainPlayer->getMoveSpeed()+ gameSpeed/3*(rand()%2+1)/10);
 		
 		//Spawn a health boost every 15 seconds.
 					Boost_Health* healthboost = new Boost_Health(rand()%449+2, -40, 0, pix[23], gameSpeed/6*(rand()%2+1)/10);
@@ -85,7 +86,7 @@ void MainWindow::handleTimer() {
 	}
 	
 	//Spawn HAMSTERS
-	if (gameTime%(1000*10)==0 && gameTime>=(1000*10)){
+	if (gameTime%(1000*20)==0 && gameTime>=(1000*20) && !playerIsDead){
 		//Spawn planes on the right side of the screen.
 					DeadlyHamster *ham = new DeadlyHamster(679, 200, 0, pix[26], gameSpeed/2*(rand()%2+1)/5);
 					QObject::connect(ham, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -98,7 +99,7 @@ void MainWindow::handleTimer() {
 	}
 	
 		//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
-	if (gameTime%1000==0 && gameTime>=1000){
+	if (gameTime%1000==0 && gameTime>=1000 && !playerIsDead){
 		score++;
 		scoreNumLabel->setText(QString::number(score));
 	}

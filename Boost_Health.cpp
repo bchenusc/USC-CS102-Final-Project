@@ -23,15 +23,16 @@ void Boost_Health::setPlayerRef(Player *player){
 
 void Boost_Health::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 	for (int i=0; i<gameObjects->size(); i++){
-		if (gameObjects->at(i)->getType() == "PlayerMissile"){
-			if (collidesWithItem(gameObjects->at(i))){
-				gameObjects->at(i)->HandleCollision(type);
-				playerRef->setHealth(playerRef->getHealth()+1);
-				emit changeHealth(playerRef->getHealth());
-				emit Destroy(this);
-				return;
+			if (gameObjects->at(i)->getType() == "PlayerMissile" || gameObjects->at(i)->getType() == "Player"){
+				if (collidesWithItem(gameObjects->at(i))){
+					gameObjects->at(i)->HandleCollision(type);
+					playerRef->setHealth(playerRef->getHealth()+1);
+					emit changeHealth(playerRef->getHealth());
+					emit Destroy(this);
+					return;
 				}
 			}
+			
 		}
 }
 

@@ -18,7 +18,8 @@ public:
 	void setLives(int life);
 	void setHealth(int health);
 	void spawnTurret();
-	
+	void setMoveSpeed(int speed);
+	int getMoveSpeed();
 	void keyPressed(QKeyEvent* key);
 
 signals:
