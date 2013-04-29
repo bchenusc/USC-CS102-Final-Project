@@ -1,28 +1,26 @@
 # Game Design Document : Sheep With A Turret
 
 S.W.A.T (Sheep With a Turret) is a side scrolling shooter game. The government has been secretly experimenting with sheep turrets.
-Mr. Fluffles has escaped from a secret military facility out in the Nevada desert. Your goal is to help Mr. Fluffles escape to
+Mr. Fluffles has escaped from a secret military facility out in the Hidden Omarian Valley. Your goal is to help Mr. Fluffles escape to
 freedom!
 
 #Controls:
-1. W - Jump
-2. A - Move Left
-3. D - Move Right
-4. 1 - Change to weapon 1.
-5. 2 - Change to weapon 2 (if unlocked).
-6. Mouse Cursor - Determines where you shoot missiles.
-7. Mouse Click - Shoot Missiles.
++ W - Jump
++ A - Move Left
++ D - Move Right
++ Mouse Cursor - Rotate Turret.
++ Mouse Click - Shoot Missiles.
 
 #Gameplay:
-1. Shoot enemy aircrafts to gain score.
-2. At certain score milestones, newer turrets are unlocked.
-3. Newer turrets can be accessed by pressing the 1,2,3,4 hotkeys.
-4. A player can still use their old turrets.
-5. Eating people/tanks will also gain score and health.
++ +25 pts. Shoot down airplanes (3 shots to kill).
++ +10 pts. Shoot a hamster (1 shot to kill).
++ -5 pts. per shot.
+
++ +1 Health if shoot or touch a health box.
 
 #Scoring:
-1. Players gain a fixed score when killing an enemy. Fixed score based on what type of enemy.
-2. Score cannot decrease.
++ Players gain a fixed score when killing an enemy. Fixed score based on what type of enemy.
++ Score cannot decrease.
 
 ## Objects:
 ### Player
