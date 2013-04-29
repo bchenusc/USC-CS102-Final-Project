@@ -31,7 +31,6 @@ freedom!
 ## Objects:
 ### Player
 + Mr. Fluffles: Controlled by player.
-  +  W - Jump
   +  A - Left
   +  D - Right
   +  Mouse - Click to fire.
