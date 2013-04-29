@@ -36,11 +36,6 @@
 #include "Boost_Health.h"
 #include "DeadlyHamster.h"
 
-
-#include "iostream"
-using namespace std;
-
-
 #define WINDOW_MAX_X 640
 #define WINDOW_MAX_Y 480
 

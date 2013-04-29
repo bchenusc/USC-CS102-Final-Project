@@ -5,9 +5,6 @@
 #include <string>
 #include "mylist.h"
 
-#include <iostream>
-using namespace std;
-
 class GameObject : public QObject, public QGraphicsPixmapItem {
 
 	Q_OBJECT

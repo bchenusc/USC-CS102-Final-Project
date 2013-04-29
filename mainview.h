@@ -5,10 +5,6 @@
 #include <QGraphicsScene>
 #include <QMouseEvent>
 
-#include "iostream"
-using namespace std;
-
-
 class MainView : public QGraphicsView {
     Q_OBJECT
     
