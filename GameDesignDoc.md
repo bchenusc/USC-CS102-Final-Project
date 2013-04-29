@@ -33,21 +33,21 @@ freedom!
 ## Objects:
 ### Player
 + Mr. Fluffles: Controlled by player.
- +  W - Jump
- +  A - Left
- +  D - Right
- +  Mouse - Click to fire.
+  +  W - Jump
+  +  A - Left
+  +  D - Right
+  +  Mouse - Click to fire.
 + Health Bar
- + Shows the health of Mr. Fluffles.
- + Increases or decreases based on Mr. Fluffle's health.
- + If health = 0 then Mr. Fluffles "dies"
+  + Shows the health of Mr. Fluffles.
+  + Increases or decreases based on Mr. Fluffle's health.
+  + If health = 0 then Mr. Fluffles "dies"
 + Mr. Fluffle's turret
- + Stationary turret on the back of Mr. Fluffles.
- + Weapons will shoot out of the turret's nozzle.
- + Weapon rotates to face mouse cursor.
+  + Stationary turret on the back of Mr. Fluffles.
+  + Weapons will shoot out of the turret's nozzle.
+  + Weapon rotates to face mouse cursor.
 + Mr. Fluffle's missiles
- + A missile that fires from Mr. Fluffle's turret nozzle to the mouse point.
- + When a missile collides with an enemy, the missile will damage the enemy.
+  + A missile that fires from Mr. Fluffle's turret nozzle to the mouse point.
+  + When a missile collides with an enemy, the missile will damage the enemy.
 
 ### Enemies
 + Missiles
