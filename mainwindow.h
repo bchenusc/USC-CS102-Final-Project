@@ -66,7 +66,7 @@ public slots:
    	void AddToScore(int nScore);
     
 private:
-
+		
 		bool playerIsDead;
 		bool startIsClicked;
 		bool playerIsSpawned;
@@ -86,6 +86,7 @@ private:
     GameObject* healthBar;
     QGraphicsSimpleTextItem* healthLabel;
     GameObject* introPic;
+    QLabel *scoreNumLabel;
     
     //Timers
     QTimer *mainTimer;
@@ -113,6 +114,8 @@ private:
     
     int RenemySpawnCounter;
     int enemySpawnCounter;
+    
+    GameObject* losePic;
     
 };
 

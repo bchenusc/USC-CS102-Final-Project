@@ -24,6 +24,14 @@ void Turret::setLockY(int ny){
 	lockY=ny;
 }
 
+void Turret::setRShootCounter(int shoot){
+	RshootCounter = shoot;
+}
+
+int Turret::getRShootCounter(){
+	return RshootCounter;
+}
+
 void Turret::mousePressed(int mx, int my){
 	if (shootCounter==0){
 		shootCounter=RshootCounter;

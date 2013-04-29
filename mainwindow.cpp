@@ -61,10 +61,11 @@ void MainWindow::handleTimer() {
 			}
 		}
 		
-	//increaseSpeed of spawn, bullets every 10 seconds
+	//increaseSpeed of spawn, bullets every 15 seconds
 	//also spawn a health boost.
 	if (gameTime%(1000*15)==0 && gameTime>(1000*15)){
 		numberOfBulletsSpawnedByEnemies++;
+		RenemySpawnCounter-=(1+(gameTime/pow((1000*10),2)/10)*90);
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
 		
 		//Spawn a health boost every 15 seconds.
@@ -78,11 +79,15 @@ void MainWindow::handleTimer() {
 						//Add boost to the Scene
 					scene->addItem(healthboost);
 					gameObjects.push_back(healthboost);
+					
+	//Boost the players shoot speed
+		mainTurret->setRShootCounter(mainTurret->getRShootCounter()-gameSpeed/10*100);				
 	}
 	
 		//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
-	if (gameTime%1000==0){
+	if (gameTime%1000==0 && gameTime>=1000){
 		score++;
+		scoreNumLabel->setText(QString::number(score));
 	}
 	
 	
@@ -100,6 +105,7 @@ void MainWindow::handleTimer() {
 
 void MainWindow::AddToScore(int nScore){
 	score += nScore;
+	scoreNumLabel->setText(QString::number(score));
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
@@ -133,6 +139,13 @@ void MainWindow::Lose(){
 		playerIsSpawned=false;
 		delete healthLabel;
 	}
+	
+	//Show the lose picture
+	if (losePic == NULL){
+		losePic = new GameObject(100,20,0, pix[25]);
+		scene->addItem(losePic);
+	}
+	
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
@@ -218,22 +231,25 @@ MainWindow::MainWindow() {
 		QGroupBox* profileGB = new QGroupBox(tr("Profile"));
 		QGroupBox* gameGB = new QGroupBox(tr("Options"));
 		QGroupBox* sysGB = new QGroupBox(tr("System"));
-		//QGroupBox*
+		QGroupBox* scoreGB = new QGroupBox(tr("Game Center"));
 		
 		//Create Layouts for Group Boxes
 		QGridLayout *profileLO = new QGridLayout();
 		QGridLayout *gameLO = new QGridLayout();
 		QGridLayout *sysLO = new QGridLayout();
+		QGridLayout *scoreLO = new QGridLayout();
 
 			//Set the Layouts
 			profileGB->setLayout(profileLO);
 			gameGB->setLayout(gameLO);
 			sysGB->setLayout(sysLO);
+			scoreGB->setLayout(scoreLO);
 			
 			//Add the Layouts
 			mainWin->addWidget(profileGB,1,1,1,2);
 			mainWin->addWidget(gameGB, 2,1,1,2);
 			mainWin->addWidget(sysGB, 3,1,1,2);
+			mainWin->addWidget(scoreGB,4,1,1,2);
 
     //Create a Start button.
     start = new QPushButton("Start"); 
@@ -261,9 +277,16 @@ MainWindow::MainWindow() {
     profileLO->addWidget(nameBar,0,1,1,1);
     nameBar->clear();
     
+    //Create Score Label
+    QLabel *scoreLabel = new QLabel("Score: ");
+    scoreLO->addWidget(scoreLabel,0,0,1,1);
+    scoreNumLabel = new QLabel("0");
+    scoreLO->addWidget(scoreNumLabel,0,1,1,1);
+    
 //Game settings
 		gameSpeed = 1;
 		gameTime = 0;
+		score=0;
 		startIsClicked = false;
 		playerIsDead = false;
 		numberOfBulletsSpawnedByEnemies = 1;
@@ -312,6 +335,10 @@ MainWindow::MainWindow() {
 			pix.push_back(new QPixmap("sprites/healthboost.png"));
 			//24 : player bullet
 			pix.push_back(new QPixmap("sprites/playerbullet.png"));
+			//25: losepic
+			pix.push_back(new QPixmap("sprites/losePic.png"));
+			//25: Deadly hamster
+			pix.push_back(new QPixmap("sprites/hamster.png"));
     
 //CREATE SCROLLY BACKGROUND
 
@@ -332,10 +359,13 @@ MainWindow::MainWindow() {
 		scene->addItem(background2);
 		gameObjects.push_back(background2);
 		
+//INTRO PIC HERE ------------------- !	
 		introPic = new GameObject(100,20, 0, pix[21]);
 		QObject::connect(introPic, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 		scene->addItem(introPic);
 		gameObjects.push_back(introPic);
+			//Make losepic = NULL
+			losePic = NULL;
 
 		spawnNewUI();
 		
@@ -344,6 +374,7 @@ MainWindow::MainWindow() {
 		
 		RenemySpawnCounter=5000;
 		enemySpawnCounter=0;
+		
 		
 //------------------------------------------------------------------------------------------
 
@@ -452,6 +483,13 @@ void MainWindow::startClicked(){
 	{ 
 		//Restart
 		Lose();
+			//Removes the loser pic
+			scene->removeItem(losePic);
+			if (losePic!=NULL){
+				delete losePic;
+				losePic = NULL;
+			}
+		score=0;
 		if (playerIsDead){
 			//Spawn player and health
 			spawnNewUI();

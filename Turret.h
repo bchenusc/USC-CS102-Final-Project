@@ -16,7 +16,8 @@ public:
 	void setLockX(int nx);
 	void setLockY(int ny);
 	void mouseFollow(int mx, int my);
-	
+	void setRShootCounter(int shoot);
+	int getRShootCounter();
 	void mousePressed(int x, int y);
 	
 signals:
