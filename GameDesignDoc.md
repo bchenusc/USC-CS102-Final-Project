@@ -16,7 +16,6 @@ freedom!
 + +1 Health if Player shoot or touch a health box.
 + -1 Health if Player hit hamster.
 + -1 Health if Player hit bullet.
-
 + Move left and right on the screen to dodge bullets.
 + Use your mouse cursor to aim your turret.
 + Click mouse to fire turret.
