@@ -69,6 +69,16 @@ freedom!
  + If hit sheep, sheep will lose one health bar.
  + If hit sheep, Deadly Hamster will disappear.
  + If Mr. Fluffle's missile hits Deadly Hamster, missile is destroyed.
+ 
+### Other Items
++ Health Box
+ + Falls downwards.
+ + Oscillates horizontally left and right but does not go off screen horizontally.
+ + Disappears if touches ground.
+ + +1 health point to player if player shoots or touches the box.
++ Scrolling Background
+ + Game object that provides a seemless transition for horizontally scrollable backgrounds.
+ + Scrolls to the right only at a set speed.
 
 
 #Concept Art / ScreenShot
