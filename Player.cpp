@@ -19,6 +19,8 @@ Player::Player(int nx, int ny, int nz, QPixmap* pixmap, MyList<QPixmap*>* animat
 	moveSpeed=4;
 	health=3;
 	setTransformOriginPoint(pixmap->width()/2, pixmap->height()/2);
+	moving=0;
+	playerDead=false;
 }
 	/** Default destructor*/
 Player::~Player(){
@@ -36,16 +38,32 @@ void Player::spawnTurret(){
 void Player::keyPressed(QKeyEvent* key){
 	if (key->key() == Qt::Key_A){
 		if (gX()>5)
-				MoveDir(-20,  0,  moveSpeed);
+			moving=1;
 	}else
 	if (key->key() == Qt::Key_D){
 		if (gX()<600)
-			MoveDir( 20,  0,  moveSpeed);
+			moving=2;
 	}
+}
+
+void Player::keyReleased(QKeyEvent* key){
+	moving=0;
 }
 
 /**Update is called every millisecond. Handles the player animation*/
 void Player::Update(){
+
+	if (moving==1){
+		if (gX()>5)
+		MoveDir(-1,  0,  moveSpeed/10.0);
+	}else
+	if (moving==2){
+		if (gX()<600)
+		MoveDir(1,  0,  moveSpeed/10.0);
+	}
+
+
+
 //Animate the player
 	if (animationCounter<=0){
 		animationCounter=RanimationCounter;
@@ -69,15 +87,20 @@ void Player::Update(){
 * @param gameObjects A MyList of all the game objects in the scene.
 */
 void Player::OnCollisionEnter(MyList<GameObject*>* gameObjects){
+	if (playerDead){return;}
 	for (int i=0; i<gameObjects->size(); i++){
+		if (playerDead){return;}
 		if (gameObjects->at(i)->getType() == "EnemyMissile" || gameObjects->at(i)->getType() == "EnemyHamster"){
+			if (playerDead){return;}
 			if (collidesWithItem(gameObjects->at(i))){
 				gameObjects->at(i)->HandleCollision(type);
 				setHealth(getHealth()-1);
 				emit changeHealth(getHealth());
 				if (health<=0){
+					if (playerDead){return;}
 				//Implement dying here later.
 					emit Lose();
+					playerDead=true;
 					return;
 				}
 			}

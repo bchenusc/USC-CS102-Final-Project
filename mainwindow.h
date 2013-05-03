@@ -51,6 +51,7 @@ public:
     ~MainWindow();
     /**Handles any key that is pressed in the main window and tells  the Player object to act on the input*/
     void keyPressEvent(QKeyEvent* key);
+    void keyReleaseEvent(QKeyEvent* key);
     
 signals:
 	/**Signal that calls all the game object's OnCollisionEnter function ever millisecond

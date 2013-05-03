@@ -18,6 +18,7 @@ public:
 	void setMoveSpeed(int speed);
 	int getMoveSpeed();
 	void keyPressed(QKeyEvent* key);
+	void keyReleased(QKeyEvent* key);
 
 signals:
 	void Lose();
@@ -25,14 +26,15 @@ signals:
 	
 public slots:
 	void Update();
-	void OnCollisionEnter(MyList<GameObject*>* gameObjects);
+	void OnCollisionEnter(MyList<GameObject*>* gameObjects); 
 	
 
 private:
 		int health;
 		int lives;
 		int moveSpeed;
-
+		int moving;
+		bool playerDead;
 		//Animation
 		int animationSpeed;
 		int animationFrame;

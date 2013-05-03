@@ -478,6 +478,13 @@ void MainWindow::keyPressEvent(QKeyEvent* key){
 	mainPlayer->keyPressed(key);
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent* key){
+	if (gameIsPaused) return;
+	if (!playerIsSpawned) return;
+	if (!startIsClicked) return;
+	if (playerIsDead) return;
+	mainPlayer->keyReleased(key);
+}
 //-------------------SLOTS-------------------------------------------
 void MainWindow::toggleTimer(){
 	if (mainTimer->isActive()){
