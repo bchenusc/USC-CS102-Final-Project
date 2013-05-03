@@ -4,7 +4,7 @@
 void MainWindow::handleTimer() {
 	
 	//Check collisions (calls everyone's oncollisionenter)
-	if (!playerIsDead)
+	if (gameTime%10==0 && gameTime>=10&&!playerIsDead)
 	emit CollisionChecker(&gameObjects);
 	
 	//Keep spawning backgrounds;
@@ -23,7 +23,7 @@ void MainWindow::handleTimer() {
 	}
 	
 	//Spawn enemies
-	if (startIsClicked && !playerIsDead){
+	if (startIsClicked && !playerIsDead && mainPlayer!=NULL){
 			if (enemySpawnCounter<=0){
 				enemySpawnCounter = RenemySpawnCounter;
 				Enemy* enemy;
@@ -78,6 +78,7 @@ void MainWindow::handleTimer() {
 		numberOfBulletsSpawnedByEnemies++;
 		RenemySpawnCounter= RenemySpawnCounter - RenemySpawnCounter/15;
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
+		if (mainPlayer!=NULL)
 		mainPlayer->setMoveSpeed(mainPlayer->getMoveSpeed()+ gameSpeed/3*(rand()%2+1)/10);
 		
 		//Spawn a health boost every 15 seconds.
@@ -93,6 +94,7 @@ void MainWindow::handleTimer() {
 					gameObjects.push_back(healthboost);
 					
 	//Boost the players shoot speed
+		if(mainTurret!=NULL)
 		mainTurret->setRShootCounter(mainTurret->getRShootCounter()-mainTurret->getRShootCounter()*gameSpeed/10);				
 	}
 	
@@ -136,11 +138,13 @@ void MainWindow::AddToScore(int nScore){
 }
 
 void MainWindow:: Destroy(GameObject* toDestroy){
+	if (toDestroy==NULL) return;
 	//Delete a game object by first removing it from the gO array.
 	gameObjects.remove(toDestroy);
 	//Then remove it from the scene
 	scene->removeItem(toDestroy);
 	///Then delete the memory allocation.
+	if (toDestroy==NULL) return;
 	delete toDestroy;
 }
 
@@ -162,8 +166,13 @@ void MainWindow::Lose(){
 				atPosition++;
 			}
 	}
-	if (playerIsSpawned){
-		Destroy(mainPlayer);
+	cout<<"EVERYTHING DELETED PROPERLY"<<endl;
+	if (playerIsSpawned && mainPlayer!=NULL){
+		if (gameObjects.remove(mainPlayer)){
+			scene->removeItem(mainPlayer);
+			delete mainPlayer;
+		}
+		mainPlayer=NULL;
 		playerIsSpawned=false;
 		delete healthLabel;
 	}
