@@ -23,6 +23,9 @@
 
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 
 #include "GameObject.h"
@@ -137,6 +140,10 @@ private:
     Player* mainPlayer;
     Turret* mainTurret;
     int score;
+    vector<int> highScores;
+    vector<string> names;
+    void readHighScores();
+    void saveHighScore(int score, string name);
     
     //Animations
     MyList<QPixmap*>* playerAnim;

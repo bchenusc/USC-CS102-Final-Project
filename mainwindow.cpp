@@ -182,6 +182,78 @@ void MainWindow::Lose(){
 		losePic = new GameObject(100,20,0, pix[25]);
 		scene->addItem(losePic);
 	}
+	
+	//save high score:
+	int saveScore = score;
+	string saveName = nameBar->text().toStdString();
+	
+	saveHighScore(saveScore, saveName);
+	
+}
+
+void MainWindow::saveHighScore(int score, string name){
+	//First push number to the correct high score spot.
+	int insertedSpotInHighScores=0;
+	if (highScores.size()==0){
+		insertedSpotInHighScores=0;
+		highScores.insert(highScores.begin(), score);
+		names.insert(names.begin(), name);
+	}else{
+	for (unsigned int i=0; i<highScores.size();i++){
+		if (highScores[i]> score){
+			insertedSpotInHighScores=i;
+			highScores.insert(highScores.begin()+i, score);
+			break;
+		}
+	}
+	names.insert(names.begin()+insertedSpotInHighScores, name);
+	}
+
+
+	std::ofstream out;								//Create file to write to.
+	out.open("highscores.txt");
+	
+	if (out.fail()){							//if the open fails then.
+		cout<<"Could not write to file! Failed."<<endl;			//say that it failed
+		return;							//return false.
+	}
+	
+	for (unsigned int i=0; i<highScores.size(); i++){
+		out<<names[i]<<" ";
+		out<<highScores[i];
+		out<<endl;
+	}
+	
+	out.close();
+	return;
+}
+
+void MainWindow::readHighScores(){
+
+	//Empty the current saved integers in the high scores list.
+	highScores.clear();
+
+	ifstream myfile("highscores.txt");
+   if(myfile.fail()){
+     cerr << "Could not open file." << endl;
+     return;
+   }
+   
+   int readScore;
+   string readName;
+   QString qstr;
+  
+   
+   while(!myfile.eof()){
+   cin>>readName;
+   cin>>readScore;
+   	highScores.push_back(readScore);
+   	qstr = QString::fromStdString(readName);
+   	systemChat->append(qstr);
+   }
+   
+   
+   
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
@@ -272,7 +344,7 @@ MainWindow::MainWindow() {
 		//Create Group Boxes:	
 		QGroupBox* profileGB = new QGroupBox(tr("Profile"));
 		QGroupBox* gameGB = new QGroupBox(tr("Options"));
-		QGroupBox* sysGB = new QGroupBox(tr("System"));
+		QGroupBox* sysGB = new QGroupBox(tr("High Scores"));
 		QGroupBox* scoreGB = new QGroupBox(tr("Game Center"));
 		
 		//Create Layouts for Group Boxes
@@ -527,14 +599,14 @@ void MainWindow::startClicked(){
 		}
 		healthLabel->setText(nameBar->text());
 		nameBar->setReadOnly(true);
-		systemChat->append("*Welcome "+nameBar->text()+" to S.W.A.T.");
+		/*systemChat->append("*Welcome "+nameBar->text()+" to S.W.A.T.");
 		systemChat->append("*Your goal is to help Mr. Fluffles escape the government.");
 		systemChat->append("*A, D to move Mr. Fluffles.");
 		systemChat->append("*Click to shoot.");
 		systemChat->append("*+25 points when you kill airplanes (3 hits).");
 		systemChat->append("*+10 points when you kill hamsters (1 hit).");
 		systemChat->append("*-5 points when you shoot.");
-		systemChat->append("*3 Hits to kill Airplanes");
+		systemChat->append("*3 Hits to kill Airplanes");*/
 		//Change the start button to a restart button
 		start->setText("Restart");
 		if (introPic!=NULL){
