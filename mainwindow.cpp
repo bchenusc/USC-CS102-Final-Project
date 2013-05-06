@@ -166,7 +166,6 @@ void MainWindow::Lose(){
 				atPosition++;
 			}
 	}
-	cout<<"EVERYTHING DELETED PROPERLY"<<endl;
 	if (playerIsSpawned && mainPlayer!=NULL){
 		if (gameObjects.remove(mainPlayer)){
 			scene->removeItem(mainPlayer);
@@ -188,7 +187,7 @@ void MainWindow::Lose(){
 	string saveName = nameBar->text().toStdString();
 	
 	saveHighScore(saveScore, saveName);
-	
+	readHighScores();
 }
 
 void MainWindow::saveHighScore(int score, string name){
@@ -203,10 +202,15 @@ void MainWindow::saveHighScore(int score, string name){
 		if (highScores[i]> score){
 			insertedSpotInHighScores=i;
 			highScores.insert(highScores.begin()+i, score);
+			names.insert(names.begin()+insertedSpotInHighScores, name);
 			break;
 		}
-	}
-	names.insert(names.begin()+insertedSpotInHighScores, name);
+		if (i==highScores.size()-1){
+			highScores.push_back(score);
+			names.push_back(name);
+			break;
+		}
+	}	
 	}
 
 
@@ -218,10 +222,19 @@ void MainWindow::saveHighScore(int score, string name){
 		return;							//return false.
 	}
 	
-	for (unsigned int i=0; i<highScores.size(); i++){
-		out<<names[i]<<" ";
-		out<<highScores[i];
-		out<<endl;
+	if (highScores.size()>10){
+			for (unsigned int i=highScores.size(); i>highScores.size()-10; i--){
+			out<<names[i]<<" ";
+			out<<highScores[i];
+			out<<endl;
+	}
+	}
+	else{
+		for (unsigned int i=highScores.size(); i>=0; i--){
+			out<<names[i]<<" ";
+			out<<highScores[i];
+			out<<endl;
+		}
 	}
 	
 	out.close();
@@ -230,12 +243,13 @@ void MainWindow::saveHighScore(int score, string name){
 
 void MainWindow::readHighScores(){
 
+	systemChat->clear();
+
 	//Empty the current saved integers in the high scores list.
 	highScores.clear();
-
 	ifstream myfile("highscores.txt");
    if(myfile.fail()){
-     cerr << "Could not open file." << endl;
+     std::cout << "Could not open file." << std::endl;
      return;
    }
    
@@ -243,17 +257,21 @@ void MainWindow::readHighScores(){
    string readName;
    QString qstr;
   
-   
+   myfile>>readName;
+   myfile>>readScore;
    while(!myfile.eof()){
-   cin>>readName;
-   cin>>readScore;
    	highScores.push_back(readScore);
    	qstr = QString::fromStdString(readName);
+   	names.push_back(readName);
    	systemChat->append(qstr);
+   	qstr = QString::number(readScore);
+   	systemChat->append(qstr);
+   	myfile>>readName;
+   	myfile>>readScore;
    }
    
-   
-   
+   myfile.close();
+   return;
 }
 
 void MainWindow::Spawn(int type, int xPos, int yPos, double speed){
@@ -503,6 +521,10 @@ MainWindow::MainWindow() {
 		srand(time(NULL));
 		mainTimer->start();
 		gameIsPaused=false;
+		
+	// READING HIGH SCORES:
+	std::cout<<"Reading"<<std::endl;
+	readHighScores();
 }
 
 void MainWindow::spawnNewUI(){
