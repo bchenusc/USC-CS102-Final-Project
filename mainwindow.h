@@ -135,6 +135,7 @@ private:
     //Pics and Objects
     MyList<QPixmap*> pix;
     MyList<GameObject*> gameObjects;
+    MyList<QPixmap*> backgrounds;
     
     //Player && Turret
     Player* mainPlayer;

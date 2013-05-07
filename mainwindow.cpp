@@ -11,6 +11,7 @@ void MainWindow::handleTimer() {
 	if (bgSpawnCounter<=0){
 		bgSpawnCounter=RbgSpawnCounter;
 		Background* background = new Background(1279,0, -10, pix[0]);
+		background->setPixmap(backgrounds[(numberOfBulletsSpawnedByEnemies-1)%(backgrounds.size()-1)]);
 		background->setSpeed(1);
 		//Run connections:
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -198,21 +199,21 @@ void MainWindow::saveHighScore(int score, string name){
 		highScores.insert(highScores.begin(), score);
 		names.insert(names.begin(), name);
 	}else{
-	for (unsigned int i=0; i<highScores.size();i++){
-		if (highScores[i]> score){
-			insertedSpotInHighScores=i;
-			highScores.insert(highScores.begin()+i, score);
-			names.insert(names.begin()+insertedSpotInHighScores, name);
-			break;
-		}
-		if (i==highScores.size()-1){
-			highScores.push_back(score);
-			names.push_back(name);
-			break;
-		}
-	}	
+		for (unsigned int i=0; i<highScores.size();i++){
+			if (highScores[i]< score){
+				insertedSpotInHighScores=i;
+				highScores.insert(highScores.begin()+i, score);
+				names.insert(names.begin()+insertedSpotInHighScores, name);
+				break;
+			}
+			if (i==highScores.size()-1){
+				highScores.push_back(score);
+				names.push_back(name);
+				break;
+			}
+		}	
 	}
-
+	
 
 	std::ofstream out;								//Create file to write to.
 	out.open("highscores.txt");
@@ -222,15 +223,23 @@ void MainWindow::saveHighScore(int score, string name){
 		return;							//return false.
 	}
 	
-	if (highScores.size()>10){
-			for (unsigned int i=highScores.size(); i>highScores.size()-10; i--){
+	if (highScores.size()==1){
+		out<<names[0]<<" ";
+		out<<highScores[0];
+		out<<endl;
+		out.close();
+		return;
+	}
+	
+	if (highScores.size()<4){
+		for (unsigned int i=0; i<highScores.size(); i++){
 			out<<names[i]<<" ";
 			out<<highScores[i];
 			out<<endl;
-	}
+		}
 	}
 	else{
-		for (unsigned int i=highScores.size(); i>=0; i--){
+		for (unsigned int i=0; i<4; i++){
 			out<<names[i]<<" ";
 			out<<highScores[i];
 			out<<endl;
@@ -247,7 +256,9 @@ void MainWindow::readHighScores(){
 
 	//Empty the current saved integers in the high scores list.
 	highScores.clear();
-	ifstream myfile("highscores.txt");
+	names.clear();
+	ifstream myfile;
+	myfile.open("highscores.txt");
    if(myfile.fail()){
      std::cout << "Could not open file." << std::endl;
      return;
@@ -259,6 +270,7 @@ void MainWindow::readHighScores(){
   
    myfile>>readName;
    myfile>>readScore;
+   
    while(!myfile.eof()){
    	highScores.push_back(readScore);
    	qstr = QString::fromStdString(readName);
@@ -431,6 +443,17 @@ MainWindow::MainWindow() {
 //Load All Images
 		//0 : Background img.
 		QPixmap *bgImg = new QPixmap ("sprites/background_1.png");
+		QPixmap *bgImg2 = new QPixmap ("sprites/background_2.png");
+		QPixmap *bgImg3 = new QPixmap ("sprites/background_3.png");
+		QPixmap *bgImg4 = new QPixmap ("sprites/background_4.png");
+		QPixmap *bgImg5 = new QPixmap ("sprites/background_5.png");
+		
+		//BACKGROUND IMAGES IN A DIFFERENT ARRAY
+		backgrounds.push_back(bgImg);
+		backgrounds.push_back(bgImg2);
+		backgrounds.push_back(bgImg3);
+		backgrounds.push_back(bgImg4);
+		backgrounds.push_back(bgImg5);
 		pix.push_back(bgImg);
 		//1-5 : Player Run Animation.
 		playerAnim = new MyList<QPixmap*>();
