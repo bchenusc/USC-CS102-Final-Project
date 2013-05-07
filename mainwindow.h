@@ -39,6 +39,7 @@
 #include "Boost_Health.h"
 #include "DeadlyHamster.h"
 #include "ExtraPoints.h"
+#include "FollowingMissile.h"
 
 #define WINDOW_MAX_X 640
 #define WINDOW_MAX_Y 480

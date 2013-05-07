@@ -13,7 +13,6 @@ ExtraPoints::ExtraPoints(int nx, int ny, int nz, QPixmap* pixmap, double speed):
 	initialX = nx;
 	initialY = ny;
 	type = "PointBoost";
-	isMovingLeft = true;
 	setTransformOriginPoint(0,0);
 	this->speed = speed;
 }
@@ -35,8 +34,6 @@ void ExtraPoints::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 				if (collidesWithItem(gameObjects->at(i))){
 					//Make the other thing that collides with you handle its own collision. ex. Missiles will just destroy themselves.
 					gameObjects->at(i)->HandleCollision(type);
-					//Add one to the player.
-					playerRef->setHealth(playerRef->getHealth()+1);
 					//change the health bar GUI.
 					emit addScore(100);
 					//Destroy the health box.
@@ -48,7 +45,7 @@ void ExtraPoints::OnCollisionEnter(MyList<GameObject*>* gameObjects){
 		}
 }
 
-/** Called every millisecond. Handles oscillation movement and destroys health box if it hits the ground.*/
+/** Called every millisecond. ExtraPoints follows player.*/
 void ExtraPoints::Update(){
 // If th box ever goes into some weird boundaries.
 	if (gX()>680 || gX()<-100){
@@ -57,7 +54,7 @@ void ExtraPoints::Update(){
 	}
 //------------------------
 // Goes towards the player.
-	MovDir(playerRef->gX() - gX() , playerRef->gY() - gY(), 1);
+	MoveDir(playerRef->gX() - gX() , playerRef->gY() - gY(), speed);
 
 	//If hit the ground then destroy.
 	if (gY()>=400)

@@ -51,6 +51,11 @@ freedom!
  + Enemy aircrafts shoot missiles that fire on a random location on the ground.
  + Missiles will damage Mr. Fluffles and make him lose one bar of health.
  
++ Follow Missiles
+ + Missiles that drop from a random location at the top of the screen towards the player's initial position when the missile is created.
+ + Does 1 damage to the player if the player is hit by the missile.
+ + Can only be dodged by the player.
+ 
 + Enemy Aircraft
  + Has 3 Health Points.
  + Shoots missiles at random locations on the ground.
@@ -77,6 +82,9 @@ freedom!
 + Scrolling Background
  + Game object that provides a seemless transition for horizontally scrollable backgrounds.
  + Scrolls to the right only at a set speed.
++ Coin
+ + Gives +100 extra points when collides with the player or player's bullets.
+ + Follows the player.
 
 ### Buttons / User Interface
 + Start Button: Starts the game.

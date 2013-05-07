@@ -12,10 +12,10 @@ class ExtraPoints : public GameObject {
 	Q_OBJECT
 	
 public:
-	/*Boost_Health constructor. Creates a Health Box that drops down on the screen.*/
-	Boost_Health(int nx, int ny, int nz, QPixmap* pixmap, double speed);
-	/*Boost_Health destructor*/
-	~Boost_Health();
+	/*ExtraPointsconstructor. Creates a ExtraPoints that drops down on the screen.*/
+	ExtraPoints(int nx, int ny, int nz, QPixmap* pixmap, double speed);
+	/*ExtraPointsdestructor*/
+	~ExtraPoints();
 	/*Sets a reference to the player. Boost_Health needs this reference to edit the player's health.*/
 	void setPlayerRef(Player* player);
 	

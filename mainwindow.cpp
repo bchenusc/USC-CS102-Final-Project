@@ -102,7 +102,7 @@ void MainWindow::handleTimer() {
 	
 	//Spawn HAMSTERS
 	if (gameTime%(1000*20)==0 && gameTime>=(1000*20) && !playerIsDead){
-		//Spawn planes on the right side of the screen.
+		//Spawn Hamster on the right side of the screen.
 					DeadlyHamster *ham = new DeadlyHamster(679, 200, 0, pix[26], gameSpeed/2*(rand()%2+1)/5);
 					QObject::connect(ham, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
 					connect(mainTimer, SIGNAL(timeout()), ham, SLOT(Update()));
@@ -111,6 +111,27 @@ void MainWindow::handleTimer() {
 						//Add Hamster to the Scene
 					scene->addItem(ham);
 					gameObjects.push_back(ham);
+					
+					
+					
+		//Spawn Point Booster on the top of the screen.
+					ExtraPoints *ep = new ExtraPoints(rand()%449+2, -40, 0, pix[27], gameSpeed/6*(rand()%2+1)/10);
+					ep->setPlayerRef(mainPlayer);
+					QObject::connect(ep, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					connect(mainTimer, SIGNAL(timeout()), ep, SLOT(Update()));
+					connect(this, SIGNAL(CollisionChecker(MyList<GameObject*>*)), ep, SLOT(OnCollisionEnter(MyList<GameObject*>*)));
+					QObject::connect(ep, SIGNAL(addScore(int)), this, SLOT(AddToScore(int)));	
+						//Add ep to the Scene
+					scene->addItem(ep);
+					gameObjects.push_back(ep);
+					
+		//Spawn FollowMissile  on the top of the screen.
+					FollowMissile *fm = new FollowMissile(rand()%449+2, -40, 0, pix[28], mainPlayer, gameSpeed/6*(rand()%2+1)/10);
+					QObject::connect(fm, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
+					connect(mainTimer, SIGNAL(timeout()), fm, SLOT(Update()));
+						//Add fm to the Scene
+					scene->addItem(fm);
+					gameObjects.push_back(fm);				
 	}
 	
 	//EVERY SECOND YOUR SCORE INCREASES BY 1 POINT.
@@ -504,8 +525,12 @@ MainWindow::MainWindow() {
 			pix.push_back(new QPixmap("sprites/playerbullet.png"));
 			//25: losepic
 			pix.push_back(new QPixmap("sprites/losePic.png"));
-			//25: Deadly hamster
+			//26: Deadly hamster
 			pix.push_back(new QPixmap("sprites/hamster.png"));
+			//27: coin image for point booster
+			pix.push_back(new QPixmap("sprites/coin.png"));
+			//28: follow missile img
+			pix.push_back(new QPixmap("sprites/followmissile.png"));
     
 //CREATE SCROLLY BACKGROUND
 
@@ -668,6 +693,8 @@ void MainWindow::startClicked(){
 	{ 
 		//Restart
 		Lose();
+		scoreNumLabel->setText("0");
+		levelNumLabel->setText("1");
 			//Removes the loser pic
 			scene->removeItem(losePic);
 			if (losePic!=NULL){
