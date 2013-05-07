@@ -54,7 +54,7 @@ void ExtraPoints::Update(){
 	}
 //------------------------
 // Goes towards the player.
-	MoveDir(playerRef->gX() - gX() , playerRef->gY() - gY(), speed);
+	MoveDir(playerRef->gX() - gX()+10, playerRef->gY() - gY()+20, speed);
 
 	//If hit the ground then destroy.
 	if (gY()>=400)

@@ -578,7 +578,6 @@ MainWindow::MainWindow() {
 		gameIsPaused=false;
 		
 	// READING HIGH SCORES:
-	std::cout<<"Reading"<<std::endl;
 	readHighScores();
 }
 
