@@ -128,6 +128,7 @@ private:
     QGraphicsSimpleTextItem* healthLabel;
     GameObject* introPic;
     QLabel *scoreNumLabel;
+    QLabel *levelNumLabel;
     
     //Timers
     QTimer *mainTimer;

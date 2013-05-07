@@ -11,7 +11,7 @@ void MainWindow::handleTimer() {
 	if (bgSpawnCounter<=0){
 		bgSpawnCounter=RbgSpawnCounter;
 		Background* background = new Background(1279,0, -10, pix[0]);
-		background->setPixmap(backgrounds[(numberOfBulletsSpawnedByEnemies-1)%(backgrounds.size()-1)]);
+		background->setPixmap(*backgrounds[(numberOfBulletsSpawnedByEnemies-1)%(backgrounds.size()-1)]);
 		background->setSpeed(1);
 		//Run connections:
 		QObject::connect(background, SIGNAL(Destroy(GameObject*)), this, SLOT(Destroy(GameObject*)));
@@ -77,6 +77,7 @@ void MainWindow::handleTimer() {
 	//also spawn a health boost.
 	if (gameTime%(1000*10)==0 && gameTime>(1000*10) && !playerIsDead){
 		numberOfBulletsSpawnedByEnemies++;
+		levelNumLabel->setText(QString::number(numberOfBulletsSpawnedByEnemies));
 		RenemySpawnCounter= RenemySpawnCounter - RenemySpawnCounter/15;
 		gameSpeed = gameSpeed+ (1+(gameTime/pow((1000*10),2)/10));
 		if (mainPlayer!=NULL)
@@ -431,6 +432,12 @@ MainWindow::MainWindow() {
     scoreLO->addWidget(scoreLabel,0,0,1,1);
     scoreNumLabel = new QLabel("0");
     scoreLO->addWidget(scoreNumLabel,0,1,1,1);
+    
+    //Create Score Label
+    QLabel *levelLabel = new QLabel("Level: ");
+    scoreLO->addWidget(levelLabel,1,0,1,1);
+    levelNumLabel = new QLabel("1");
+    scoreLO->addWidget(levelNumLabel,1,1,1,1);
     
 //Game settings
 		gameSpeed = 1;
