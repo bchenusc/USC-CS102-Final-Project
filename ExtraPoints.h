@@ -1,5 +1,5 @@
-#ifndef BOOSTHEALTH
-#define BOOSTHEALTH
+#ifndef EXTRAPOINTS
+#define EXTRAPOINTS
 #include <QGraphicsPixmapItem>
 #include <string>
 #include "GameObject.h"
@@ -7,21 +7,21 @@
 #include "Player.h"
 
 
-class Boost_Health : public GameObject {
+class ExtraPoints : public GameObject {
 
 	Q_OBJECT
 	
 public:
 	/*Boost_Health constructor. Creates a Health Box that drops down on the screen.*/
-	ExtraPoints(int nx, int ny, int nz, QPixmap* pixmap, double speed);
+	Boost_Health(int nx, int ny, int nz, QPixmap* pixmap, double speed);
 	/*Boost_Health destructor*/
-	~ExtraPoints();
+	~Boost_Health();
 	/*Sets a reference to the player. Boost_Health needs this reference to edit the player's health.*/
 	void setPlayerRef(Player* player);
 	
 signals:
 /**Signal used to change the health bar GUI display when a Health Box is absorbed by a player*/
-	void changeHealth(int);
+	void addScore(int);
 	
 public slots:
 	void Update(); // Called every millisecond. Handles movement and destroys health box if it goes out of range.
