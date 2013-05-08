@@ -21,6 +21,9 @@ freedom!
 + Airplanes take 3 hits to kill.
 + Hamsters take 1 hit to kill.
 + Health boxes take 1 hit to absorb.
++ Each level has a different colored background.
++ Levels increase every 15 seconds.
++ Airplanes shoot more bullets every level.
 
 #Scoring:
 + +25 pts. Shoot down airplanes (3 shots to kill).
