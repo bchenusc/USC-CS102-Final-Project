@@ -1,4 +1,4 @@
-# Game - Programming Assignments Private Repository
+# Game - Programming Assignments
 ### Student Information
   + Name: Brian Chen
   + USC Email: brianych@usc.edu
