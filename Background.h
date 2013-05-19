@@ -1,3 +1,9 @@
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
 #ifndef BACKGROUND
 #define BACKGROUND
 #include <QGraphicsPixmapItem>

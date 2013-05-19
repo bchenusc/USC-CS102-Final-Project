@@ -1,3 +1,9 @@
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
 #include "Player.h"
 
 /**Constructor. Creates a Player  at a given x, y position with z depth and a given QPixmap.

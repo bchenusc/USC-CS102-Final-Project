@@ -1,4 +1,10 @@
-	#include "Enemy.h"
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
+#include "Enemy.h"
 	
 /**Enemy constructor that constructs an enemy with x,y coordinates and z depth with a given picture and/or animation)
 * Tag: "Enemy"

@@ -8,6 +8,7 @@
   + Game Name: Sheep With A Turret
   + Game Description: Help Mr. Fluffles shoot down government agents with his giant cannon.
   + [Game Design Doc](GameDesignDoc.md)
+  + [Licensing](LICENSE.txt)
 
 
 ### Compile & Run Instructions

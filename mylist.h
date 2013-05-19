@@ -1,3 +1,9 @@
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
 #ifndef MY_LIST_H
 #define MY_LIST_H
 

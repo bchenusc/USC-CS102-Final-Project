@@ -1,4 +1,10 @@
-	#include "DeadlyHamster.h"
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
+#include "DeadlyHamster.h"
 	
 /**Constructor. DeadlyHamster constructor. Creates a Hamster that moves left along the ground.
 * Calls the GameObject constructor to create the sprite.

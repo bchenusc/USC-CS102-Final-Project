@@ -1,4 +1,10 @@
-	#include "ExtraPoints.h"
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
+#include "ExtraPoints.h"
 
 /**Constructor. Creates a point box at a given x, y position with z depth and a given QPixmap.
 * Health box travels at a speed given by the last parameter of the constructor.

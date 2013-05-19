@@ -1,3 +1,9 @@
+/* 
+		Created By: Brian Chen
+	 	See LICENSE.txt for licensing details.
+   	Uploaded: 5/19/2013
+*/
+
 #include "GameObject.h"
 
 /** Constructs a GameObject with x,y location; z depth and a picture. Calls the QGraphicsPixmapItem to create the picture.
