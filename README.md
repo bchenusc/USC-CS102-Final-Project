@@ -1,4 +1,4 @@
-# Game - Programming Assignments
+# Game - Programming Assignments ![status](https://img.shields.io/badge/status-inactive-red.svg)
 ### Student Information
   + Name: Brian Chen
   + USC Email: brianych@usc.edu
