@@ -1,8 +1,4 @@
 # Game - Programming Assignments ![status](https://img.shields.io/badge/status-inactive-red.svg)
-### Student Information
-  + Name: Brian Chen
-  + USC Email: brianych@usc.edu
-  + USC ID: 8964066866
 
 ### Game Information
   + Game Name: Sheep With A Turret
@@ -28,6 +24,6 @@ echo "doxygen -g config.txt"
 echo "doxygen config.txt"
 ```
 
-### Screenshots -- [Optional]
+### Screenshots
 ![alt text](Concept/screenshot_01.png "Screenshot")
 
